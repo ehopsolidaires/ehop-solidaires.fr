@@ -1,0 +1,296 @@
+body {
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: center;
+    background-position: 37% 0%;
+    background-image: url(../images/Fond-Body.png);
+    min-width: 480px;
+    background-size: auto auto;
+}
+
+select {
+    -moz-appearance:none; 
+    width: 60px;
+}
+
+.errorDjango {
+    font-family: 'Francois One', sans-serif;
+    color: #FE0E0E;
+}
+
+.error{
+    font-family: 'Francois One', sans-serif;
+    color: #FE0E0E;
+}
+
+.success {
+    font-family: 'Francois One', sans-serif;
+    color: green;
+}
+
+#typeWeeks{
+    width: 70px;
+}
+
+body header {
+    background-repeat: no-repeat;
+    padding-top: 60px;
+}
+
+.row {
+    max-width: 960px;
+}
+
+#first_nav {
+    border-right: thin solid #000000;
+    border-left: thin solid #000000;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    padding-right: 15px;
+    padding-left: 15px;
+    text-transform: uppercase;
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.other_nav {
+    border-right: thin solid #000000;
+    text-transform: uppercase;
+    font-family: 'Fjalla One', sans-serif;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+#navigation li {
+    float: left;
+}
+
+ul {
+    list-style-type: none;
+}
+
+#navigation {
+    padding-top: 25px;
+}
+
+a {
+    color: #000000;
+}
+
+.partenaires div {
+    float: left;
+}
+
+#part {
+    padding-top: 9%;
+
+}
+
+#pe {
+    width: 67%;
+}
+
+#meif {
+    width: 53%;
+}
+
+#soutenu {
+    width: 45%;
+}
+
+#ehop {
+    width: 75%;
+}
+
+#foot {
+    padding-left: 4%;
+}
+
+#bloc2 {
+    padding-top: 25px;
+}
+
+.blanc {
+    background-color: #FFFFFF;
+}
+
+section {
+    padding-top: 4%;
+    padding-left: 3%;
+    padding-right: 1.5%;
+    margin-bottom: 1%;
+}
+
+.expliquation {
+    font-family: 'Francois One', sans-serif;
+    color: #96BD0D;
+}
+
+#introduction p {
+    font-family: 'Francois One', sans-serif;
+    color: #96BD0D;
+}
+
+#introduction img {
+    float: right;
+}
+
+#explications p {
+    font-family: 'Fjalla One', sans-serif;
+}
+
+#accroche {
+    font-weight: bold;
+}
+
+ol li {
+    font-family: 'Fjalla One', sans-serif;
+    color: #96BD0D;
+}
+
+#precisions {
+    font-size: small;
+}
+
+#menu2 {
+
+}
+
+h4{
+    text-decoration: underline;
+    color: #95BC0D;
+	text-underline-position: under;
+}
+
+#barre_progression {
+    border: thin solid #95BC0D;
+    border-radius: 20px;
+    -webkit-box-shadow: 0px 5px #CCCCCC;
+    box-shadow: 0px 5px #CCCCCC;
+}
+
+#menu3 {
+    border-style: none;
+    width: 30%;
+}
+
+#menu1 {
+    border-radius: 18px;
+}
+
+.part2 {
+    padding-right: 5%;
+}
+
+.active1 {
+    background-color: #95BC0D;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.inactive {
+    background-color: #FFFFFF;
+    color: #95BC0D;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-right: 1px solid #95BC0D;
+}
+
+.inactive a {
+    color: #95BC0D;
+}
+
+.active a {
+    color: #FFFFFF;
+}
+
+.etiquette {
+    cursor: default;
+    display: inline-block;
+    padding-top: 8px;
+}
+.etiquetteLongue {
+    cursor: default;
+    display: inline-block;
+}
+
+.groupe {
+    border-radius: 20px;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border: thin solid #90BC0D;
+}
+
+#map_canvas {
+    align-content: center;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-right:1%;
+    height: 403px;
+    width: auto;
+}
+
+.field {
+
+}
+
+.bouton_droit {
+    border-radius: 20px;
+}
+
+.bouton_horaire {
+    width: 120px;
+    border-radius: 20px;
+    background-color: #95BC0D;
+    box-shadow: 0px 5px #CCCCCC;
+}
+
+.jours{
+    display: inline-block;
+}
+
+.bouton_ehop {
+    border-radius: 20px;
+    background-color: #95BC0D;
+    -webkit-box-shadow: 0px 5px #CCCCCC;
+    box-shadow: 0px 5px #CCCCCC;
+    text-align: center;
+    font-size: 25px;
+}
+
+.form_part {
+    margin-top: 3%;
+}
+
+.radio-inline {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 2%;
+}
+.current_type_week{
+    display: inline-block;
+}
+.non-modifiable input{
+    border:  0px !important;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0) inset !important;
+    background-color: #FFFFFF !important;
+}
+
+#lien_mdp{
+    color: blue;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#modify_mdp input{
+    width: 50%;
+}
+
+#delButton{
+    background-color: #EF1616;
+}
+
+#delButton:hover{
+    background-color: #ef0016;
+}

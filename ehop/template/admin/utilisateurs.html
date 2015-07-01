@@ -1,0 +1,121 @@
+<!--
+@copyright (C) 2014-2015
+Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+              MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN '
+@license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Base de donneés</title>
+    <link href="/assets/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/utilisateurs.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <script src="/assets/javascript/vendor/modernizr.js"></script>
+    <script src="/assets/javascript/vendor/jquery.js"></script>
+    <script src="/assets/javascript/foundation/foundation.min.js"></script>
+    <script src="/assets/javascript/foundation/foundation.interchange.js"></script>
+    <script src="/assets/javascript/foundation/foundation.topbar.js"></script>
+    <!-- Lorsque l'on déplace ce bloc après le include "ehopSolidaire_providers_register/header.html" , l'image ehop réapparait ave un leger bug
+         Sinon impossible de l'afficher !
+    <script>
+       $(document).foundation();
+    </script>
+         Fin du bloc -->
+</head>
+
+<!-- PAge qui permet de chercher des données -->
+<body >
+
+{% include "ehopSolidaire_providers_register/header.html" %}
+<script>
+    $(document).foundation();
+</script>
+
+<script type="text/javascript">
+    //Sauvegarde les parametres recherches
+    var search="";
+    //Sauvegarde de l'objet par rapport auquel on trie
+    var name="dateRegister";
+    //Savoir si on est dans l'ordre croissant ou decroissant
+    var sens="";    //vaut '' ou '-'
+    //Sauvegarde le numero de page
+    var page=1;
+    //Sauvegarde le nombre de resultat par page
+    var nbResultat=20
+    var utilisateur="offreur"
+    //Savoir si on cherche offreur ou demandeur
+    //Recupere les parametres
+    var parameters=window.location.search.substring(1)
+    parameters=parameters.split("&");
+    var firstparam=parameters[0];
+
+    //Si c'est le paramètre attendu
+    if(firstparam.split('=')[0]=='u'){
+        utilisateur=firstparam.split('=')[1]
+    }
+
+    //Recherche en ajax
+    $(document).ready(function(){
+
+        nbResultat=$('#nbResultSelection').val();
+        $('#resultat').load('../sort?search=' + search + '&order='+ name + '&page='+page+'&nbResult='+nbResultat+'&user='+utilisateur);
+        $('#search').keyup( function(){
+            search=$('#search').val();
+
+            //Si le prochain sens est decroissant
+            if(sens=="-") {
+                $('#resultat').load('../sort?search=' + search + '&order='+ name + '&page='+page+'&nbResult='+nbResultat+'&user='+utilisateur)
+            }else{
+                $('#resultat').load('../sort?search=' + search + '&order=-'+ name + '&page='+page+'&nbResult='+nbResultat+'&user='+utilisateur)
+            }
+        });
+
+        $('#nbResultSelection').on('change', function() {
+            nbResultat=$(this).val()
+            $('#resultat').load('../sort?search=' + search + '&order=-'+ name + '&page='+page+'&nbResult='+nbResultat+'&user='+utilisateur)
+        });
+    })
+
+</script>
+
+<section class="row blanc presentation">
+    <div class="liennavigation">
+        <a href="/BO">Admin</a>
+        <script>
+            if(utilisateur=="offreur"){
+                document.write(" > Recherche offreur")
+            }else{
+                document.write(" > Recherche demandeur")
+            }
+        </script>
+    </div>
+    <div class="recherche">
+        <input type="=text" name="search" id="search"/>
+        <input id="search_submit" type="submit" value="Rechercher"/>
+        Compteur: <span id="counterSpan"></span>
+    </div>
+    <div class="nbResult">
+        Résultats par page:
+        <select name="result" id="nbResultSelection">
+            <option>5</option>
+            <option>10</option>
+            <option>15</option>
+            <option selected="selected">20</option>
+            <option>50</option>
+        </select>
+    </div>
+    <!-- <a onclick="window.location=getParam('search')+getParam('order');">Trier les noms</a>-->
+    <div id="resultat">
+        {% include "admin/resultats.html" %}
+    </div>
+    <a href="/BO"> <img id="img_back" alt="Accés à la page /bo" src="/assets/images/admin/bouton_retour.png"></a>
+</section>
+</body>
+</html>

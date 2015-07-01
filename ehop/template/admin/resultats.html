@@ -1,0 +1,209 @@
+﻿<!--
+@copyright (C) 2014-2015
+Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+              MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN '
+@license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+-->
+
+<!-- Page qui affiche un tableau de donnée et qui permet de les ordonnées -->
+{% block extra_js %}
+    <script type="text/javascript">
+        //Ordonnancement en ajax
+
+        $(document).ready(function(){
+            $('.cliquable').click( function(event){
+                //On enleve le "col" de l'id
+                var col=(jQuery(this).attr("id")).substring(3);
+
+                //On verifie que' l'on avait pas deja trié selon cette colonne
+                if(name==col) {
+                    $('#resultat').load('../sort?search='+document.getElementById('search').value+'&order='+ sens + col+'&page='+page+'&nbResult='+nbResultat+'&user='+utilisateur)
+                    //On inverse le sens de trie
+                    if(sens=="-"){
+                        sens="";
+                    }
+                    else{
+                        sens="-";
+                    }
+                }
+                else{
+                    sens=""
+                    $('#resultat').load('../sort?search='+document.getElementById('search').value+'&order='+sens +""+ col+'&page='+page+'&nbResult='+nbResultat+'&user='+utilisateur)
+                    sens="-"
+                    name=col;
+                }
+            });
+            $('.page').click( function(event){
+                var pageClick=(jQuery(this).attr("id"));
+                if(pageClick=="previous_page" && page!=1){
+                    page--;
+                    $('#resultat').load('../sort?search='+document.getElementById('search').value+'&order='+ sens + name+'&page='+page+'&nbResult='+nbResultat+'&user='+utilisateur)
+                }else if(pageClick=="next_page"){
+                    page++;
+                    $('#resultat').load('../sort?search='+document.getElementById('search').value+'&order='+ sens + name+'&page='+page+'&nbResult='+nbResultat+'&user='+utilisateur)
+                }else {
+                    var numbPage=pageClick.split("page_")[1];
+                    page=numbPage;
+                    $('#resultat').load('../sort?search='+document.getElementById('search').value+'&order='+ sens + name+'&page='+page+'&nbResult='+nbResultat+'&user='+utilisateur)
+                }
+            });
+        })
+
+    </script>
+{% endblock %}
+<script>
+    document.getElementById("counterSpan").innerHTML = "{{ counter }}";
+</script>
+<table id="tableResearch">
+    <tr >
+        <th id="colname" class="cliquable" >
+            Nom
+            <img id="img_tri_name" class="img_tri" src="/assets/images/admin/fleches_tri.png" Title="Trier"/>
+        </th>
+        <th id="colfirstname" class="cliquable" >
+            Prénom
+            <img id="img_tri_firstname" class="img_tri" src="/assets/images/admin/fleches_tri.png" Title="Trier"/>
+        </th>
+        <th id="colidHomeAddress__city" class="cliquable" >
+            Depart
+            <img id="img_tri_mail" class="img_tri" src="/assets/images/admin/fleches_tri.png" Title="Trier"/>
+        </th>
+        <th id="colidWorkAddress__city" class="cliquable" >
+            Arrivee
+            <img id="img_tri_phone" class="img_tri" src="/assets/images/admin/fleches_tri.png" Title="Trier"/>
+        </th>
+        {% if request.GET.user == "demandeur" %}
+        <th id="colVal" class="cliquable" >
+            Validation
+        </th>
+        {% endif %}
+    </tr>
+    <script >cmpt=0</script>
+    {% for user in user_info %}
+        <section class="groupe">
+            <tr id="row{{ forloop.counter }}">
+                <td id="lien_profil_{{ forloop.counter }}">
+                    <script>
+                        cmpt++
+                        if(utilisateur=="offreur") {
+                            document.getElementById('lien_profil_'+cmpt).innerHTML = '<a href="/BO/utilisateurs/o/{{user.idProvider}}">{{ user.idUser.name }}</a>';
+                        }else if(utilisateur=="demandeur"){
+                            document.getElementById('lien_profil_'+cmpt).innerHTML = '<a href="/BO/utilisateurs/d/{{user.idApplicant}}">{{ user.name }}</a>';
+                        }
+                    </script>
+                <td>
+                {% if request.GET.user == "demandeur" %}
+                    <a href="/BO/utilisateurs/d/{{user.idApplicant}}">{{ user.firstname }}</a>
+                {% else %}
+                    <a href="/BO/utilisateurs/o/{{user.idProvider}}">{{ user.idUser.firstname }}</a>
+                {% endif %}
+                </td>
+                <!--<label class="etiquette">Mail:</label>-->
+                <td>
+                {% load cleanAddress from tags %}
+                {% if request.GET.user == "demandeur" %}
+                        <a href="https://www.google.fr/maps/dir/{{ user.streetW }}/
+                                {{ user.streetW }}
+                                " target="_blank">
+                                {{ user.streetH|cleanAddress }}
+                        </a>
+                {% else %}
+                        <a href="https://www.google.fr/maps/dir/{{ user.idUser.idHomeAddress.street }}/
+                                {{ user.idUser.idWorkAddress.street }}
+                                " target="_blank">
+                                {{ user.idUser.idHomeAddress.street|cleanAddress }}
+                        </a>
+                {% endif %}
+                </td>
+                <!-- <label class="etiquette">Téléphone:</label>-->
+                <td>
+                {% if request.GET.user == "demandeur" %}
+                        <a href="https://www.google.fr/maps/dir/{{ user.streetW }}/
+                                {{ user.streetH }}
+                                " target="_blank">
+                                {{ user.streetW|cleanAddress }}
+                        </a>
+                {% else %}
+                        <a href="https://www.google.fr/maps/dir/{{ user.idUser.idWorkAddress.street }}/
+                                {{ user.idUser.idHomeAddress.street }}
+                                " target="_blank">
+                                {{ user.idUser.idWorkAddress.street|cleanAddress }}
+                        </a>
+                {% endif %}
+                </td>
+                {% if request.GET.user == "demandeur" %}
+                <td>
+                    {% if user.success != None %}
+                        {{ user.success }}
+                    {% else %}
+
+                    {% endif %}
+                </td>
+                {% endif %}
+                <script>
+                    /*
+                    if (utilisateur=="demandeur"){
+                        // document.getElementById("potential_research").innerHTML="<th id=\"recherche\" class=\"cliquable\" > Recherche</th>"
+                        var row = document.getElementById("row"+cmpt);
+                        var x = row.insertCell(-1);
+                        x.innerHTML = "<a href=\"/BO/recherche/{{user.idApplicant}}\" ><img id=\"loupe\"src=\"/assets/images/admin/loupe.png\" alt=\"recherche\" /></a>";
+                    }*/
+                </script>
+            </tr></section>
+    {% endfor %}
+</table>
+
+<div class="pagination">
+    <div class="pages_info">
+        <p>Page {{ user_info.number }}/{{user_info.paginator.num_pages}}</p>
+    </div>
+    <div class="step-links">
+
+        <!-- Page precedente -->
+        {% if user_info.has_previous %}
+            <div class="page" id="previous_page">
+                &lt; Précédente
+            </div>
+        {% else %}
+            <div class="page_unclick" >
+                &lt; Précédente
+            </div>
+        {% endif %}
+
+        <!-- Les 2 premiere et deux dernieres pages, plus la page courante -->
+        {% for i in range2 %}
+            {% with test=user_info.paginator.num_pages|add:"-1" %}
+                {% with test2=test|add:"-1" %}
+                    {% if user_info.number < test2 and i == test and test2 != 2%}
+                        <div class="ellipsis">...</div>
+                    {%endif%}
+
+                    <!-- Si c'est la page en cours-->
+                    {%ifequal user_info.number i%}
+                        <div class="page_courante" >{{i}}</div>
+
+                        <!-- Sinon -->
+                    {%else%}
+                        <div class="page" id="page_{{i}}">{{i}}</div>
+                    {%endifequal%}
+
+                    {% if i == 2 and user_info.number > 3 and test2 != 2%}
+                        <div class="ellipsis">...</div>
+                    {%endif%}
+                {% endwith %}
+            {% endwith %}
+        {% endfor %}
+
+        <!-- Page suivante -->
+        {% if user_info.has_next %}
+            <div class="page" id="next_page">
+                Suivante>
+            </div>
+        {% else %}
+            <div class="page_unclick" >
+                Suivante>
+            </div>
+        {% endif %}
+    </div>
+</div>
+</div>

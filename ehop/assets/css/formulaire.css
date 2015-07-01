@@ -1,0 +1,125 @@
+/**
+*
+* @copyright (C) 2014-2015
+* Developpeurs " BARDOU AUGUSTIN - REZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+*                MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN "
+* @license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+*
+*/
+
+@charset "utf-8";
+/* CSS Document */
+
+.progress {
+}
+
+.row .nav.nav-tabs .active a {
+    background-color: #93C47D;
+    border-style: solid;
+    border-color: #000000;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: xx-large;
+    width: 100%;
+    -webkit-box-shadow: 5px 0px;
+    box-shadow: 5px 0px;
+}
+
+.nav.nav-tabs .inactive a {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: xx-large;
+    border-style: solid solid none;
+    border-color: #000000;
+    padding-left: auto;
+    padding-right: auto;
+}
+
+.container.general {
+    width: 768px;
+    border-style: solid;
+}
+
+.form_part {
+    margin-top: 14px;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 10px;
+    padding-left: 25px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.etiquette {
+    width: 210px;
+}
+
+#map_canvas {
+    width: 500px;
+    height: 400px;
+    background-color: #CCC;
+    margin-left: 80px;
+    margin-top: 10px;
+}
+
+#form_map .row input {
+    width: 500px;
+    margin-left: -119px;
+}
+
+.trav_div {
+    border-width: medium;
+    border-style: solid;
+
+}
+
+.dom_div {
+    float: left;
+    border-top-color: #000000;
+    border-width: medium;
+    border-style: solid;
+    width: 50%;
+}
+
+div .trav_div p {
+    text-align: center;
+}
+
+div .dom_div p {
+    text-align: center;
+}
+
+div .trav_div {
+
+}
+
+.depart_lab {
+    margin-left: 57px;
+}
+
+.trajet {
+    display: none;
+}
+
+.nav_button {
+    padding-top: 16px;
+}
+
+.bouton_droit {
+    margin-left: 69%;
+}
+
+#Button2 {
+    margin-left: 68%;
+}
+
+#Button5 {
+    margin-left: 85%;
+
+}
+
+.bouton_autre {
+    margin-top: 4px;
+    border-radius: 9px;
+    width: 30px;
+}

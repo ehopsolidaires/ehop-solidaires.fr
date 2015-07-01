@@ -1,0 +1,312 @@
+.row_recherches {
+    max-width: 90%;
+    padding-left: 10px;
+    margin-left: 8%;
+
+    margin-bottom: 1%;
+    margin-right:2%;
+    border-style: solid;
+}
+
+table{
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.right{
+    position : right;
+}
+
+.pad_top {
+    padding-top: 6px;
+    color : rgba(0,0,0,0.9);
+}
+
+.pad_top_huge {
+    padding-top: 18px;
+}
+
+.pad_left {
+    padding-left: 2.75%;
+}
+
+.pad_bot {
+    padding-bottom: 30px;
+}
+
+.tiny {
+    color: #95BC0D;
+    font-size: 125%;
+    
+}
+
+.align_right{
+    text-align: right;
+}
+
+input[type="checkbox"] {
+    position: absolute;
+    left:-9999px;
+}
+
+
+
+input[type="checkbox"] + label {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin-left:0;
+    margin-right: 0;
+    background:url(../images/triBox.png) -19px top no-repeat;
+}
+
+input.red-green[type="checkbox"] + label {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin-left:0;
+    margin-right: 0;
+    background:url(../images/triBox.png) right top no-repeat;
+}
+
+input.red-green[type="checkbox"]:checked + label {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin-left:0;
+    margin-right: 0;
+    background:url(../images/triBox.png) -38px top no-repeat;
+}
+
+input[type="checkbox"]:checked + label {
+    margin-left:0;
+    margin-right: 0;
+    background:url(../images/triBox.png) -38px top no-repeat;
+}
+.empty{
+    display:inline-block;
+    width:19px;
+    height:19px;
+    vertical-align:top;
+    background:url(../images/triBox.png) left top no-repeat;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.days{
+    display:inline-block;
+    text-align: center;
+    width:19px;
+    height:19px;
+}
+
+
+input {
+    border: none !important;
+    background: transparent !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    max-width: 300px;
+    color: rgba(0,0,0,1) !important;
+    padding-top: 6px;
+}
+
+input[type="text"] {
+    cursor: pointer !important;
+}
+
+.columns{
+    float: left !important;
+}
+
+body {
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: center;
+    background-position: 37% 0%;
+    background-image: url(../images/Fond-BO.png);
+    min-width: 480px;
+    background-size: auto auto;
+}
+
+select {
+    -moz-appearance:none;
+    width: 60px;
+}
+
+.errorDjango {
+    font-family: 'Francois One', sans-serif;
+    color: #FE0E0E;
+}
+
+
+body header {
+    background-repeat: no-repeat;
+    padding-top: 60px;
+}
+
+.row {
+    max-width: 960px;
+}
+
+.trajet {
+    padding-left: 10px;
+    padding-right: 5px;
+}
+
+#first_nav {
+    border-right: thin solid #000000;
+    border-left: thin solid #000000;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    padding-right: 15px;
+    padding-left: 15px;
+    text-transform: uppercase;
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.other_nav {
+    border-right: thin solid #000000;
+    text-transform: uppercase;
+    font-family: 'Fjalla One', sans-serif;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+#navigation li {
+    float: left;
+}
+
+ul {
+    list-style-type: none;
+}
+
+#navigation {
+    padding-top: 25px;
+}
+
+a {
+    color: #000000;
+}
+
+.partenaires div {
+    float: left;
+}
+
+.days{
+    display:inline-block;
+    text-align: center;
+    width:19px;
+    height:19px;
+}
+
+.blanc {
+    background-color: #FFFFFF;
+}
+
+section {
+    min-height: 500px;
+    padding-top: 4%;
+    padding-left: 3%;
+    padding-right: 1.5%;
+    margin-bottom: 1% !important;
+}
+
+.expliquation {
+    font-family: 'Francois One', sans-serif;
+    color: #96BD0D;
+}
+
+
+
+ol li {
+    font-family: 'Fjalla One', sans-serif;
+    color: #96BD0D;
+}
+
+
+
+.groupe2 {
+    border-radius: 10px;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border: thin solid #BABABA;
+}
+
+.groupe {
+    border-radius: 20px;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border: thin solid #90BC0D;
+}
+
+
+
+.bouton_horaire {
+    width: 120px;
+    border-radius: 20px;
+    background-color: #95BC0D;
+    box-shadow: 0px 5px #CCCCCC;
+}
+
+.jours{
+    display: inline-block;
+}
+
+.bouton_ehop {
+    border-radius: 20px;
+    background-color: #95BC0D;
+    -webkit-box-shadow: 0px 3px #CCCCCC;
+    box-shadow: 0px 3px #CCCCCC;
+    text-align: center;
+    font-size: 12px;
+}
+
+.form_part {
+    margin-top: 3%;
+}
+
+.etiquette {
+    display: inline-block;
+}
+
+.radio-inline {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 2%;
+}
+
+.button_image{
+    padding: 0;
+}
+
+
+/*
+    utilisateur_details
+*/
+
+
+
+h4{
+    margin-bottom: 3%;
+}
+
+.liennavigation
+{
+    margin-top: 2%;
+    margin-bottom: 1%;
+    border-bottom: 1px groove black;
+    text-indent:2%;
+    font-size: 95%;
+
+}
+
+

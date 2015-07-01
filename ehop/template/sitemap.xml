@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+     
+       http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    <!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+<!--
+@copyright (C) 2014-2015
+Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+              MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN '
+@license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+-->
+
+    <url>
+        <loc>http://www.ehop-solidaires.fr/</loc>
+    </url>
+    <url>
+        <loc>http://www.ehop-solidaires.fr/accueil/</loc>
+    </url>
+    <url>
+        <loc>http://www.ehop-solidaires.fr/projet/</loc>
+    </url>
+    <url>
+        <loc>http://www.ehop-solidaires.fr/fonctionnement/</loc>
+    </url>
+    <url>
+        <loc>http://www.ehop-solidaires.fr/contact/</loc>
+    </url>
+    <url>
+        <loc>http://www.ehop-solidaires.fr/connexion/</loc>
+    </url>
+    <url>
+        <loc>http://www.ehop-solidaires.fr/demandeur/</loc>
+    </url>
+    <url>
+        <loc>http://www.ehop-solidaires.fr/offreur/</loc>
+    </url>
+</urlset>

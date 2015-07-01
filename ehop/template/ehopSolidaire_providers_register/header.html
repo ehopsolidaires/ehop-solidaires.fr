@@ -1,0 +1,55 @@
+<!--
+@copyright (C) 2014-2015
+Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+              MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN '
+@license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+-->
+
+<!--
+REQUIRES :
+foundation.css
+offreur.css
+jquery.js
+foundation.min.js
+-->
+
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<script>
+    if (typeof jQuery == 'undefined') {
+        document.write('\x3Cscript src="/assets/javascript/vendor/jquery.js">\x3C/script>');
+    }
+</script>
+<header class="row"><a href="/accueil"> <img
+        data-interchange="[/assets/images/Header.png, (default)], [/assets/images/Header.png, (large)]">
+    <noscript><img src="/assets/images/Header.png"></noscript>
+</a></header>
+
+
+{% load url from future %}
+{% load current from highligth_tabs %}
+
+
+<nav id="navigation" class="row large-12 blanc">
+    <ul class="large-10 large-offset-2 columns" style="margin-bottom: 2px">
+        <li id="first_nav" class="{% current 'accueil' %}"><a href="{% url 'accueil' %}">Accueil</a></li>
+        <li class="other_nav {% current 'projet' %}"><a href="{% url 'projet' %}">Le projet</a></li>
+        <li class="other_nav {% current 'fonctionnement' %}"><a href="{% url 'fonctionnement' %}">Comment ça marche ?</a></li>
+        <li class="other_nav {% current 'contact' %}"><a href="{% url 'contact' %}">Nous contacter</a></li>
+        {% if user.is_authenticated %}
+            <li class="other_nav {% current 'profil' %}"><a href="{% url 'profil' %}">Mon compte</a></li>
+            <li class="other_nav {% current 'deconnexion' %}"><a href="{% url 'deconnexion' %}">Se d&eacute;connecter</a></li>
+        {% else %}
+            <li class="other_nav {% current 'connexion' %}"><a href="{% url 'connexion' %}">Se connecter</a></li>
+        {% endif %}
+    </ul>
+    {% if user.is_active and user.is_staff %}
+        <ul class="large-9 large-offset-3 columns">
+            <li id="first_nav" class="{% current 'bo' %}"><a href="{% url 'bo' %}">Admin</a></li>
+            <li class="other_nav {% current 'stats' %}"><a href="{% url 'stats' %}">Stats</a></li>
+            <li class="other_nav {% current 'research' %}"><a href="/BO/recherche/0">Recherche de trajet</a></li>
+            <li class="other_nav {% current 'applicant' %}"><a href="{% url 'applicant' %}">Ajout demandeur</a></li>
+            <li class="other_nav {% current 'sms_new' %}"><a href="{% url 'sms_new' %}">Nouveaux SMS</a></li>
+        </ul>
+    {% endif %}
+
+</nav>

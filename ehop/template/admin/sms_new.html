@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="fr">
+    <meta charset="UTF-8">
+    <title>Nouveaux SMS</title>
+    <link href="/assets/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/sms_new.css" rel="stylesheet" type="text/css">
+
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+
+    <script src="/assets/javascript/vendor/modernizr.js"></script>
+    <script src="/assets/javascript/vendor/jquery.js"></script>
+    <script src="/assets/javascript/foundation/foundation.min.js"></script>
+</head>
+<body>
+    {% include "ehopSolidaire_providers_register/header.html" %}
+    <section class="row blanc">
+        {% if list_new|length < 1 %}
+            <h2>
+                Aucun nouveau SMS
+            </h2>
+        {% endif %}
+        {% for e in list_new %}
+            <div id="div_notif-{{ forloop.counter0 }}" class="groupe">
+                <a onclick="openSMSpage({{ e.provider.idProvider }},{% with e.idCalendars|last as last_cal %}{% if last_cal.idCalendar != None %}{{ last_cal.idCalendar }}{% else %}{{ last_cal }}{% endif %}{% endwith %},'{{ forloop.counter0 }}');">
+                    <span id="span_notif-{{ forloop.counter0 }}" class="total">{{ e.total }}</span>
+                    <span id="nouv-{{ forloop.counter0 }}">{% if e.total == 1 %}Nouveau{% else %}Nouveaux{% endif %}</span> SMS de
+                    <strong>{{ e.provider.idUser.firstname }} {{ e.provider.idUser.name }}</strong>
+                </a>
+                <div class="large-offset-1">Demandeur :
+                    {% for calendar in e.idCalendars %}
+                        {% if not forloop.first %},
+                        {% endif %}
+                        <a target="_blank" href="/BO/utilisateurs{% if calendar.idCalendar == None %}/?u=demandeur{% else %}/d/recherches/{{ calendar.idCalendar }}{% endif %}">{% if calendar.idCalendar == None %}Calendrier supprimé{% else %}{{ calendar.idApplicant.idUser.firstname }} {{ calendar.idApplicant.idUser.name }}{% endif %}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+<script>
+    function openSMSpage(idProvider, idCalendar, counter){
+        window.open('/BO/sms/'+idProvider+'/'+idCalendar,'popUpWindow','height=600,width=440,left=10,top=10,' +
+                    'resizable=no,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes');
+        document.getElementById("div_notif-"+counter).style.border = "thin solid #0AB100";
+        document.getElementById("span_notif-"+counter).style.backgroundColor = "#0AB100"
+        document.getElementById("span_notif-"+counter).innerHTML = "0"
+        document.getElementById("nouv-"+counter).innerHTML = "Nouveau"
+    }
+    $(document).foundation()
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!--
+@copyright (C) 2014-2015
+Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+              MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN '
+@license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Je cherche un trajet</title>
+    <link href="/assets/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/demandeur.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <script src="/assets/javascript/vendor/modernizr.js"></script>
+    <script src="/assets/javascript/vendor/jquery.js"></script>
+
+    <script src="/assets/javascript/foundation/foundation.min.js"></script>
+</head>
+{% include "ehopSolidaire_providers_register/codePiwik.html" %}
+<body>
+{% include "ehopSolidaire_providers_register/header.html" %}
+
+<section class="row blanc presentation">
+    <div class="large-12 medium-12 small-12">
+        <div class="large-5 medium-5 small-5 introduction left">
+            <p>Déjà {{ counter }} conducteurs solidaires&nbsp;!</p>
+            <p>Vous cherchez un covoiturage ponctuel pour vous rendre à un entretien, une formation ou un emploi en Ille-et-Vilaine&nbsp;?</p>
+            <p><a href="/contact/">N'hésitez pas à nous faire une demande</a>, nous trouverons peut-être un conducteur solidaire pour répondre à votre demande.</p>
+        </div>
+        <img class ="large-7 medium-7 small-7" src="/assets/images/Capture_map_trajets.png">
+    </div>
+</section>
+
+
+{% include "ehopSolidaire_providers_register/footer.html" %}
+
+
+<script>
+    $(document).foundation();
+</script>
+
+</body>
+</html>

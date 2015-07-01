@@ -1,0 +1,187 @@
+<!--
+@copyright (C) 2014-2015
+Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+              MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN '
+@license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+-->
+<!DOCTYPE html>
+<html>
+<head lang="fr">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ajout calendrier</title>
+    <link href="/assets/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation-datepicker.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/add_calendar.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <script src="/assets/javascript/vendor/modernizr.js"></script>
+    <script src="/assets/javascript/vendor/jquery.js"></script>
+    <script src="/assets/javascript/foundation/foundation.min.js"></script>
+    <script src="/assets/javascript/foundation/foundation.abide.js"></script>
+    <script src="/assets/javascript/add_calendar.js"></script>
+    <script src="/assets/javascript/foundation/foundation-datepicker.js"></script>
+    <script src="/assets/javascript/combodate-1.0.7/moment.js"></script>
+    <script src="/assets/javascript/combodate-1.0.7/combodate.js"></script>
+</head>
+<body>
+    {% include "ehopSolidaire_providers_register/header.html" %}
+    <form data-abide id="myform" action="" method="post" onsubmit="return checkDaysCalendar();">
+        {% csrf_token %}
+        <section class="row blanc">
+        <div>
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="errorDjango center">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+            <section class="groupe">
+                <div class="row">
+                    <div class="small-2 medium-2 large-2 left columns">
+                        <label class="etiquette">Date de début: </label>
+                    </div>
+                    <div class="small-2 medium-2 large-2 left columns">
+                        {{ calendar_form.dateBeginningGo }}
+                    </div>
+                    <div class="small-8 medium-8 large-8 columns">
+                        <label class="etiquette">&nbsp&nbspAller: </label>
+                        {{ calendar_form.scheduleBeginningGo }}
+                        <label class="etiquette">&nbsp&nbsp&nbsp&nbsp&nbspRetour: </label>
+                        {{ calendar_form.scheduleBeginningBack }}
+                    </div>
+                </div>
+                <div class="large-12 row">
+                    <div class="small-2 medium-2 large-2 left columns">
+                        <label class="etiquette">Jours demandés: </label>
+                        <div>
+                        <label class="etiquette">Aller: </label>
+                        </div>
+                        <div>
+                            <label class="etiquette">Retour: </label>
+                        </div>
+                        </div>
+                    <div class="large-6 columns left">
+                        <div id="divDaysNum">
+                        </div>
+                        <div id="divDaysName">
+                        </div>
+                        <div>
+                            {% for i in "xxxxxxxxxxxxxx" %}
+                                <input id="go-{{ forloop.counter0 }}" name="go-{{ forloop.counter0 }}" class="days" type="checkbox"/>
+                                <label for="go-{{ forloop.counter0 }}" class="noselect"></label>
+                            {% endfor %}
+                        <div>
+                        </div>
+                            {% for i in "xxxxxxxxxxxxxx" %}
+                                <input id="back-{{ forloop.counter0 }}" name="back-{{ forloop.counter0 }}" class="days" type="checkbox"/>
+                                <label for="back-{{ forloop.counter0 }}" class="noselect"></label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-2 medium-2 large-2 left columns">
+                        <label for="searchTextField1" class="etiquette">Point de départ*: </label>
+                    </div>
+                    <div class="small-10 medium-10 large-10 columns">
+                        <input type="text" id="id_home-street" name="streetHome" required/>
+                        <small id="errorHome" class="error">Veuillez entrer l'adresse du point de départ</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-2 medium-2 large-2 left columns">
+                        <label for="searchTextField2" class="etiquette">Point d'arrivée*:</label>
+                    </div>
+                    <div class="small-10 medium-10 large-10 columns">
+                        <input type="text" id="id_work-street" name="streetWork" required/>
+                        <small id="errorWork" class="error">Veuillez entrer l'adresse du point d'arrivé</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-2 medium-2 large-2 left columns">
+                        <label class="etiquette">Point de rencontre possible: </label>
+                    </div>
+                    <div class="small-10 medium-10 large-10 columns">
+                        {{ calendar_form.possibleMeetingSpot }}
+                        <small class="error">Veuillez choisir un point de rencontre</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-2 medium-2 large-2 left columns">
+                        <label style="padding: 0" class="etiquette">Problème de transport: </label>
+                    </div>
+                    <div class="small-10 medium-10 large-10 columns">
+                        {{ calendar_form.transportIssue }}
+                        <small class="error">Veuillez entrer le problème de transport</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-2 medium-2 large-2 left columns">
+                        <label class="etiquette"> Commentaires: </label>
+                    </div>
+                    <div class="small-10 medium-10 large-10 columns">
+                        {{ calendar_form.comments }}
+                    </div>
+                </div>
+            </section>
+            <div class="nav_button">
+                <span>*Champs obligatoires.</span>
+                <button class="right bouton_ehop" type="submit">Valider</button>
+            </div>
+        </section>
+    </form>
+<script>
+    $('.dp').fdatepicker({
+        format: 'dd/mm/yyyy'
+    }).on('changeDate',function(ev){
+        updateDaysList(ev.date.getDate(), ev.date.getMonth(), ev.date.getFullYear())
+    });
+    $('.time').combodate({firstItem: 'none', minuteStep: 5});
+
+    function updateDaysList(day, month, year){
+        date = new Date(year,month,day);
+
+        divDaysNum = $('#divDaysNum');
+        divDaysNum.empty();
+        divDaysName = $('#divDaysName');
+        divDaysName.empty();
+
+        var DayNames = new Array('D','L','M','M','J','V','S');
+        for(i = 0; i<14; i++){
+            divDaysNum.append("<span class=\"days\">"+date.getDate()+"</span>\n");
+            divDaysName.append("<span class=\"days\">"+DayNames[date.getDay()]+"</span>\n");
+            date.setDate(date.getDate()+1);
+        }
+    }
+
+    function checkDaysCalendar(){
+        if(!document.getElementById("go-0").checked && !document.getElementById("back-0").checked){
+            alert("Le premier jour du calendrier doit avoir au moins l'aller ou le retour de selectionné.")
+            return false;
+        }
+    }
+
+    function initDaysList(){
+        date = document.getElementById("id_dateBeginningGo").value.split('/')
+        updateDaysList(date[0],date[1]-1,date[2])
+    }
+    initDaysList();
+
+    $(document).foundation({
+        abide: {
+            live_validate: true,
+            focus_on_invalid: true,
+            patterns : {
+                email : /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+                zipCode : /^[0-9]{5}$/,
+                phone : /^0[0-9]{9}$/
+            }
+        }
+    });
+</script>
+</body>
+</html>

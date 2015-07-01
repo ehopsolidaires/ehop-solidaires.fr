@@ -1,0 +1,348 @@
+
+body {
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: center;
+    background-position: 37% 0%;
+    background-image: url(../images/Fond-BO.png);
+    min-width: 480px;
+    background-size: auto auto;
+}
+
+select {
+    -moz-appearance:none;
+    width: 60px;
+}
+
+.errorDjango {
+    font-family: 'Francois One', sans-serif;
+    color: #FE0E0E;
+}
+
+#typeWeeks{
+    width: 70px;
+}
+
+body header {
+    background-repeat: no-repeat;
+    padding-top: 60px;
+}
+
+.row {
+    max-width: 960px;
+}
+
+#first_nav {
+    border-right: thin solid #000000;
+    border-left: thin solid #000000;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    padding-right: 15px;
+    padding-left: 15px;
+    text-transform: uppercase;
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.other_nav {
+    border-right: thin solid #000000;
+    text-transform: uppercase;
+    font-family: 'Fjalla One', sans-serif;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+#navigation li {
+    float: left;
+}
+
+ul {
+    list-style-type: none;
+}
+
+#navigation {
+    padding-top: 25px;
+}
+
+a {
+    color: #000000;
+}
+
+.partenaires div {
+    float: left;
+}
+
+#part {
+    padding-top: 9%;
+
+}
+
+#pe {
+    width: 67%;
+}
+
+#meif {
+    width: 53%;
+}
+
+#soutenu {
+    width: 45%;
+}
+
+#ehop {
+    width: 75%;
+}
+
+#foot {
+    padding-left: 4%;
+}
+
+#bloc2 {
+    padding-top: 25px;
+}
+
+.blanc {
+    background-color: #FFFFFF;
+}
+
+section {
+    padding-top: 4%;
+    padding-left: 3%;
+    padding-right: 1.5%;
+    margin-bottom: 1%;
+}
+
+.expliquation {
+    font-family: 'Francois One', sans-serif;
+    color: #96BD0D;
+}
+
+#introduction p {
+    font-family: 'Francois One', sans-serif;
+    color: #96BD0D;
+}
+
+#introduction img {
+    float: right;
+}
+
+#explications p {
+    font-family: 'Fjalla One', sans-serif;
+}
+
+#accroche {
+    font-weight: bold;
+}
+
+ol li {
+    font-family: 'Fjalla One', sans-serif;
+    color: #96BD0D;
+}
+
+#precisions {
+    font-size: small;
+}
+
+#menu2 {
+
+}
+
+#barre_progression div {
+    text-align: center;
+    font-size: 35px;
+    display: inline-block;
+}
+
+#barre_progression {
+    border: thin solid #95BC0D;
+    border-radius: 20px;
+    -webkit-box-shadow: 0px 5px #CCCCCC;
+    box-shadow: 0px 5px #CCCCCC;
+}
+
+#menu3 {
+    border-style: none;
+    width: 30%;
+}
+
+#menu1 {
+    border-radius: 18px;
+}
+
+.part2 {
+    padding-right: 5%;
+}
+
+.active1 {
+    background-color: #95BC0D;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.inactive {
+    background-color: #FFFFFF;
+    color: #95BC0D;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-right: 1px solid #95BC0D;
+}
+
+.inactive a {
+    color: #95BC0D;
+}
+
+.active a {
+    color: #FFFFFF;
+}
+
+.etiquette {
+    padding-top: 8px;
+}
+
+.groupe {
+    border-radius: 20px;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border: thin solid #90BC0D;
+}
+
+#map_canvas {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    height: 403px;
+    width: auto;
+}
+
+.field {
+
+}
+
+.bouton_droit {
+    border-radius: 20px;
+}
+
+.bouton_horaire {
+    width: 120px;
+    border-radius: 20px;
+    background-color: #95BC0D;
+    box-shadow: 0px 5px #CCCCCC;
+}
+
+.jours{
+    display: inline-block;
+}
+
+.bouton_ehop {
+    border-radius: 20px;
+    background-color: #95BC0D;
+    -webkit-box-shadow: 0px 5px #CCCCCC;
+    box-shadow: 0px 5px #CCCCCC;
+    text-align: center;
+    font-size: 25px;
+}
+
+.form_part {
+    margin-top: 3%;
+}
+
+.etiquette {
+    display: inline-block;
+}
+
+.radio-inline {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 2%;
+}
+
+
+/*
+    utilisateur_details
+*/
+
+
+#info_perso input {
+    margin-left: 15%;
+}
+
+#domicile input, #info_perso input{
+
+    width: 30%;
+    display: inline-block;
+     background-color: #EFEFEF;
+
+
+}
+
+#champs label{
+    margin-left: 0%;
+    display: inline-block;
+    width: 30%;
+    cursor: default;
+    font-weight: bold;
+}
+
+
+#champs  {
+    margin-top: -5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+
+}
+
+#domicile, #info_perso {
+
+  text-indent:2%;
+  margin-bottom: 2%;
+  border: thin solid #90BC0D;
+  box-shadow:0px 4px #dddddd;
+  border-radius: 20px;
+}
+
+
+#champs ul{
+
+    margin-left: 27%;
+    margin-top: -22px;
+
+}
+
+#champs li{
+    margin-bottom: -1%;
+}
+
+h4{
+    text-decoration: underline;
+    color: #95BC0D;
+}
+
+#search
+{
+    background-color: #EFEFEF;
+    border: thin solid #CCCCCC;
+    border-radius: 5px;
+     width: 210px;
+    height: 30px;
+
+}
+
+#img_back{
+    margin-left: 5%;
+    margin-bottom: -50px;
+}
+
+.liennavigation
+{
+    margin-top: 2%;
+    margin-bottom: 1%;
+    border-bottom: 1px groove black;
+    text-indent:2%;
+    font-size: 95%;
+
+}
+
+.img_edit{
+    cursor: pointer;
+}

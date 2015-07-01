@@ -1,0 +1,558 @@
+<!--
+@copyright (C) 2014-2015
+Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+              MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN '
+@license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Modification offreur</title>
+    <link href="/assets/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/offreur.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/bd.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation-datepicker.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+
+    <script src="/assets/javascript/vendor/modernizr.js"></script>
+    <script src="/assets/javascript/vendor/jquery.js"></script>
+
+    <script src="/assets/javascript/foundation/foundation.min.js"></script>
+    <script src="/assets/javascript/foundation/foundation-datepicker.js"></script>
+    <script src="/assets/javascript/foundation/foundation.interchange.js"></script>
+    <script src="/assets/javascript/foundation/foundation.tab.js"></script>
+    <script src="/assets/javascript/foundation/foundation.abide.js"></script>
+
+    <script src="/assets/javascript/formulaire.js" type="text/javascript" ></script>
+
+    <script src="/assets/javascript/combodate-1.0.7/moment.js"></script>
+    <script src="/assets/javascript/combodate-1.0.7/combodate.js"></script>
+
+</head>
+
+
+<body onload="account_path()">
+{% include "ehopSolidaire_providers_register/header.html" %}
+
+<section class="row blanc presentation">
+    <div class="liennavigation">
+        <a href="/BO">Admin</a>
+        >
+        <script>
+            document.write('<a href="/BO/utilisateurs?u=offreur">Recherche offreur</a>');
+        </script>
+        > Utilisateur
+    </div>
+    <form id="myform" data-abide action="" method="post">
+        {% csrf_token %}
+        <section class="groupe">
+            <h4>Informations personnelles</h4>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Nom:</label>
+                </div>
+                <div class="small-10 medium-10 large-10 column">
+                    <div class="non-modifiable">{{ user_form.name }}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Prénom:</label>
+                </div>
+                <div class="small-10 medium-10 large-10 column">
+                    <div class="non-modifiable">{{ user_form.firstname }}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Entreprise:</label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ provider_form.company }}
+                    <datalist id="datalistCompany">
+                    {% for name in companiesList %}
+                        <option value="{{ name }}">
+                    {% endfor %}
+                    </datalist>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquetteLongue">Connaissance d'Ehop:</label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{provider_form.howKnowledge}}
+                    <small class="error">Veuillez choisir une des propositions</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Mail:</label>
+                </div>
+                <div class="small-10 medium-10 large-10 column">
+                    {{ user_form.mail }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Téléphone:</label>
+                </div>
+                <div class="small-10 medium-10 large-10 column">
+                    {{ user_form.phone }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Ville:</label>
+                </div>
+                <div class="small-10 medium-10 large-10 column">
+                    {{ user_form.city }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Code Postal:</label>
+                </div>
+                <div class="small-10 medium-10 large-10 column">
+                    {{ user_form.zipCode }}
+                </div>
+            </div>
+
+        </section>
+        <section class="groupe">
+            <h4>Trajet</h4>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Adresse domicile:</label>
+                </div>
+                {{ address_home_form.latlng }}
+                {{ address_home_form.zipCodeHide }}
+                {{ address_home_form.cityHide }}
+                <div class="small-10 medium-10 large-10 column">
+                    {{ address_home_form.street }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Adresse travail:</label>
+                </div>
+                {{ address_work_form.latlng }}
+                {{ address_work_form.zipCodeHide }}
+                {{ address_work_form.cityHide }}
+                <div class="small-10 medium-10 large-10 column">
+                    {{ address_work_form.street }}
+                </div>
+            </div>
+            <div class="row">
+                <div id="map_canvas" class="row groupe"></div>
+            </div>
+        </section>
+        <section class="groupe">
+            <h4>Horaires</h4>
+            <div>
+                <label class="etiquette"> Votre type de planning: </label>
+                <select id="typeWeeks" class="etiquette">
+                    <option selected="selected" value="1"> Fixe</option>
+                    <option value="2"> 2*8</option>
+                    <option value="3"> 3*8</option>
+                </select>
+                <div id="calendar" style="display: none">
+                    <div id="current_type_week"></div>
+                    <div class="small-4 medium-4 large-4 left">
+                        <label class="etiquette">Date correspondant à votre prochaine Semaine 1 : </label>
+
+                    </div>
+                    <div class="small-2 medium-2 large-2 left">
+                        <input value="" data-date-format="dd/mm/yyyy" id="dp" type="text">
+                    </div>
+                </div>
+            </div>
+
+
+
+            {{ path_arrival_register_formset.management_form }}
+            {{ path_departure_register_formset.management_form }}
+            <script>var cmpt=0</script>
+            {% for path in paths %}
+                <script>cmpt++</script>
+                <input type="hidden" id="id_{{ forloop.counter|add:"-1" }}_schedule" value="{{ path.schedule }}">
+                <input type="hidden" id="id_{{ forloop.counter|add:"-1" }}_day" value="{{ path.day }}">
+                <input type="hidden" id="id_{{ forloop.counter|add:"-1" }}_type" value="{{ path.type }}">
+                <input type="hidden" id="id_{{ forloop.counter|add:"-1" }}_weekNumber" value="{{ path.weekNumber }}">
+                <input type="hidden" id="id_{{ forloop.counter|add:"-1" }}_startingWeek" value="{{ path.startingWeek }}">
+
+            {% endfor %}
+
+
+            <input type="hidden" name="startingWeek" id="week" />
+            <input type="hidden" id="type_week" value="{{ path_departure_register_formset.forms.0.type.value|add:"1" }}"/>
+            <div class="small-7 medium-7 large-7">
+
+                <dl class="tabs" data-tab>
+                </dl>
+            </div>
+
+            <div class="tabs-content">
+
+                <div class="content active rows" id="panel1">
+                    <div>
+                        <button id="mondayButton" class="bouton_horaire" type="button" onclick="manageSchedules('monday0','0','A')">Lundi</button>
+                        <div class="jours" id="monday0Div" status="off"></div>
+                    </div>
+                    <div>
+                        <button id="tuesdayButton" class="bouton_horaire" type="button"  onclick="manageSchedules('tuesday0','0','A')">Mardi</button>
+                        <div class="jours" id="tuesday0Div" status="off"></div>
+                    </div>
+                    <div>
+                        <button id="wednesdayButton" class="bouton_horaire" type="button"  onclick="manageSchedules('wednesday0','0','A')">Mercredi</button>
+                        <div class="jours" id="wednesday0Div" status="off"></div>
+                    </div>
+                    <div>
+                        <button id="thursdayButton" class="bouton_horaire" type="button" onclick="manageSchedules('thursday0','0','A')">Jeudi</button>
+                        <div class="jours" id="thursday0Div" status="off"></div>
+                    </div>
+                    <div>
+                        <button id="fridayButton" class="bouton_horaire" type="button"  onclick="manageSchedules('friday0','0','A')">Vendredi</button>
+                        <div class="jours" id="friday0Div" status="off"></div>
+                    </div>
+                    <div>
+                        <button id="saturdayButton" class="bouton_horaire" type="button"  onclick="manageSchedules('saturday0','0','A')">Samedi</button>
+                        <div class="jours" id="saturday0Div" status="off"></div>
+                    </div>
+                    <div>
+                        <button id="sundayButton" class="bouton_horaire" type="button"  onclick="manageSchedules('sunday0','0','A')">Dimanche</button>
+                        <div class="jours" id="sunday0Div" status="off"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="nav_button">
+            <button class="bouton_ehop right" type="submit" >Enregistrer</button>
+            <button class="bouton_ehop" type="button" id="delButton" onclick="openDeleteModal();">Supprimer</button>
+            <input type="hidden" id="delete" name="supprimer" value="">
+        </div>
+        <div id="deleteModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+            <h2 id="modalTitle">Suppression du compte.</h2>
+            <p class="lead">Vous allez supprimer ce compte et toutes ses informations de façon définitive.</p>
+            <p id="chooseReason">Veulliez choisir la raison pour laquelle vous voulez supprimer ce compte :</p>
+            <select class="medium-6 large-6" id="deleteSelect" name="deleteSelect">
+                <option value=""></option>
+                <option value="Je ne suis plus intéressé(e)">Je ne suis plus intéressé(e)</option>
+                <option value="Mes horaires ont changé">Mes horaires ont changé</option>
+                <option value="Mon trajet a changé">Mon trajet a changé</option>
+                <option value="Je n'ai plus d'activité (retraire, chomage, ...)">Je n'ai plus d'activité (retraire, chomage, ...)</option>
+            </select>
+            <button class="bouton_ehop right" name="delete" onclick="submitDelete();" value="1">Supprimer</button>
+            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+        </div>
+    </form>
+</section>
+
+<script>
+    $(document).foundation();
+</script>
+
+<script>
+$(document).ready(function(){
+    //On recupere le type d'horaire: fixe / 2*8 / 3*8
+    var type_week = ($('#id_0_type').val());
+    type_week = parseInt(type_week)+1
+
+    //On instancie le type de semaine dans le form
+    var startingWeek=($('#id_0_startingWeek').val());
+    $('#typeWeeks option[value='+type_week+']').prop('selected',true);
+    $('#typeWeeks').trigger("change")
+
+    //On empeche de modifier certain champs
+    $(".non-modifiable :input ").attr('readonly', 'readonly');
+});
+
+function openDeleteModal(){
+    $('#deleteModal').foundation('reveal', 'open');
+}
+
+function submitDelete(){
+    var selected = $("#deleteSelect").val();
+    if(selected==""){
+        $("#chooseReason").css('color', 'red');
+    }else{
+        document.getElementById("delete").value = $("#deleteSelect").val();
+        document.forms['myform'].submit();
+    }
+}
+
+$( "#typeWeeks" ).change(function() {
+    var nbweek = $("#typeWeeks").val();
+    $(".tabs").empty();
+    $(".tabs-content").empty();
+    switch(parseInt(nbweek))
+    {
+        case 1:
+            document.getElementById('calendar').style.display = "none";
+            $(".tabs").append('<dd class="active"></dd>');
+            $(".tabs-content").append('<div class="content active" id="panel1"><div><button id="mondayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'monday0\',\'0\',\'A\')">Lundi</button><div class="jours" id="monday0Div" status="off"></div></div><div><button id="tuesdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'tuesday0\',\'0\',\'A\')">Mardi</button><div class="jours" id="tuesday0Div" status="off"></div></div><div><button id="wednesdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'wednesday0\',\'0\',\'A\')">Mercredi</button><div class="jours" id="wednesday0Div" status="off"></div></div><div><button id="thursdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'thursday0\',\'0\',\'A\')">Jeudi</button><div class="jours" id="thursday0Div" status="off"></div></div><div><button id="fridayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'friday0\',\'0\',\'A\')">Vendredi</button><div class="jours" id="friday0Div" status="off"></div></div><div><button id="saturdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'saturday0\',\'0\',\'A\')">Samedi</button><div class="jours" id="saturday0Div" status="off"></div></div><div><button id="sundayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'sunday0\',\'0\',\'A\')">Dimanche</button><div class="jours" id="sunday0Div" status="off"></div></div></div>');
+            break;
+        case 2:
+            document.getElementById('calendar').style.display = "block";
+            updateWeek();
+            $(".tabs").append('<dd class="active"><a href="#panel1">Semaine 1</a></dd>');
+            $(".tabs").append('<dd class=""><a href="#panel2">Semaine 2</a></dd>');
+            $(".tabs-content").append('<div class="content active" id="panel1"><div><button id="mondayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'monday0\',\'1\',\'A\')">Lundi</button><div class="jours" id="monday0Div" status="off"></div></div><div><button id="tuesdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'tuesday0\',\'1\',\'A\')">Mardi</button><div class="jours" id="tuesday0Div" status="off"></div></div><div><button id="wednesdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'wednesday0\',\'1\',\'A\')">Mercredi</button><div class="jours" id="wednesday0Div" status="off"></div></div><div><button id="thursdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'thursday0\',\'1\',\'A\')">Jeudi</button><div class="jours" id="thursday0Div" status="off"></div></div><div><button id="fridayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'friday0\',\'1\',\'A\')">Vendredi</button><div class="jours" id="friday0Div" status="off"></div></div><div><button id="saturdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'saturday0\',\'1\',\'A\')">Samedi</button><div class="jours" id="saturday0Div" status="off"></div></div><div><button id="sundayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'sunday0\',\'1\',\'A\')">Dimanche</button><div class="jours" id="sunday0Div" status="off"></div></div></div>');
+            $(".tabs-content").append('<div class="content" id="panel2"><div><button id="mondayButton2" class="bouton_horaire" type="button" onclick="manageSchedules(\'monday1\',\'1\',\'B\')">Lundi</button><div class="jours" id="monday1Div" status="off"></div></div><div><button id="tuesdayButton2" class="bouton_horaire" type="button" onclick="manageSchedules(\'tuesday1\',\'1\',\'B\')">Mardi</button><div class="jours" id="tuesday1Div" status="off"></div></div><div><button id="wednesdayButton2" class="bouton_horaire" type="button" onclick="manageSchedules(\'wednesday1\',\'1\',\'B\')">Mercredi</button><div class="jours" id="wednesday1Div" status="off"></div></div><div><button id="thursdayButton2" class="bouton_horaire" type="button" onclick="manageSchedules(\'thursday1\',\'1\',\'B\')">Jeudi</button><div class="jours" id="thursday1Div" status="off"></div></div><div><button id="fridayButton2" class="bouton_horaire" type="button" onclick="manageSchedules(\'friday1\',\'1\',\'B\')">Vendredi</button><div class="jours" id="friday1Div" status="off"></div></div><div><button id="saturdayButton2" class="bouton_horaire" type="button" onclick="manageSchedules(\'saturday1\',\'1\',\'B\')">Samedi</button><div class="jours" id="saturday1Div" status="off"></div></div><div><button id="sundayButton2" class="bouton_horaire" type="button" onclick="manageSchedules(\'sunday1\',\'1\',\'B\')">Dimanche</button><div class="jours" id="sunday1Div" status="off"></div></div></div>');
+            break;
+        case 3:
+            document.getElementById('calendar').style.display = "block";
+            updateWeek();
+            $(".tabs").append('<dd class="active"><a href="#panel1">Semaine 1</a></dd>');
+            $(".tabs").append('<dd class=""><a href="#panel2">Semaine 2</a></dd>');
+            $(".tabs").append('<dd class=""><a href="#panel3">Semaine 3</a></dd>');
+            $(".tabs-content").append('<div class="content active" id="panel1"><div><button id="mondayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'monday0\',\'2\',\'A\')">Lundi</button><div class="jours" id="monday0Div" status="off"></div></div><div><button id="tuesdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'tuesday0\',\'2\',\'A\')">Mardi</button><div class="jours" id="tuesday0Div" status="off"></div></div><div><button id="wednesdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'wednesday0\',\'2\',\'A\')">Mercredi</button><div class="jours" id="wednesday0Div" status="off"></div></div><div><button id="thursdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'thursday0\',\'2\',\'A\')">Jeudi</button><div class="jours" id="thursday0Div" status="off"></div></div><div><button id="fridayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'friday0\',\'2\',\'A\')">Vendredi</button><div class="jours" id="friday0Div" status="off"></div></div><div><button id="saturdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'saturday0\',\'2\',\'A\')">Samedi</button><div class="jours" id="saturday0Div" status="off"></div></div><div><button id="sundayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'sunday0\',\'2\',\'A\')">Dimanche</button><div class="jours" id="sunday0Div" status="off"></div></div></div>');
+            $(".tabs-content").append('<div class="content" id="panel2"><div><button id="mondayButton2" class="bouton_horaire" type="button" onclick="manageSchedules(\'monday1\',\'2\',\'B\')">Lundi</button><div class="jours" id="monday1Div" status="off"></div></div><div><button id="tuesdayButton2" class="bouton_horaire" type="button" onclick="manageSchedules(\'tuesday1\',\'2\',\'B\')">Mardi</button><div class="jours" id="tuesday1Div" status="off"></div></div><div><button id="wednesdayButton2" class="bouton_horaire" type="button" onclick="manageSchedules(\'wednesday1\',\'2\',\'B\')">Mercredi</button><div class="jours" id="wednesday1Div" status="off"></div></div><div><button id="thursdayButton2" class="bouton_horaire" type="button" onclick="manageSchedules(\'thursday1\',\'2\',\'B\')">Jeudi</button><div class="jours" id="thursday1Div" status="off"></div></div><div><button id="fridayButton2" class="bouton_horaire" type="button" onclick="manageSchedules(\'friday1\',\'2\',\'B\')">Vendredi</button><div class="jours" id="friday1Div" status="off"></div></div><div><button id="saturdayButton2" class="bouton_horaire" type="button" onclick="manageSchedules(\'saturday1\',\'2\',\'B\')">Samedi</button><div class="jours" id="saturday1Div" status="off"></div></div><div><button id="sundayButton2" class="bouton_horaire" type="button" onclick="manageSchedules(\'sunday1\',\'2\',\'B\')">Dimanche</button><div class="jours" id="sunday1Div" status="off"></div></div></div>');
+            $(".tabs-content").append('<div class="content" id="panel3"><div><button id="mondayButton3" class="bouton_horaire" type="button" onclick="manageSchedules(\'monday2\',\'2\',\'C\')">Lundi</button><div class="jours" id="monday2Div" status="off"></div></div><div><button id="tuesdayButton3" class="bouton_horaire" type="button" onclick="manageSchedules(\'tuesday2\',\'2\',\'C\')">Mardi</button><div class="jours" id="tuesday2Div" status="off"></div></div><div><button id="wednesdayButton3" class="bouton_horaire" type="button" onclick="manageSchedules(\'wednesday2\',\'2\',\'C\')">Mercredi</button><div class="jours" id="wednesday2Div" status="off"></div></div><div><button id="thursdayButton3" class="bouton_horaire" type="button" onclick="manageSchedules(\'thursday2\',\'2\',\'C\')">Jeudi</button><div class="jours" id="thursday2Div" status="off"></div></div><div><button id="fridayButton3" class="bouton_horaire" type="button" onclick="manageSchedules(\'friday2\',\'2\',\'C\')">Vendredi</button><div class="jours" id="friday2Div" status="off"></div></div><div><button id="saturdayButton3" class="bouton_horaire" type="button" onclick="manageSchedules(\'saturday2\',\'2\',\'C\')">Samedi</button><div class="jours" id="saturday2Div" status="off"></div></div><div><button id="sundayButton3" class="bouton_horaire" type="button" onclick="manageSchedules(\'sunday2\',\'2\',\'C\')">Dimanche</button><div class="jours" id="sunday2Div" status="off"></div></div></div>');
+            break;
+
+        default:
+            console.log("OK");
+
+    }
+
+    var type_week = ($('#id_0_type').val());
+    type_week = parseInt(type_week)+1
+    var startingWeek=($('#id_0_startingWeek').val());
+    if(type_week==nbweek){
+        initializeData(startingWeek, type_week)
+        //currentTypeWeek(type_week)
+    }
+    else{
+        currentTypeWeek(0)
+    }
+});
+
+/**
+ * Determine si la semaine en cours est un A B ou C
+ * */
+function getCurrentWeek(startingWeek, type){
+
+    //Si ce n'est pas un planning fixe
+    if(type>1) {
+        //On recupere la date courante
+        var dateString = document.getElementById('dp').value;
+        var d = parseInt(dateString.substring(0,2));
+        var m = parseInt(dateString.substring(3,5));
+        var y = parseInt(dateString.substring(6,10));
+        var date = new Date(y, m-1, d);
+
+        //On recupere le numero de semaine
+        var week = date.getWeek();
+        var a = startingWeek % 2
+        var b = (startingWeek + 1) % 2
+        if (type == 2) {
+            //On determine si actuellement il est en semaine a ou b
+            if((week%2)==a){
+                initCalendarOADate(0);
+                currentTypeWeek("1")
+            }
+            else{
+                initCalendarOADate(7)
+                currentTypeWeek("2")
+            }
+        } else if (type == 3) {
+            var a = startingWeek % 3
+            var b = (startingWeek + 1) % 3
+            var c = (startingWeek + 2) % 3
+            if((week%3)==a){
+                initCalendarOADate(0)
+                currentTypeWeek("1")
+            }
+            else if((week%3)==b){
+                initCalendarOADate(14)
+                currentTypeWeek("2")
+            }
+            else{
+                initCalendarOADate(7)
+                currentTypeWeek("3")
+            }
+        }
+    }
+}
+
+/**
+ * Va instancier les jours et les horaires que l'utilisateur avait déja rempli
+ * */
+function initializeData(startingWeek, typeWeek){
+    var numWeek=document.getElementById('week').value;
+    getCurrentWeek(startingWeek,typeWeek)
+    for(i=0;i<cmpt;i++) {
+        var day = document.getElementById('id_'+i+'_day').value;
+        var type = document.getElementById('id_'+ i +'_type').value;
+        var schedule = document.getElementById('id_'+ i +'_schedule').value;
+        var weekLetter = document.getElementById('id_' + i + '_weekNumber').value;
+
+        var weekNumber;
+        if (weekLetter == 'A') {
+            weekNumber = 0
+        } else if (weekLetter == 'B') {
+            weekNumber = 1
+        } else if (weekLetter == 'C') {
+            weekNumber = 2
+        }
+        var element = document.getElementById(day+weekNumber+"Div");
+
+        manageSchedulesBis(day + weekNumber, type, weekLetter, schedule)
+    }
+}
+
+/*
+ * Affiche si la semaine en cours est une A b ou C
+ * */
+function currentTypeWeek(type) {
+    if(type!=0){
+        document.getElementById('current_type_week').style.display = "block";
+        document.getElementById("current_type_week").innerHTML=''
+        var comment = "Vous etes actuellement en semaine "+type;
+        var newParagraph = document.createElement('p');
+        newParagraph.textContent = comment;
+        document.getElementById("current_type_week").appendChild(newParagraph);
+    }
+    else {
+        document.getElementById('current_type_week').style.display = "none";
+    }
+}
+
+function manageSchedules(day, type, weekNumber)
+{
+    var element = document.getElementById(day+"Div")
+    var parent = element.parentNode
+    var bouton = parent.firstChild
+    if(element.getAttribute("status") == "off"){
+        bouton.className = "bouton_valide"
+        element.setAttribute("status","on")
+        /* TODO
+         ??? HOW TO ??? update the values of the other days depending on the previous one
+         */
+        //init form from formset
+        var form_idx = $('#id_departure-TOTAL_FORMS').val();
+        $('#'+day+'Div').append("<span> Prise de service : </span>")
+        $('#'+day+'Div').append('{{path_departure_register_formset.empty_form.type}}'.replace(/__prefix__/g, form_idx))
+        $('#'+day+'Div').append('{{path_departure_register_formset.empty_form.day}}'.replace(/__prefix__/g, form_idx))
+        $('#'+day+'Div').append('{{path_departure_register_formset.empty_form.schedule}}'.replace(/__prefix__/g, form_idx))
+        $('#'+day+'Div').append('{{path_departure_register_formset.empty_form.weekNumber}}'.replace(/__prefix__/g, form_idx))
+        $('.time').combodate({firstItem: 'none', minuteStep: 5})
+        /*
+         day : delete last char ex:Monday0->Monday
+         */
+        document.getElementById("id_departure-"+form_idx+"-day").setAttribute("value",day.substring(0, day.length - 1))
+        document.getElementById("id_departure-"+form_idx+"-type").setAttribute("value",type)
+        document.getElementById("id_departure-"+form_idx+"-weekNumber").setAttribute("value",weekNumber)
+
+        $('#id_departure-TOTAL_FORMS').val(parseInt(form_idx) + 1)
+
+        var form_idx2 = $('#id_arrival-TOTAL_FORMS').val()
+        $('#'+day+'Div').append("<span>  Fin de service : </span>")
+        $('#'+day+'Div').append('{{path_arrival_register_formset.empty_form.type}}'.replace(/__prefix__/g, form_idx2))
+        $('#'+day+'Div').append('{{path_arrival_register_formset.empty_form.day}}'.replace(/__prefix__/g, form_idx2))
+        $('#'+day+'Div').append('{{path_arrival_register_formset.empty_form.schedule}}'.replace(/__prefix__/g, form_idx2))
+        $('#'+day+'Div').append('{{path_arrival_register_formset.empty_form.weekNumber}}'.replace(/__prefix__/g, form_idx2))
+        $('.time').combodate({firstItem: 'none', minuteStep: 5})
+        document.getElementById("id_arrival-"+form_idx2+"-day").setAttribute("value",day.substring(0, day.length - 1))
+        document.getElementById("id_arrival-"+form_idx2+"-type").setAttribute("value",type)
+        document.getElementById("id_arrival-"+form_idx2+"-weekNumber").setAttribute("value",weekNumber)
+        $('#id_arrival-TOTAL_FORMS').val(parseInt(form_idx2) + 1)
+    }else{
+        bouton.className = "bouton_horaire"
+        element.setAttribute("status","off")
+        $('#'+day+'Div').empty()
+    }
+}
+
+function manageSchedulesBis(day, type, weekNumber, schedule)
+{
+    var element = document.getElementById(day+"Div")
+    var parent = element.parentNode
+    var bouton = parent.firstChild
+    if(element.getAttribute("status") == "off"){
+        bouton.className = "bouton_valide"
+        element.setAttribute("status","on")
+        /* TODO
+         ??? HOW TO ??? update the values of the other days depending on the previous one
+         */
+        //init form from formset
+        var form_idx = $('#id_departure-TOTAL_FORMS').val();
+        $('#'+day+'Div').append("<span> Prise de service : </span>")
+        $('#'+day+'Div').append('{{path_departure_register_formset.empty_form.type}}'.replace(/__prefix__/g, form_idx))
+        $('#'+day+'Div').append('{{path_departure_register_formset.empty_form.day}}'.replace(/__prefix__/g, form_idx))
+        $('#'+day+'Div').append('{{path_departure_register_formset.empty_form.schedule}}'.replace(/__prefix__/g, form_idx))
+        $('#'+day+'Div').append('{{path_departure_register_formset.empty_form.weekNumber}}'.replace(/__prefix__/g, form_idx))
+
+        /*
+         day : delete last char ex:Monday0->Monday
+         */
+        //On passe le format de HH/MM/SS en HH/MM
+        schedule=schedule.substring(0,5)
+        document.getElementById("id_departure-"+form_idx+"-day").value=day.substring(0, day.length - 1);
+        document.getElementById("id_departure-"+form_idx+"-type").value=type;
+        document.getElementById("id_departure-"+form_idx+"-weekNumber").value=weekNumber;
+        document.getElementById("id_departure-"+form_idx+"-schedule").setAttribute("value",schedule)
+        $('.time').combodate({firstItem: 'none', minuteStep: 5})
+        $('#id_departure-TOTAL_FORMS').val(parseInt(form_idx) + 1)
+
+
+    }else{
+        var form_idx2 = $('#id_arrival-TOTAL_FORMS').val()
+        $('#'+day+'Div').append("<span>  Fin de service : </span>")
+        $('#'+day+'Div').append('{{path_arrival_register_formset.empty_form.type}}'.replace(/__prefix__/g, form_idx2))
+        $('#'+day+'Div').append('{{path_arrival_register_formset.empty_form.day}}'.replace(/__prefix__/g, form_idx2))
+        $('#'+day+'Div').append('{{path_arrival_register_formset.empty_form.schedule}}'.replace(/__prefix__/g, form_idx2))
+        $('#'+day+'Div').append('{{path_arrival_register_formset.empty_form.weekNumber}}'.replace(/__prefix__/g, form_idx2))
+
+        //On passe le format de HH/MM/SS en HH/MM
+        schedule=schedule.substring(0,5)
+        document.getElementById("id_arrival-"+form_idx2+"-day").value=day.substring(0, day.length - 1);
+        document.getElementById("id_arrival-"+form_idx2+"-type").value=type;
+        document.getElementById("id_arrival-"+form_idx2+"-weekNumber").value=weekNumber;
+        document.getElementById("id_arrival-"+form_idx2+"-schedule").setAttribute("value",schedule)
+        $('.time').combodate({firstItem: 'none', minuteStep: 5})
+        $('#id_arrival-TOTAL_FORMS').val(parseInt(form_idx2) + 1)
+    }
+}
+</script>
+
+<script>
+    initCalendar();
+    $('#dp').fdatepicker({
+        format: 'dd/mm/yyyy'
+    }).change(function(){
+        updateWeek();
+    });
+
+
+    function checkSchedule(){
+        var hasSchedule = document.querySelector('[id*="-schedule"]') != null;
+        if(!hasSchedule){
+            document.getElementById('errorSchedule').style.display = 'block';
+            return false;
+        }
+    }
+</script>
+<script>
+    function manageWeekNumber(weekNumber)
+    {
+        today = datetime.now();
+        year = today.year;
+        date = datetime.datetime(year, 1, 4);
+        anotherdate = date + datetime.timedelta(days=7*weekNumber);
+        return anotherdate.strftime(dateFormat);
+    }
+</script>
+
+<script>
+</script>
+</body>
+</html>

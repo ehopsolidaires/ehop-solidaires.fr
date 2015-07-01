@@ -1,0 +1,53 @@
+<!--
+@copyright (C) 2014-2015
+Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+              MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN '
+@license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Base de donneés</title>
+    <link href="/assets/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/bd.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <script src="/assets/javascript/vendor/modernizr.js"></script>
+    <script src="/assets/javascript/vendor/jquery.js"></script>
+    <script src="/assets/javascript/foundation/foundation.min.js"></script>
+    <script src="/assets/javascript/foundation/foundation.interchange.js"></script>
+    <script src="/assets/javascript/foundation/foundation.topbar.js"></script>
+</head>
+
+<body>
+{% include "ehopSolidaire_providers_register/header.html" %}
+
+<section id="choix_utilisateur" class="row blanc hide-for-small-only">
+
+    {% if messages %}
+        {% for message in messages %}
+            <p class="errorDjango center">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <div class="large-6 medium-6">
+        <a href="/BO/utilisateurs?u=demandeur"><img id="img_demandeur" alt="Liste des demandeurs" src="/assets/images/admin/Demandeurs.png"></a>
+    </div>
+    <div class="large-6 medium-6">
+        <a href="/BO/utilisateurs?u=offreur"><img id="img_offreur" alt="Liste des offreurs" src="/assets/images/admin/Offreurs.png"></a>
+    </div>
+
+    </br></br></br></br></br></br></br></br></br></br></br>
+</section>
+<script>
+    $(document).foundation();
+</script>
+
+</body>
+</html>

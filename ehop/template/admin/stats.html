@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Statistiques</title>
+    <link href="/assets/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation.css" rel="stylesheet" type="text/css">
+    <link href="/assets/javascript/jQueryAssets/jquery-ui.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/stats.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <script src="/assets/javascript/vendor/modernizr.js"></script>
+    <script src="/assets/javascript/vendor/jquery.js"></script>
+    <script src="/assets/javascript/foundation/foundation.min.js"></script>
+    <script src="/assets/javascript/highcharts/highcharts.js"></script>
+    <script src="/assets/javascript/highcharts/modules/exporting.js"></script>
+    <script src="/assets/javascript/jQueryAssets/jquery-ui-1.9.2.datepicker.custom.min.js"></script>
+    <script src="/assets/javascript/jQueryAssets/jquery-ui-datepicker-fr.js"></script>
+</head>
+{% include 'ehopSolidaire_providers_register/header.html' %}
+<body>
+    <section class="blanc row">
+        <div class="row">
+            <div class="groupe column large-6">
+                <div class="large-only-text-center">
+                    <a id="providerCSV" href="/BO/generate_csv/4/0_0/"><button class="btn">Télécharger le CSV des Offreurs</button></a>
+                </div>
+                <div class="row ro">
+                    <span class="row ro">Intervalle:</span>
+                    <div>
+                        <div class="col column">
+                            <input type="checkbox" checked id="checkStart" onclick="showHide('startDate','Provider');"> Au plus tôt
+                        </div>
+                        <div class="col column">
+                            <input type="checkbox" checked id="checkEnd" onclick="showHide('endDate','Provider');"> Aujourd'hui
+                        </div>
+                    </div>
+                    <div id="providerDatesDiv">
+                        <input type="text" id="startDateProvider" class="datePick column" style="display: none">
+                        <input type="text" id="endDateProvider" class="datePick column" style="display: none">
+                    </div>
+                </div>
+                <div class="row ro">
+                    <span style="width: 100%">Champs:</span>
+                    <div class="column">
+                        <input id="allProvider" type="checkbox" checked onclick="updateProviderUrl('all')"> Tous
+                    </div>
+                    <div id="providerFieldsDiv" style="display: none">
+                        <div class="left col">
+                            <input id="idProviderProvider" type="checkbox" checked onclick="updateProviderUrl('idProvider')"> ID
+                        </div>
+                        <div class="right col">
+                            <input id="dateRegisterProvider" type="checkbox" checked onclick="updateProviderUrl('dateRegister')"> Date d'inscription
+                        </div>
+                        <div class="left col">
+                            <input id="firstnameProvider" type="checkbox" checked onclick="updateProviderUrl('firstname')"> Prénom
+                        </div>
+                        <div class="right col">
+                            <input id="nameProvider" type="checkbox" checked onclick="updateProviderUrl('name')"> Nom
+                        </div>
+                        <div class="left col">
+                            <input id="sexProvider" type="checkbox" checked onclick="updateProviderUrl('sex')"> Sexe
+                        </div>
+                        <div class="right col">
+                            <input id="mailProvider" type="checkbox" checked onclick="updateProviderUrl('mail')"> Mail
+                        </div>
+                        <div class="left col">
+                            <input id="phoneProvider" type="checkbox" checked onclick="updateProviderUrl('phone')"> Téléphone
+                        </div>
+                        <div class="right col">
+                            <input id="companyProvider" type="checkbox" checked onclick="updateProviderUrl('company')"> Entreprise
+                        </div>
+                        <div class="left col">
+                            <input id="homeAddressProvider" type="checkbox" checked onclick="updateProviderUrl('homeAddress')"> Adresse Domicile
+                        </div>
+                        <div class="right col">
+                            <input id="homeIntercommunityProvider" type="checkbox" checked onclick="updateProviderUrl('homeIntercommunity')"> ComCom Domicile
+                        </div>
+                        <div class="left col">
+                            <input id="workAddressProvider" type="checkbox" checked onclick="updateProviderUrl('workAddress')"> Adresse Travail
+                        </div>
+                        <div class="right col">
+                            <input id="workIntercommunityProvider" type="checkbox" checked onclick="updateProviderUrl('workIntercommunity')"> ComCom travail
+                        </div>
+                        <div class="left col">
+                            <input id="howKnowledgeProvider" type="checkbox" checked onclick="updateProviderUrl('howKnowledge')"> Connaissance Ehop
+                        </div>
+                        <div class="right col">
+                            <input id="planningTypeProvider" type="checkbox" checked onclick="updateProviderUrl('planningType')"> Type de Planning
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="groupe column large-6">
+                <div class="large-only-text-center">
+                    <a id="applicantCSV" href="/BO/generate_csv/5/0_0/"><button class="btn">Télécharger le CSV des Demandeurs</button></a>
+                </div>
+                <div class="row ro">
+                    <span class="row ro">Intervalle:</span>
+                    <div>
+                        <div class="col column">
+                            <input type="checkbox" checked id="checkStart" onclick="showHide('startDate','Applicant');"> Au plus tôt
+                        </div>
+                        <div class="col column">
+                            <input type="checkbox" checked id="checkEnd" onclick="showHide('endDate','Applicant');"> Aujourd'hui
+                        </div>
+                    </div>
+                    <div id="providerDatesDiv">
+                        <input type="text" id="startDateApplicant" class="datePick column" style="display: none">
+                        <input type="text" id="endDateApplicant" class="datePick column" style="display: none">
+                    </div>
+                </div>
+                <div class="row ro">
+                    <span style="width: 100%">Champs:</span>
+                    <div class="column">
+                        <input id="allApplicant" type="checkbox" checked onclick="updateApplicantUrl('all')"> Tous
+                    </div>
+                    <div id="applicantFieldsDiv" style="display: none">
+                        <div class="left col">
+                            <input id="idCalendarApplicant" type="checkbox" checked onclick="updateApplicantUrl('idCalendar')"> ID
+                        </div>
+                        <div class="right col">
+                            <input id="dateRegisterApplicant" type="checkbox" checked onclick="updateApplicantUrl('dateRegister')"> Date d'inscription
+                        </div>
+                        <div class="left col">
+                            <input id="firstnameApplicant" type="checkbox" checked onclick="updateApplicantUrl('firstname')"> Prénom
+                        </div>
+                        <div class="right col">
+                            <input id="nameApplicant" type="checkbox" checked onclick="updateApplicantUrl('name')"> Nom
+                        </div>
+                        <div class="left col">
+                            <input id="sexApplicant" type="checkbox" checked onclick="updateApplicantUrl('sex')"> Sexe
+                        </div>
+                        <div class="right col">
+                            <input id="mailApplicant" type="checkbox" checked onclick="updateApplicantUrl('mail')"> Mail
+                        </div>
+                        <div class="left col">
+                            <input id="phoneApplicant" type="checkbox" checked onclick="updateApplicantUrl('phone')"> Téléphone
+                        </div>
+                        <div class="right col">
+                            <input id="yearOfBirthApplicant" type="checkbox" checked onclick="updateApplicantUrl('yearOfBirth')"> Année de naissance
+                        </div>
+                        <div class="left col">
+                            <input id="carringAgencyApplicant" type="checkbox" checked onclick="updateApplicantUrl('carringAgency')"> Structure d'accomp
+                        </div>
+                        <div class="right col">
+                            <input id="goalOfApplicationApplicant" type="checkbox" checked onclick="updateApplicantUrl('goalOfApplication')"> But de la demande
+                        </div>
+                        <div class="left col">
+                            <input id="transportIssueApplicant" type="checkbox" checked onclick="updateApplicantUrl('transportIssue')"> Problème de transport
+                        </div>
+                        <div class="right col">
+                            <input id="successApplicant" type="checkbox" checked onclick="updateApplicantUrl('success')"> Taux de validation
+                        </div>
+                        <div class="left col">
+                            <input id="dateBeginningApplicant" type="checkbox" checked onclick="updateApplicantUrl('dateBeginning')"> Date de la demande
+                        </div>
+                        <div class="right col">
+                            <input id="daysSelectedApplicant" type="checkbox" checked onclick="updateApplicantUrl('daysSelected')"> Nb jours demandés
+                        </div>
+                        <div class="left col">
+                            <input id="daysIntervalApplicant" type="checkbox" checked onclick="updateApplicantUrl('daysInterval')"> Durée de la demande
+                        </div>
+                        <div class="right col">
+                            <input id="commentApplicant" type="checkbox" checked onclick="updateApplicantUrl('comment')"> Commentaire validation
+                        </div>
+                        <div class="left col">
+                            <input id="homeAddressApplicant" type="checkbox" checked onclick="updateApplicantUrl('homeAddress')"> Adresse Domicile
+                        </div>
+                        <div class="right col">
+                            <input id="homeIntercommunityApplicant" type="checkbox" checked onclick="updateApplicantUrl('homeIntercommunity')"> ComCom Domicile
+                        </div>
+                        <div class="left col">
+                            <input id="workAddressApplicant" type="checkbox" checked onclick="updateApplicantUrl('workAddress')"> Adresse Travail
+                        </div>
+                        <div class="right col">
+                            <input id="workIntercommunityApplicant" type="checkbox" checked onclick="updateApplicantUrl('workIntercommunity')"> ComCom travail
+                        </div>
+                        <div class="left col">
+                            <input id="scheduleTypeApplicant" type="checkbox" checked onclick="updateApplicantUrl('scheduleType')"> Type de Planning
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="groupe column large-6">
+            <div class="large-only-text-center">
+                <a id="MERCSV" href="/BO/generate_csv/6/0_0/">
+                    <button class="btn">Télécharger le CSV des Mises en relation</button>
+                </a>
+            </div>
+            <div>
+                <div class="col column">
+                    <input type="checkbox" checked id="checkStart" onclick="showHide('startDate','MER');"> Au plus tôt
+                </div>
+                <div class="col column">
+                    <input type="checkbox" checked id="checkEnd" onclick="showHide('endDate','MER');"> Aujourd'hui
+                </div>
+            </div>
+            <div id="MERDatesDiv">
+                <input type="text" id="startDateMER" class="datePick column" style="display: none">
+                <input type="text" id="endDateMER" class="datePick column" style="display: none">
+            </div>
+        </div>
+            <div class="groupe column large-6">
+            <div class="large-only-text-center">
+                <a id="unsubCSV" href="/BO/generate_csv/7/0_0/">
+                    <button class="btn">Télécharger le CSV des désinscriptions</button>
+                </a>
+            </div>
+            <div>
+                <div class="col column">
+                    <input type="checkbox" checked id="checkStart" onclick="showHide('startDate','Unsub');"> Au plus tôt
+                </div>
+                <div class="col column">
+                    <input type="checkbox" checked id="checkEnd" onclick="showHide('endDate','Unsub');"> Aujourd'hui
+                </div>
+            </div>
+            <div id="unsubDatesDiv">
+                <input type="text" id="startDateUnsub" class="datePick column" style="display: none">
+                <input type="text" id="endDateUnsub" class="datePick column" style="display: none">
+            </div>
+        </div>
+        </div>
+        <div class="row">
+            <button class="btnChart" onclick="drawGraph(1);">Inscriptions</button>
+            <button class="btnChart" onclick="drawGraph(2);">Inscriptions cumulées</button>
+            <button class="btnChart" onclick="drawGraph(4);">Désinscriptions</button>
+            <button class="btnChart" onclick="drawGraph(3);">Demandeurs/Offreurs</button>
+            <button class="btnChart" onclick="drawGraph(5);">Origines offreurs</button>
+            <div id="panel_container"></div>
+        </div>
+    </section>
+<script type="text/javascript">
+    $(document).foundation()
+    $('#startDateProvider').datepicker({
+        dateFormat:'d M yy',
+        defaultDate: -91,
+        onSelect: function(dateText){
+            updateDates(this.id.replace('Provider',''),'Provider')
+        }
+    });
+    $('#endDateProvider').datepicker({
+        dateFormat:'d M yy',
+        defaultDate: 0,
+        onSelect: function(dateText){
+            updateDates(this.id.replace('Provider',''),'Provider')
+        }
+    });
+    $('#startDateApplicant').datepicker({
+        dateFormat:'d M yy',
+        defaultDate: -91,
+        onSelect: function(dateText){
+            updateDates(this.id.replace('Applicant',''),'Applicant')
+        }
+    });
+    $('#endDateApplicant').datepicker({
+        dateFormat:'d M yy',
+        defaultDate: 0,
+        onSelect: function(dateText){
+            updateDates(this.id.replace('Applicant',''),'Applicant')
+        }
+    });
+    $('#startDateMER').datepicker({
+        dateFormat:'d M yy',
+        defaultDate: -91,
+        onSelect: function(dateText){
+            updateDates(this.id.replace('MER',''),'MER')
+        }
+    });
+    $('#endDateMER').datepicker({
+        dateFormat:'d M yy',
+        defaultDate: 0,
+        onSelect: function(dateText){
+            updateDates(this.id.replace('MER',''),'MER')
+        }
+    });
+    $('#startDateUnsub').datepicker({
+        dateFormat:'d M yy',
+        defaultDate: -91,
+        onSelect: function(dateText){
+            updateDates(this.id.replace('Unsub',''),'Unsub')
+        }
+    });
+    $('#endDateUnsub').datepicker({
+        dateFormat:'d M yy',
+        defaultDate: 0,
+        onSelect: function(dateText){
+            updateDates(this.id.replace('Unsub',''),'Unsub')
+        }
+    });
+    function generate_panel_html(id){
+        select = "";
+        optionsCOMCOM = '{% for comcom in optionsCOMCOM %}<option value="{{ comcom }}">{{ comcom }}</option>{% endfor %}';
+        selectCOMCOM = '<select onchange="drawGraph('+id+',true);" id="selectCOMCOM-panel-'+id+'"><option value="all">Toutes COMCOM</option>'+optionsCOMCOM+'</select>';
+        inputsDate = ' Intervalle : (<input type="checkbox" id="checkChartDates" onclick="checkDates('+id+')" checked>maximum) <div id="chartDates" style="display:none"><input type="text" id="startDateChart-'+id+'" class="dateChart"> - <input type="text" id="endDateChart-'+id+'" class="dateChart"></div>'
+        param = '';
+        if(id == 1 || id == 2 || id == 4){
+            select = '<select onchange="drawGraph('+id+',true);" id="select-panel-'+id+'"><option value="day">Par jour</option><option value="week">Par semaine</option><option value="month">Par mois</option'+'><option value="year">Par année</option></select>'
+            param = 'day'
+        }
+        if(id == 5){
+            optionsCOMCOM = "";
+            selectCOMCOM = "";
+            select = '<select onchange="drawGraph('+id+',true);" id="select-panel-'+id+'"><option selected value="COMCOM">COMCOM</option><option value="adfirm">Entreprises adhérentes</option><option value="firm">Entreprises</option></select>'
+        }
+    return select+selectCOMCOM+inputsDate+'<div id="panel-'+id+'" class="panel panel-default"><div id="chart_panel-'+id+'" class="panel-body"></div></div>'
+    }
+    function init_inputDates(id){
+        $('#startDateChart-'+id).datepicker({
+            dateFormat:'d M yy',
+            defaultDate: -91,
+            onSelect: function(dateText){
+                updateChartDates(this.id.replace('startDateChart-',''));
+                drawGraph(this.id.replace('startDateChart-',''),true)
+            }
+        });
+        $('#endDateChart-'+id).datepicker({
+            dateFormat:'d M yy',
+            defaultDate: 0,
+            maxDate:0,
+            onSelect: function(dateText){
+                updateChartDates(this.id.replace('endDateChart-',''));
+                drawGraph(this.id.replace('endDateChart-',''),true)
+            }
+        });
+    }
+</script>
+<script src="/assets/javascript/stats.js"></script>
+</body>
+</html>

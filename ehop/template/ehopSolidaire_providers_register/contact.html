@@ -1,0 +1,160 @@
+<!--
+@copyright (C) 2014-2015
+Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+              MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN '
+@license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contact</title>
+    <link href="/assets/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/contact.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <script src="/assets/javascript/vendor/modernizr.js"></script>
+    <script src="/assets/javascript/vendor/jquery.js"></script>
+    <script src="/assets/javascript/foundation/foundation.min.js"></script>
+</head>
+{% include "ehopSolidaire_providers_register/codePiwik.html" %}
+<body>
+{% include "ehopSolidaire_providers_register/header.html" %}
+
+<section class="row blanc presentation">
+    <p class="large-12 medium-12 introduction">Vous pouvez nous contacter par mail : <a
+            href="mailto:contact@ehop-solidaires.fr">contact@ehop-solidaires.fr</a>
+    </p>
+
+    <p class="large-12 medium-12 introduction">Ou par téléphone au 02 99 35 10 77.
+    </p>
+
+    <form data-abide action="" method="post">
+        {% csrf_token %}
+        <div>
+            {% if messages %}
+                {% for message in messages %}
+                    <p {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="row groupe">
+            <div class="large-12 columns">
+            <div class="small-6 medium-6 large-6 columns">
+                <label class="etiquette">Nom:</label>
+                {{ form.firstname }}
+                <small class="error">Veuillez entrer votre Nom</small>
+            </div>
+            <div class="small-6 medium-6 large-6 columns">
+                <label class="etiquette">Prénom:</label>
+                {{ form.lastname }}
+                <small class="error">Veuillez entrer votre Prénom</small>
+            </div>
+                </div>
+            <div class="large-12 columns">
+            <div class="small-6 medium-6 large-6 columns">
+                <label class="etiquette">Telephone:</label>
+                {{ form.phone }}
+                <small class="error">Veuillez entrer un numéro de téléphone valide (ex: 0211223344)</small>
+            </div>
+            <div class="small-6 medium-6 large-6 columns">
+                <label class="etiquette">Votre adresse mail:</label>
+                {{ form.sender }}
+                <small class="error">Veuillez entrer un mail valide</small>
+            </div>
+            </div>
+            <div class="small-3 medium-3 large-3 columns">
+                <label class="etiquette">Sujet:</label>
+                {{ form.subject }}
+                <small class="error">Veuillez entrer un sujet</small>
+            </div>
+            <div id="goalDiv" class="small-4 medium-4 large-4 columns">
+                <label class="etiquette">But de la demande:</label>
+                {{ form.goalOfApplication }}
+                <small class="error">Veuillez choisir le but de votre demande</small>
+            </div>
+            <div id="yearOfBirthDiv" class="small-4 medium-4 large-4 columns">
+                <label class="etiquette">Année de naissance:</label>
+                {{ form.yearOfBirth }}
+                <small class="error">Veuillez sélectionner votre année de naissance</small>
+            </div>
+            <div class="small-12 medium-12 large-12 columns">
+                <label class="etiquette">Message:</label>
+                {{ form.message }}
+                <small class="error">Veuillez entrer votre message</small>
+            </div>
+        </div>
+        <div class="nav_button">
+            <button class="bouton_ehop" type="submit">Envoyer</button>
+        </div>
+    </form>
+</section>
+
+{% include "ehopSolidaire_providers_register/footer.html" %}
+
+<script>
+    $("#id_subject").on('change', function(){
+        message = document.getElementById('id_message');
+        goal = document.getElementById('id_goalOfApplication')
+        goalDiv = document.getElementById('goalDiv')
+        yearOfBirth = document.getElementById('id_yearOfBirth')
+        yearOfBirthDiv = document.getElementById('yearOfBirthDiv')
+        var subject = $(this).val();
+        if(subject=="Demandeur"){
+            message.value = "{{ init_message }}".replace(/²/g, '\n');
+            goal.disabled = false
+            goalDiv.style.display = 'block'
+            yearOfBirth.disabled = false
+            yearOfBirthDiv.style.display = 'block'
+        }else{
+            goal.disabled = true
+            goalDiv.style.display = 'none'
+            yearOfBirth.disabled = true
+            yearOfBirthDiv.style.display = 'none'
+            message.value = "";
+        }
+    });
+
+    $('#id_phone').bind('keypress', function (event) {
+        var regex = new RegExp("^[0-9]*$");
+        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+        var k = event.keyCode;
+        if (!regex.test(key) && k != 8 && k != 9 && k != 46 && k != 37 && k != 39) {
+            event.defaultPrevented;
+            return false;
+        }
+    });
+</script>
+<script>
+
+    $(document).foundation({
+        abide: {
+            live_validate: true,
+            focus_on_invalid: true,
+            error_labels: true, // labels with a for="inputId" will receive an `error` class
+            patterns: {
+                email: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+                zipCode: /^[0-9]{5}$/,
+                phone: /^0[0-9]{9}$/
+            },
+            validators: {
+                diceRoll: function (el, required, parent) {
+                    var possibilities = [true, false];
+                    return possibilities[Math.round(Math.random())];
+                },
+                isAllowed: function (el, required, parent) {
+                    var possibilities = ['a@zurb.com', 'b.zurb.com'];
+                    return possibilities.indexOf(el.val) > -1;
+                }
+            }
+
+        }
+    });
+</script>
+
+</body>
+</html>

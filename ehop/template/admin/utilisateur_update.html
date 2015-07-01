@@ -1,0 +1,132 @@
+<!--
+@copyright (C) 2014-2015
+Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+              MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN '
+@license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Base de donneés</title>
+    <link href="/assets/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/utilisateur_update.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <script src="/assets/javascript/vendor/modernizr.js"></script>
+    <script src="/assets/javascript/vendor/jquery.js"></script>
+    <script src="/assets/javascript/foundation/foundation.min.js"></script>
+    <script src="/assets/javascript/foundation/foundation.interchange.js"></script>
+    <script src="/assets/javascript/foundation/foundation.topbar.js"></script>
+    <script>
+        function edit(input){
+            document.getElementById("id_"+input).readOnly= false;
+            document.getElementById("id_"+input).style.backgroundColor="#FFF"
+        }
+
+        $(document).ready(function(){
+            //hide images on loading the page
+            $(".img_edit").hide();
+
+            //On hovering the div, print image
+            //otherwise hide the images
+            $(".input_edit").hover(function() {
+                //On recupere l'id de la div sur laquelle on est
+                var elem=($(this).attr('id'));
+                elem=elem.split("_")[1];
+                $("#img_"+elem).show();
+            }, function() {
+                $(".img_edit").hide();
+            });
+
+            $(".img_edit").hover(function() {
+                $(this).attr("src","/assets/images/admin/edit_hover.png");
+            },function(){
+                $(this).attr("src","/assets/images/admin/edit.png");
+            })
+        });
+    </script>
+
+
+</head>
+
+<body>
+{% include "ehopSolidaire_providers_register/header.html" %}
+
+<section class="row blanc presentation">
+    <div class="liennavigation">
+        <a href="/BO">Admin</a>
+        >
+        <script>
+            document.write('<a href="' + document.referrer + '">Recherche</a>');
+        </script>
+        > Utilisateur
+    </div>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div id="champs">
+            <div id="info_perso">
+                <h4>Informations personnelles</h4>
+                <div id="info_sex" class="input_edit">
+                    <label for=>Civilité:</label>
+                    {{ form.sex}}
+                </div>
+                <div id="info_name" class="input_edit">
+                    <label for=>Nom:</label>
+                    {{ form.name}}
+                    <img id="img_name" class="img_edit" src="/assets/images/admin/edit.png" onclick="edit('name')" Title="Modifier"/>
+                </div>
+                <div id="info_firstname" class="input_edit">
+                    <label for=>Prénom:</label>
+                    {{ form.firstname}}
+                    <img id="img_firstname" class="img_edit" src="/assets/images/admin/edit.png" onclick="edit('firstname')" Title="Modifier"/>
+                </div>
+                <div id="info_mail" class="input_edit">
+                    <label for=>Mail:</label>
+                    {{ form.mail}}
+                    <img id="img_mail" class="img_edit" src="/assets/images/admin/edit.png" onclick="edit('mail')" Title="Modifier"/>
+                </div>
+                <div id="info_phone" class="input_edit">
+                    <label for=>Téléphone:</label>
+                    {{ form.phone}}
+                    <img id="img_phone" class="img_edit" src="/assets/images/admin/edit.png" onclick="edit('phone')" Title="Modifier"/>
+                </div>
+            </div>
+            <div id="domicile">
+                <h4>Domicile</h4>
+                <div id="info_city" class="input_edit">
+                    <label for=>Ville:</label>
+                    {{ form.city}}
+                    <img id="img_city" class="img_edit" src="/assets/images/admin/edit.png" onclick="edit('city')" Title="Modifier"/>
+                </div>
+                <div id="info_zipCode" class="input_edit">
+                    <label for=>Code Postal:</label>
+                    {{ form.zipCode}}
+                    <img id="img_zipCode" class="img_edit" src="/assets/images/admin/edit.png" onclick="edit('zipCode')" Title="Modifier"/>
+                </div>
+            </div>
+            <input id="cofirmation" type="submit" value="Confirmer les changements">
+        </div>
+
+
+    </form>
+    <script>
+        document.write('<a href="' + document.referrer + '"><img id="img_back" alt="Accés à la page /utilisateurs" src="/assets/images/admin/bouton_retour.png"></a>');
+    </script>
+    </br></br></br></br></br></br></br></br></br></br></br>
+
+
+
+</section>
+
+<script>
+    $(document).foundation();
+</script>
+
+</body>
+</html>

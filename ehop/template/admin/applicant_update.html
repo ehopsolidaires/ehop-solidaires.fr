@@ -1,0 +1,403 @@
+<!--
+@copyright (C) 2014-2015
+Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+              MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN '
+@license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Modification demandeur</title>
+    <link href="/assets/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation-datepicker.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/applicant_update.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <script src="/assets/javascript/vendor/jquery.js"></script>
+    <script src="/assets/javascript/jQueryAssets/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+    <script src="/assets/javascript/foundation/foundation.min.js"></script>
+    <script src="/assets/javascript/add_applicant.js"></script>
+    <script src="/assets/javascript/foundation/foundation-datepicker.js"></script>
+</head>
+
+{% include "ehopSolidaire_providers_register/header.html" %}
+<form data-abide id="myform" action="" method="post">
+    {% csrf_token %}
+    <section class="row blanc">
+        <div class="liennavigation">
+            <a href="/BO">Admin</a>
+            >
+            <script>
+                document.write('<a href="/BO/utilisateurs?u=demandeur">Recherche demandeur</a>');
+            </script>
+            > Utilisateur
+        </div>
+        <div>
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="errorDjango center">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <section class="groupe">
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette"> Civilité*: </label>
+                </div>
+                <div class="small-1 medium-1 large-1 column">
+                    {{ user_form.sex.0 }}
+                </div><div class="small-9 medium-9 large-9 column">
+                {{ user_form.sex.1 }}
+            </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette"> Nom*: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ user_form.name }}
+                    <small class="error">Veuillez entrer un nom</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Prénom*:</label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{user_form.firstname}}
+                    <small class="error">Veuillez entrer un prénom</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette"> Année de naissance*: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ applicant_form.yearOfBirth }}
+                    <small class="error">Veuillez choisir une année de naissance</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette"> Email: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{user_form.mail}}
+                    <small class="error">Veuillez entrer une adresse mail valide</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette"> Téléphone*: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ user_form.phone }}
+                    <small class="error">Veuillez entrer un numéro de téléphone valide (ex: 0211223344)</small>
+                </div>
+            </div>
+        </section>
+        <section class="groupe">
+            <div class="row">
+                <div class="small-3 medium-3 large-3 left columns">
+                    <label class="etiquette">Structure d'accompagnement*: </label>
+                </div>
+                <div class="small-9 medium-9 large-9 columns">
+                    {{ applicant_form.carringAgency }}
+                    <small class="error">Veuillez choisir une structure d'accompagnement</small>
+                </div>
+            </div>
+            <div id="ident" class="row">
+                <div class="small-3 medium-3 large-3 left columns">
+                    <label class="etiquette"> Identifiant*: </label>
+                </div>
+                <div class="small-9 medium-9 large-9 columns">
+                    {{ applicant_form.identNum }}
+                    <small class="error">Veuillez entrer votre identifiant</small>
+                </div>
+            </div>
+            <div class="small-12 medium-12 large-12">
+                <h5 class="accomp">Accompagnement: </h5>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Nom: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ applicant_form.accompName }}
+                    <small class="error">Veuillez entrer le nom de l'accompagnement</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Prénom: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ applicant_form.accompFirstname }}
+                    <small class="error">Veuillez entrer le prénom de l'accompagnement</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Email: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ applicant_form.accompMail }}
+                    <small class="error">Veuillez entrer l'adresse mail de l'accompagnement</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Téléphone: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ applicant_form.accompPhone }}
+                    <small class="error">Veuillez entrer le téléphone de l'accompagnement</small>
+                </div>
+            </div>
+        </section>
+        <section class="groupe">
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">But de la demande: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ applicant_form.goalOfApplication }}
+                    <small class="error">Veuillez choisir le but de votre demande</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Type d'horaires: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ applicant_form.scheduleType }}
+                    <small class="error">Veuillez choisir un type d'horaire</small>
+                </div>
+            </div>
+        </section>
+    {% for calendar_form in calendar_formset %}
+        <section class="groupe">
+            <a href="/BO/recherche/{{ calendar_form.idCalendar.value }}">
+                <img title="Faire une recherche pour ce calendrier" src="/assets/images/admin/loupe.png"/>
+            </a>
+            <a class="large-offset-2" href="/BO/utilisateurs/d/recherches/{{ calendar_form.idCalendar.value }}">
+                <img title="Historique des recherches" src="/assets/images/admin/historicButton.png"/>
+            </a>
+            <a class="large-offset-4" href="/BO/utilisateurs/d/calendrier/mod/{{ calendar_form.idCalendar.value }}">
+                <img class="editButton" title="Modifier le calendrier" src="/assets/images/admin/edit-file-icon.png"/>
+            </a>
+            <button name="delete" value="{{ calendar_form.idCalendar.value }}" title="Supprimer ce calendrier"
+                    type="submit" class="deleteButton right"
+                    onclick="return confirm('Vous allez supprimer ce calendrier et ses informations.\nVoulez-vous vraiment le supprimer ?');">
+                <img src="/assets/images/admin/delete-icon.png">
+            </button>
+            <button title="Archiver ce calendrier" type="button" class="archiveButton large-offset-1"
+                    onclick="openArchiveModal({{ calendar_form.idCalendar.value }})">
+                <img src="/assets/images/admin/archiveButton.png">
+            </button>
+            <div class="large-12 column lignedate">
+                <div class="large-6 column">
+                    Date de début:
+                    {{ calendar_form.dateBeginningGo.value }}
+                </div>
+                <div class="large-3 column">
+                    Aller:
+                    {{ calendar_form.scheduleBeginningGo.value }}
+                </div>
+                <div class="large-3 column">
+                    Retour:
+                    {{ calendar_form.scheduleBeginningBack.value }}
+                </div>
+            </div>
+            <div class="large-12 row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Calendrier: </label>
+                    <div>
+                        <label class="etiquette">Aller: </label>
+                    </div>
+                    <div>
+                        <label class="etiquette">Retour: </label>
+                    </div>
+                </div>
+                <div class="large-5 columns left">
+                    <div>
+                        {% for i in calendar_form.listDaysNum.value %}
+                            <span class="days">{{ i }}</span>
+                        {% endfor %}
+                    </div>
+                    <div>
+                        {% for i in calendar_form.listDaysName.value %}
+                            <span class="days">{{ i }}</span>
+                        {% endfor %}
+                    </div>
+                    <div>
+                        {% for i in calendar_form.listGo.value %}
+                            <img class="{{ i }}">
+                        {% endfor %}
+                    </div>
+                    <div>
+                        {% for i in calendar_form.listBack.value %}
+                            <img class="{{ i }}">
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="large-5 columns">
+                    <input id="success-{{ calendar_form.idCalendar.value }}" type="hidden" value="{{ calendar_form.success.value }}"/>
+                    Validé à : {{ calendar_form.success.value }}%
+                    </br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label for="searchTextField1" class="etiquette">Point de départ: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ calendar_form.streetHome }}
+                    <small id="errorHome" class="error">Veuillez entrer l'adresse du point de départ</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label for="searchTextField2" class="etiquette">Point d'arrivé:</label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ calendar_form.streetWork }}
+                    <small id="errorWork" class="error">Veuillez entrer l'adresse du point d'arrivé</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Point de rencontre possible: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ calendar_form.possibleMeetingSpot }}
+                    <small class="error">Veuillez choisir un point de rencontre</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label style="padding: 0" class="etiquette">Problème de transport: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ calendar_form.transportIssue }}
+                    <small class="error">Veuillez entrer le problème de transport</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette"> Commentaires: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    <textarea rows="8" name="comments-{{ calendar_form.idCalendar.value }}">{% if calendar_form.comments.value != None %}{{ calendar_form.comments.value }}{% endif %}</textarea>
+                </div>
+            </div>
+        </section>
+    {% endfor %}
+        <div class="newCalendar">
+            <a href="/BO/utilisateurs/d/calendrier/{{ applicant_id }}"><img title="Ajouter un calendrier" style="width: 64px;" src="/assets/images/admin/plus-icon.png"/></a>
+        </div>
+        <span>*Champs obligatoires.</span>
+        <div class="nav_button">
+            <button class="bouton_ehop right" type="submit">Valider</button>
+            <button class="bouton_ehop" type="button" id="delButton" onclick="openDeleteModal();">Supprimer</button>
+            <input type="hidden" id="delete" name="supprimer" value="">
+            <input type="hidden" id="archiveCalendar" name="archiveCalendar" value="">
+        </div>
+        <div id="archiveModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+            <h2 id="modalTitle">Archivage du calendrier.</h2>
+            <p class="lead">Vous allez archiver ce calendrier et toutes ses informations de façon définitive.</p>
+            <p id="chooseValidation">Veuillez choisir un commentaire de validation :</p>
+            <select style="width: auto" id="comment" name="comment">
+            </select>
+            <button class="bouton_ehop right" name="archive" onclick="submitArchive();">Archiver</button>
+            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+        </div>
+        <div id="deleteModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+            <h2 id="modalTitle">Suppression du compte.</h2>
+            <p class="lead">Vous allez supprimer ce compte et toutes ses informations de façon définitive.</p>
+            <button class="bouton_ehop right" name="delete" onclick="submitDelete();">Supprimer</button>
+            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+        </div>
+    </section>
+</form>
+
+<script>
+    $('.dp').fdatepicker({
+        format: 'dd/mm/yyyy'
+    });
+
+    function openDeleteModal(){
+        $('#deleteModal').foundation('reveal', 'open');
+    }
+    function submitDelete(){
+        document.getElementById("delete").value = "del";
+        document.forms['myform'].submit();
+    }
+
+    function openArchiveModal(id){
+        $('#archiveModal').foundation('reveal', 'open');
+        success = $('#success-'+id).val();
+        if(success == "100,0"){
+            document.getElementById("comment").style.display = "none";
+            document.getElementById("chooseValidation").style.display = "none";
+        }else {
+            document.getElementById("chooseValidation").style.display = "block";
+            document.getElementById("comment").style.display = "block";
+            {% autoescape off %}
+            if(success == "0,0"){
+                $('#comment').html('{{ options_0 }}')
+            }else{
+                $('#comment').html('{{ options }}')
+            }
+            {% endautoescape  %}
+        }
+        document.getElementById("archiveCalendar").value = id;
+    }
+    function submitArchive(){
+        document.forms['myform'].submit();
+    }
+    $('#archiveModal').on('close.fndtn.reveal', function(e) {
+        document.getElementById("archiveCalendar").value = "";
+    });
+
+    var e = document.getElementById("id_carringAgency");
+    var typeAgency = e.options[e.selectedIndex].text;
+    if(typeAgency=="Pôle Emploi"){
+        document.getElementById("ident").style.display = "Block";
+    }else{
+        document.getElementById("ident").style.display = "None";
+    }
+
+    $(document).foundation({
+        abide: {
+            live_validate: true,
+            focus_on_invalid: true,
+            error_labels: true, // labels with a for="inputId" will receive an `error` class
+            patterns : {
+                email : /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+                zipCode : /^[0-9]{5}$/,
+                phone : /^0[0-9]{9}$/
+            },
+            validators: {
+                diceRoll: function(el, required, parent) {
+                    var possibilities = [true, false];
+                    return possibilities[Math.round(Math.random())];
+                },
+                isAllowed: function(el, required, parent) {
+                    var possibilities = ['a@zurb.com', 'b.zurb.com'];
+                    return possibilities.indexOf(el.val) > -1;
+                }
+            }
+
+        }
+    });
+</script>
+</body>
+</html>

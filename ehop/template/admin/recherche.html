@@ -1,0 +1,451 @@
+<!--
+@copyright (C) 2014-2015
+Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+              MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN '
+@license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recherche de trajet</title>
+    <link href="/assets/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/recherche_trajet.css" rel="stylesheet" type="text/css">
+
+
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+
+    <script src="/assets/javascript/vendor/modernizr.js"></script>
+    <script src="/assets/javascript/vendor/jquery.js"></script>
+    <script src="/assets/javascript/jquery.datetimepicker.js"></script>
+
+    <script src="/assets/javascript/foundation/foundation.min.js"></script>
+
+    <script src="/assets/javascript/recherche_trajets.js" type="text/javascript" ></script>
+
+    <script src="/assets/javascript/combodate-1.0.7/moment.js"></script>
+    <script src="/assets/javascript/combodate-1.0.7/combodate.js"></script>
+</head>
+
+<body>
+{% include "ehopSolidaire_providers_register/header.html" %}
+<section id="form_map" class="row blanc">
+    {% if messages %}
+        {% for message in messages %}
+            <p class="errorDjango center">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <input id="applicant" type="hidden" value="{{ applicant.idUser.firstname }}{{ applicant.idUser.name }}"/>
+    <form data-abide id="myform" onsubmit="return checkForm()" action="#" method="post">
+    {% if applicant != None %}
+    <input id="homeWork" type="hidden" value="{{ homeWork }}"/>
+    <div>
+        <h3>Demandeur : <a href="/BO/utilisateurs/d/{{ applicant.idApplicant }}" target="_blank">{{ applicant.idUser.firstname }} {{ applicant.idUser.name }}</a></h3>
+    </div>
+        <div class="large-12 columns">
+            <div class="large-1 columns" style="position: absolute;bottom:2px;">
+                <span>Aller:</span>
+                <span>Retour:</span>
+            </div>
+            <div class="large-11 columns">
+                <div id="divDaysNum">
+                    {% for i in listDaysNum %}
+                    <span class="days">{{ i }}</span>
+                    {% endfor %}
+                </div>
+                <div id="divDaysName">
+                    {% for i in listDaysName %}
+                    <span class="days">{{ i }}</span>
+                    {% endfor %}
+                </div>
+                <div>
+                    {% for i in listGo %}
+                        <img class="{{ i }}">
+                    {% endfor %}
+                </div>
+                <div>
+                    {% for i in listBack %}
+                        <img class="{{ i }}">
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="large-12 columns" style="margin-top: 20px">
+        <button class="large-2" id="go" type="button" onclick="goChosen()">Aller</button>
+        <button class="large-2" id="back" type="button" onclick="backChosen()">Retour</button>
+    </div>
+
+        <input id="isGo" type="hidden" name="isGo" value=""/>
+        <div class="row group large-centered">
+            <div class="small-12 medium-12 large-12 columns">
+                <div class="large-4 columns" id="divDateCalendar">
+                    {{ research_form.date }}
+                </div>
+                <div class="large-4 columns" id="divDate">
+                </div>
+                <span class="large-8 columns" id="timeGoOrBack"></span>
+                <div id="divIntervalle" class="large-8 columns">
+                    Intervalle:
+                    {{ research_form.timeMin }}
+                    &nbsp&nbsp&nbsp&nbsp
+                    {{ research_form.timeMax }}
+                </div>
+            </div>
+            {{ research_form.departure_latlng }}
+        </div>
+        <div id="divGoogleFields" class="large-12 columns">
+            <div class="small-2 medium-1 large-1 left columns">
+                <label for="searchTextField1" class="etiquette">Départ: </label>
+            </div>
+            <div class="small-10 medium-11 large-11 columns">
+                {{ research_form.previousDeparture }}
+                {{ research_form.departure }}
+                <small class="error">Adresse de départ manquante</small>
+            </div>
+            {{ research_form.arrival_latlng }}
+            <div class="inverseButton">
+                <button id="inverse" type="button" onclick="return inverseStreets()">Inverser</button>
+            </div>
+            <div class="small-2 medium-1 large-1 left columns">
+                <label for="searchTextField2" class="etiquette">Arrivée:</label>
+            </div>
+            <div class="small-10 medium-11 large-11 columns">
+                {{ research_form.previousArrival }}
+                {{ research_form.arrival }}
+                <small class="error">Adresse d'arrivée manquante</small>
+            </div>
+        </div>
+        <input type="hidden" id="previousIsGo" value="{{ previousIsGo }}"/>
+        <script>
+            if(document.getElementById("previousIsGo").value != "") {
+                var isGo = document.getElementById("previousIsGo").value
+                if(isGo=="True"){
+                    demandAdDepart=document.getElementById("id_previousDeparture").value;
+                    demandAdArrivee=document.getElementById("id_previousArrival").value;
+                }else if(isGo=="False"){
+                    demandAdDepart=document.getElementById("id_previousArrival").value;
+                    demandAdArrivee=document.getElementById("id_previousDeparture").value;
+                }
+            }
+            if(document.getElementById("applicant").value == ""){
+                demandAdDepart=document.getElementById("id_previousDeparture").value;
+                demandAdArrivee=document.getElementById("id_previousArrival").value;
+            }
+        </script>
+        <div id="map_canvas" class="row groupe"></div>
+        <button id="research" class="bouton_ehop" type="submit" name="research" value="research">Rechercher</button>
+        {% csrf_token %}
+        <script>var cmpt=1;</script>
+        <input id="size_list_formset" name="size_list_formset" type="hidden" value="{{ size_list_formset }}"/>
+        <div id="divRes"></div>
+        {% load cleanAddress from tags %}
+        {% for formset in formset_list %}
+            <section class="groupe row blanc">
+                {{ formset.management_form }}
+                {% for form in formset %}
+                    {{ form.idCalendar }}
+                    {{ form.idPath }}
+                    {{ form.providerIdUser }}
+                    {{ form.providerDeparture }}
+                    {{ form.providerArrival }}
+                    {{ form.available }}
+                    {{ form.validated }}
+                    {{ form.detour }}
+                    {{ form.detourkm }}
+                    {{ form.isGo }}
+                    {{ form.streetDeparture }}
+                    {{ form.streetArrival }}
+
+                    {% if forloop.first %}<div class="large-12 columns">
+                        <div class = "large-1 columns selected">
+                            {{ form.selected }}
+                        </div>
+                    <div class = "large-3 columns">
+                        <label class="etiquette">Offreur:</label>
+                            <a href="/BO/utilisateurs/o/{{ form.providerIdUser.value }}" target="_blank">{{ form.providerName }}</a>
+                    </div>
+                    <div class = "large-2 columns">
+                        <label class="etiquette">Detour:</label>
+                            {{ form.detourboth }}
+                    </div>
+                    <script>
+                        if(document.getElementById("previousIsGo").value != "") {
+                            var isGo = document.getElementById("previousIsGo").value
+                            if(isGo=="True"){
+                                offreurAdDepart=document.getElementById("id_"+cmpt+"-0-providerDeparture").value;
+                                offreurAdArrivee=document.getElementById("id_"+cmpt+"-0-providerArrival").value;
+                            }else if(isGo=="False"){
+                                offreurAdDepart=document.getElementById("id_"+cmpt+"-0-providerArrival").value;
+                                offreurAdArrivee=document.getElementById("id_"+cmpt+"-0-providerDeparture").value;
+                            }
+                        }
+                        if(document.getElementById("applicant").value == ""){
+                            offreurAdDepart=document.getElementById("id_"+cmpt+"-0-providerDeparture").value;
+                            offreurAdArrivee=document.getElementById("id_"+cmpt+"-0-providerArrival").value;
+                        }
+                        //Calcul du detour
+                        addPath(offreurAdDepart, offreurAdArrivee,cmpt);
+                        cmpt++;
+                    </script>
+
+                    {% endif %}
+                    {% if forloop.first %}<div class="large-6 columns"><div>
+                        {% for i in days %}
+                            <span class="days">{{ i }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% if forloop.first %}<div>
+                        {% for i in days_list %}
+                            <span class="days">{{ i }}</span>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                    {% for form in formset %}
+                        {% if form.available.value == False %}
+                            <img class="empty"/>
+                        {% endif %}
+                        {% if form.available.value == True %}
+                            <img class="notempty"/>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                </div>
+                <div class="large-12 columns">
+                    <div class="large-6 column">
+                        <div class="large-2">
+                            Départ:
+                        </div>
+                        <div id="{{ forloop.counter }}-departure">
+                        </div>
+                    </div>
+                    <div class="large-6 column">
+                        <div class="large-2">
+                            Arrivée:
+                        </div>
+                        <div id="{{ forloop.counter }}-arrival">
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    var dep = clean(offreurAdDepart);
+                    var arr = clean(offreurAdArrivee);
+                    {% if isGo == True or isGo == None%}
+                        document.getElementById((cmpt-1)+"-departure").innerHTML = '<a href="https://www.google.fr/maps/dir/'+dep+'/'+arr+'">'+dep+'<'+'/a>'
+                        document.getElementById((cmpt-1)+"-arrival").innerHTML = '<a href="https://www.google.fr/maps/dir/'+arr+'/'+dep+'">'+arr+'<'+'/a>'
+                    {% else %}
+                        document.getElementById((cmpt-1)+"-departure").innerHTML = '<a href="https://www.google.fr/maps/dir/'+arr+'/'+dep+'">'+arr+'<'+'/a>'
+                        document.getElementById((cmpt-1)+"-arrival").innerHTML = '<a href="https://www.google.fr/maps/dir/'+dep+'/'+arr+'">'+dep+'<'+'/a>'
+                    {% endif %}
+                </script>
+            </section>
+        {% endfor %}
+        <script>
+            calcAllDetour(demandAdDepart,demandAdArrivee)
+        </script>
+        <div class="nav_button">
+            <button class="bouton_ehop" type="submit" name="continue" value="continue">Sauvegarder et continuer</button>
+            <button class="bouton_ehop" type="submit" name="finish" value="finish">Sauvegarder et terminer</button>
+        </div>
+    </form>
+</section>
+
+<script>
+    if(document.getElementById("id_date").value.trim() == ""){
+        var today = getTodayFormatted();
+        $('#id_date').datetimepicker({
+            lang:'fr',
+            inline:true,
+            format:'d/m/Y D',
+            timepicker:false,
+            value:today,
+            minDate:0
+        });
+    }else{
+        $('#id_date').datetimepicker({
+            lang:'fr',
+            inline:true,
+            format:'d/m/Y D',
+            timepicker:false,
+            value:document.getElementById("id_date").value,
+            minDate:0
+        });
+    }
+
+    function inverseStreets(){
+        var depart = document.getElementById("id_departure").value;
+        var arrivee = document.getElementById("id_arrival").value;
+        document.getElementById("id_departure").value = arrivee;
+        document.getElementById("id_arrival").value = depart;
+        calcCoord(1);
+        calcCoord(2);
+        traceRoute();
+        return false;
+    }
+
+
+    $('.selectedField').click(function(event) {
+        if(this.checked) {
+            $(':checkbox').each(function() {
+                this.checked = true;
+            });
+        }
+        else{
+            $(':checkbox').each(function(){
+                this.checked = false;
+            });
+        }
+    });
+
+    function getTodayFormatted(){
+        var date = new Date();
+        day = date.getDate()
+        if(day < 10){
+            day = "0"+day;
+        }
+        month = date.getMonth()+1;
+        if(month < 10){
+            month = "0"+month;
+        }
+        var weekday = new Array(7);
+        weekday[0]=  "Sun";
+        weekday[1] = "Mon";
+        weekday[2] = "Tue";
+        weekday[3] = "Wed";
+        weekday[4] = "Thu";
+        weekday[5] = "Fri";
+        weekday[6] = "Sat";
+        return day + "/" + month + "/" + date.getFullYear()+ " " + weekday[date.getDay()];
+    }
+
+    $('.time').combodate({firstItem: 'none',
+        minuteStep: 5,
+        format: "HH:mm"});
+
+    // no applicant
+    if(document.getElementById("applicant").value == ""){
+        $("#go").hide();
+        $("#back").hide();
+        $("#timeGoOrBack").empty();
+    }else{ // there is an applicant
+        $("#divDateCalendar").hide();
+        $("#divGoogleFields").hide();
+        $("#research").hide();
+        $("#divIntervalle").hide();
+        $("#inverse").hide();
+    }
+
+    function goChosen() {
+        document.getElementById("go").style = "background-color: #96BD0D";
+        document.getElementById("back").style = "background-color: #008CBA";
+        var homeWork = document.getElementById("homeWork").value.split('|');
+        document.getElementById("id_departure").value = homeWork[0];
+        document.getElementById("id_arrival").value = homeWork[1];
+        calcCoord(1);
+        calcCoord(2);
+        traceRoute();
+        $("#research").show();
+        $("#divGoogleFields").show();
+        $("#divIntervalle").show();
+        $("#divDate").empty();
+        document.getElementById("id_date").value = "{{ research_form.dateGo.value }} {{ weekday }}";
+        $("#divDate").append("<span>Date de début: {{ research_form.dateGo.value }}</span>");
+        document.getElementById("timeGoOrBack").innerHTML = '(heure demandeur, {{ research_form.timeGo.value }})';
+        var timeGo = "{{ research_form.timeGo.value }}".split(':');
+        var timeMin = new Date()
+        timeMin.setHours(parseInt(timeGo[0])-1,timeGo[1]);
+        var timeMax = new Date()
+        timeMax.setHours(timeGo[0],timeGo[1]);
+        $("#id_timeMin").combodate('setValue',timeMin);
+        $("#id_timeMax").combodate('setValue',timeMax);
+        document.getElementById("isGo").value = "true";
+    }
+
+    function backChosen() {
+        document.getElementById("go").style = "background-color: #008CBA";
+        document.getElementById("back").style = "background-color: #96BD0D";
+        var homeWork = document.getElementById("homeWork").value.split('|');
+        document.getElementById("id_departure").value = homeWork[1];
+        document.getElementById("id_arrival").value = homeWork[0];
+        calcCoord(1);
+        calcCoord(2);
+        traceRoute();
+        $("#research").show();
+        $("#divGoogleFields").show();
+        $("#divIntervalle").show();
+        $("#divDate").empty();
+        document.getElementById("id_date").value = "{{ research_form.dateGo.value }} {{ weekday }}";
+        $("#divDate").append("<span>Date de début: {{ research_form.dateBack.value }}</span>");
+        document.getElementById("timeGoOrBack").innerHTML = '(heure demandeur, {{ research_form.timeBack.value }})';
+        var timeBack = "{{ research_form.timeBack.value }}".split(':');
+        var timeMin = new Date()
+        timeMin.setHours(timeBack[0],timeBack[1]);
+        var timeMax = new Date()
+        timeMax.setHours(parseInt(timeBack[0])+1,timeBack[1]);
+        $("#id_timeMin").combodate('setValue',timeMin);
+        $("#id_timeMax").combodate('setValue',timeMax);
+        document.getElementById("isGo").value = "false";
+    }
+    // init divRes
+    if(document.getElementById("size_list_formset").value != ""){
+        divRes = document.getElementById("divRes");
+        res = document.getElementById("size_list_formset").value;
+        divRes.innerHTML += '<h3>Nombre de résultats: '+res+'</h3>';
+        isGo = document.getElementById("previousIsGo").value
+        // true = research with applicant
+        if(document.getElementById("applicant").value != ""){
+            if(isGo == "True"){
+            goORback = "ALLER"
+            }else{
+                goORback = "RETOUR"
+            }
+            divRes.innerHTML += 'Recherche pour un  <strong>'+goORback+'</strong></br>';
+        }
+        departure = document.getElementById("id_previousDeparture").value
+        arrival = document.getElementById("id_previousArrival").value
+        divRes.innerHTML += 'Départ: <strong>'+departure+"</strong></br>"
+        divRes.innerHTML += 'Arrivée: <strong>'+arrival+'</strong>'
+    }
+
+
+    if(document.getElementById("applicant").value == "" || document.getElementById("id_1-TOTAL_FORMS") == null){
+        document.getElementsByClassName("nav_button")[0].style.display = "none";
+    }else if(document.getElementById("id_1-TOTAL_FORMS").value == 0){
+        document.getElementsByClassName("nav_button")[0].style.display = "none";
+    }
+
+    $(document).foundation({
+        abide: {
+            live_validate: true,
+            focus_on_invalid: true,
+            error_labels: true, // labels with a for="inputId" will receive an `error` class
+            patterns : {
+                email : /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+                zipCode : /^[0-9]{5}$/,
+                phone : /^0[0-9]{9}$/
+            },
+            validators: {
+                diceRoll: function(el, required, parent) {
+                    var possibilities = [true, false];
+                    return possibilities[Math.round(Math.random())];
+                },
+                isAllowed: function(el, required, parent) {
+                    var possibilities = ['a@zurb.com', 'b.zurb.com'];
+                    return possibilities.indexOf(el.val) > -1;
+                }
+            }
+
+        }
+    });
+</script>
+</body>
+</html>

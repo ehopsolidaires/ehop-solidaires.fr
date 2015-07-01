@@ -1,0 +1,342 @@
+<!--
+@copyright (C) 2014-2015
+Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+              MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN '
+@license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ajout demandeur</title>
+    <link href="/assets/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation-datepicker.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/add_applicant.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <script src="/assets/javascript/vendor/modernizr.js"></script>
+    <script src="/assets/javascript/vendor/jquery.js"></script>
+    <script src="/assets/javascript/foundation/foundation.min.js"></script>
+    <script src="/assets/javascript/foundation/foundation.abide.js"></script>
+    <script src="/assets/javascript/add_applicant.js"></script>
+    <script src="/assets/javascript/foundation/foundation-datepicker.js"></script>
+    <script src="/assets/javascript/combodate-1.0.7/moment.js"></script>
+    <script src="/assets/javascript/combodate-1.0.7/combodate.js"></script>
+</head>
+
+<body>
+{% include "ehopSolidaire_providers_register/header.html" %}
+
+<form data-abide id="myform" action="#" method="post" onsubmit="return checkDaysCalendar();">
+    {% csrf_token %}
+    <section class="row blanc">
+        <div>
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="errorDjango center">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <section class="groupe">
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette"> Civilité*: </label>
+                </div>
+                <div class="small-1 medium-1 large-1 column">
+                    {{ user_form.sex.0 }}
+                </div><div class="small-9 medium-9 large-9 column">
+                {{ user_form.sex.1 }}
+            </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette"> Nom*: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ user_form.name }}
+                    <small class="error">Veuillez entrer un nom</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Prénom*:</label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{user_form.firstname}}
+                    <small class="error">Veuillez entrer un prénom</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette"> Année de naissance*: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ applicant_form.yearOfBirth }}
+                    <small class="error">Veuillez choisir une année de naissance</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette"> Email: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{user_form.mail}}
+                    <small class="error">Veuillez entrer une adresse mail valide</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette"> Téléphone*: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ user_form.phone }}
+                    <small class="error">Veuillez entrer un numéro de téléphone valide (ex: 0211223344)</small>
+                </div>
+            </div>
+        </section>
+        <section class="groupe">
+            <div class="row">
+                <div class="small-3 medium-3 large-3 left columns">
+                    <label class="etiquette">Structure d'accompagnement: </label>
+                </div>
+                <div class="small-9 medium-9 large-9 columns">
+                    {{ applicant_form.carringAgency }}
+                    <small class="error">Veuillez choisir une structure d'accompagnement</small>
+                </div>
+            </div>
+            <div id="ident" class="row">
+                <div class="small-3 medium-3 large-3 left columns">
+                    <label class="etiquette"> Identifiant: </label>
+                </div>
+                <div class="small-9 medium-9 large-9 columns">
+                    {{ applicant_form.identNum }}
+                    <small class="error">Veuillez entrer votre identifiant</small>
+                </div>
+            </div>
+            <div class="small-12 medium-12 large-12">
+                <h5 class="accomp">Accompagnement: </h5>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Nom: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ applicant_form.accompName }}
+                    <small class="error">Veuillez entrer le nom de l'accompagnement</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Prénom: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ applicant_form.accompFirstname }}
+                    <small class="error">Veuillez entrer le prénom de l'accompagnement</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Email: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ applicant_form.accompMail }}
+                    <small class="error">Veuillez entrer une adresse mail valide</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Téléphone: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ applicant_form.accompPhone }}
+                    <small class="error">Veuillez entrer le téléphone de l'accompagnement</small>
+                </div>
+            </div>
+        </section>
+        <section class="groupe">
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">But de la demande: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ applicant_form.goalOfApplication }}
+                    <small class="error">Veuillez choisir le but de votre demande</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Type d'horaires: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ applicant_form.scheduleType }}
+                    <small class="error">Veuillez choisir un type d'horaire</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Date de début: </label>
+                </div>
+                <div class="small-2 medium-2 large-2 left columns">
+                    {{ calendar_form.dateBeginningGo }}
+                </div>
+                <div class="small-8 medium-8 large-8 columns">
+                    <label class="etiquette">&nbsp&nbspAller: </label>
+                    {{ calendar_form.scheduleBeginningGo }}
+                    <label class="etiquette">&nbsp&nbsp&nbsp&nbsp&nbspRetour: </label>
+                    {{ calendar_form.scheduleBeginningBack }}
+                </div>
+            </div>
+            <div class="large-12 row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Jours demandés: </label>
+                    <div>
+                        <label class="etiquette">Aller: </label>
+                    </div>
+                    <div>
+                        <label class="etiquette">Retour: </label>
+                    </div>
+                </div>
+                <div class="large-6 columns left">
+                    <div id="divDaysNum">
+                    </div>
+                    <div id="divDaysName">
+                    </div>
+                    <div>
+                        {% for i in "xxxxxxxxxxxxxx" %}
+                            <input id="go-{{ forloop.counter0 }}" name="go-{{ forloop.counter0 }}" class="days" type="checkbox"/>
+                            <label for="go-{{ forloop.counter0 }}" class="noselect"></label>
+                        {% endfor %}
+                    <div>
+                    </div>
+                        {% for i in "xxxxxxxxxxxxxx" %}
+                            <input id="back-{{ forloop.counter0 }}" name="back-{{ forloop.counter0 }}" class="days" type="checkbox"/>
+                            <label for="back-{{ forloop.counter0 }}" class="noselect"></label>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {{ address_home_form.latlng }}
+            {{ address_home_form.zipCodeHide }}
+            {{ address_home_form.cityHide }}
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label for="searchTextField1" class="etiquette">Point de départ*: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ address_home_form.street }}
+                    <small id="errorHome" class="error">Veuillez entrer l'adresse du point de départ</small>
+                </div>
+            </div>
+            {{ address_work_form.zipCodeHide }}
+            {{ address_work_form.cityHide }}
+            {{ address_work_form.latlng }}
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label for="searchTextField2" class="etiquette">Point d'arrivée*:</label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ address_work_form.street }}
+                    <small id="errorWork" class="error">Veuillez entrer l'adresse du point d'arrivé</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette">Point de rencontre possible: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ calendar_form.possibleMeetingSpot }}
+                    <small class="error">Veuillez choisir un point de rencontre</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label style="padding: 0" class="etiquette">Problème de transport: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ calendar_form.transportIssue }}
+                    <small class="error">Veuillez entrer le problème de transport</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-2 medium-2 large-2 left columns">
+                    <label class="etiquette"> Commentaires: </label>
+                </div>
+                <div class="small-10 medium-10 large-10 columns">
+                    {{ calendar_form.comments }}
+                </div>
+            </div>
+        </section>
+        <div class="nav_button">
+            <span>*Champs obligatoires.</span>
+            <button class="right bouton_ehop" type="submit">Valider</button>
+        </div>
+    </section>
+</form>
+
+<script>
+    $('.dp').fdatepicker({
+        format: 'dd/mm/yyyy'
+    }).on('changeDate',function(ev){
+        updateDaysList(ev.date.getDate(), ev.date.getMonth(), ev.date.getFullYear())
+    });
+    $('.time').combodate({firstItem: 'none', minuteStep: 5});
+
+    var e = document.getElementById("id_carringAgency");
+    var typeAgency = e.options[e.selectedIndex].text;
+    if(typeAgency=="Pôle Emploi"){
+        document.getElementById("ident").style.display = "Block";
+    }else{
+        document.getElementById("ident").style.display = "None";
+    }
+
+    function checkDaysCalendar(){
+        if(!document.getElementById("go-0").checked && !document.getElementById("back-0").checked){
+            alert("Le premier jour du calendrier doit avoir au moins l'aller ou le retour de selectionné.")
+            return false;
+        }
+        return true;
+    }
+
+    function updateDaysList(day, month, year){
+        date = new Date(year,month,day);
+
+        divDaysNum = $('#divDaysNum');
+        divDaysNum.empty();
+        divDaysName = $('#divDaysName');
+        divDaysName.empty();
+
+        var DayNames = new Array('D','L','M','M','J','V','S');
+        for(i = 0; i<14; i++){
+            divDaysNum.append("<span class=\"days\">"+date.getDate()+"</span>\n");
+            divDaysName.append("<span class=\"days\">"+DayNames[date.getDay()]+"</span>\n");
+            date.setDate(date.getDate()+1);
+        }
+    }
+
+    function initDaysList(){
+        date = document.getElementById("id_dateBeginningGo").value.split('/')
+        updateDaysList(date[0],date[1]-1,date[2])
+    }
+    initDaysList();
+
+    $(document).foundation({
+        abide: {
+            live_validate: true,
+            focus_on_invalid: true,
+            validate_on_blur : true,
+            timeout : 10,
+            patterns : {
+                email : /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+                zipCode : /^[0-9]{5}$/,
+                phone : /^0[0-9]{9}$/
+            }
+        }
+    });
+</script>
+</body>
+</html>

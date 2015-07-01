@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head lang="fr">
+    <meta charset="UTF-8">
+    <title>{{ provider.idUser.firstname }} {{ provider.idUser.name }}</title>
+    <link href="/assets/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/sms_chat.css" rel="stylesheet" type="text/css">
+
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+
+    <script src="/assets/javascript/vendor/modernizr.js"></script>
+    <script src="/assets/javascript/vendor/jquery.js"></script>
+    <script src="/assets/javascript/foundation/foundation.min.js"></script>
+</head>
+<body>
+    <div id="wrapper" class="container">
+        <div class="header header-cont">
+            <h3>{{ provider.idUser.firstname }} {{ provider.idUser.name }}
+                <span id="phone">{{ provider.idUser.phone }}
+                </span>
+            </h3>
+        </div>
+        <div class="body">
+        {% for sms in list_sms %}
+            <!-- LEFT  -->
+            {% if sms.receiver == "EHOP" %}
+                <div class="row">
+                    <div class="bubble column">
+                        {{ sms.message }}
+                    </div>
+                    <div class="dateL column">
+                        {{ sms.date }}
+                    </div>
+                </div>
+            <!-- RIGHT  -->
+            {% else %}
+                <div class="row">
+                    <div class="bubble bubble--alt column">
+                        {{ sms.message }}
+                    </div>
+                    <div class="dateR column">
+                        {{ sms.date }}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+        <div class="footer">
+            <form method="post">
+                {% csrf_token %}
+                <textarea id="message" name="message" class="text column">{{ placeholder_sms }}</textarea>
+                <div>
+                    <button type="submit" class="sendButton">Envoyer</button>
+                    <span id="nbChar">160</span>/<span id="nbSMS">1</span>
+                </div>
+            </form>
+        </div>
+    </div>
+<script>
+    $("#message").on('input propertychange', function() {
+        calcChar();
+    });
+    function calcChar(){
+        noStop = {% if noStop %}0{% else %}11{% endif %}
+        message = document.getElementById("message");
+        nbChar = document.getElementById("nbChar");
+        nbSMS = document.getElementById("nbSMS");
+        nbChar.innerHTML = (160-parseInt(message.value.length+noStop)%160);
+        smsCounter = 1 + Math.floor(parseInt(message.value.length+noStop)/160);
+        nbSMS.innerHTML = smsCounter;
+    }
+    calcChar();
+    $("html, body").animate({ scrollTop: $(document).height()-$(window).height() });
+    $(document).foundation()
+</script>
+</body>
+</html>

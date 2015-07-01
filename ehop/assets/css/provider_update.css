@@ -1,0 +1,562 @@
+/**
+*
+* @copyright (C) 2014-2015
+* Developpeurs " BARDOU AUGUSTIN - REZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+*                MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN "
+* @license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+*
+*/
+body {
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: center;
+    background-position: 37% 0%;
+    background-image: url(../images/Fond-BO.png);
+    min-width: 480px;
+    background-size: auto auto;
+}
+
+select {
+    -moz-appearance: none;
+    width: 60px;
+}
+
+.errorDjango {
+    font-family: 'Francois One', sans-serif;
+    color: #FE0E0E;
+}
+
+#typeWeeks {
+    width: 70px;
+}
+
+body header {
+    background-repeat: no-repeat;
+    padding-top: 60px;
+}
+
+.row {
+    max-width: 960px;
+}
+
+#first_nav {
+    border-right: thin solid #000000;
+    border-left: thin solid #000000;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    padding-right: 15px;
+    padding-left: 15px;
+    text-transform: uppercase;
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.other_nav {
+    border-right: thin solid #000000;
+    text-transform: uppercase;
+    font-family: 'Fjalla One', sans-serif;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+#navigation li {
+    float: left;
+}
+
+ul {
+    list-style-type: none;
+}
+
+#navigation {
+    padding-top: 25px;
+}
+
+a {
+    color: #000000;
+}
+
+.partenaires div {
+    float: left;
+}
+
+#part {
+    padding-top: 9%;
+
+}
+
+#pe {
+    width: 67%;
+}
+
+#meif {
+    width: 53%;
+}
+
+#soutenu {
+    width: 45%;
+}
+
+#ehop {
+    width: 75%;
+}
+
+#foot {
+    padding-left: 4%;
+}
+
+#bloc2 {
+    padding-top: 25px;
+}
+
+.blanc {
+    background-color: #FFFFFF;
+}
+
+section {
+    padding-top: 4%;
+    padding-left: 3%;
+    padding-right: 1.5%;
+    margin-bottom: 1%;
+}
+
+.expliquation {
+    font-family: 'Francois One', sans-serif;
+    color: #96BD0D;
+}
+
+#introduction p {
+    font-family: 'Francois One', sans-serif;
+    color: #96BD0D;
+}
+
+#introduction img {
+    float: right;
+}
+
+#explications p {
+    font-family: 'Fjalla One', sans-serif;
+}
+
+#accroche {
+    font-weight: bold;
+}
+
+ol li {
+    font-family: 'Fjalla One', sans-serif;
+    color: #96BD0D;
+}
+
+#precisions {
+    font-size: small;
+}
+
+#menu2 {
+
+}
+
+#barre_progression div {
+    text-align: center;
+    font-size: 35px;
+    display: inline-block;
+}
+
+#barre_progression {
+    border: thin solid #95BC0D;
+    border-radius: 20px;
+    -webkit-box-shadow: 0px 5px #CCCCCC;
+    box-shadow: 0px 5px #CCCCCC;
+}
+
+#menu3 {
+    border-style: none;
+    width: 30%;
+}
+
+#menu1 {
+    border-radius: 18px;
+}
+
+.part2 {
+    padding-right: 5%;
+}
+
+.active1 {
+    background-color: #95BC0D;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.inactive {
+    background-color: #FFFFFF;
+    color: #95BC0D;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-right: 1px solid #95BC0D;
+}
+
+.inactive a {
+    color: #95BC0D;
+}
+
+.active a {
+    color: #FFFFFF;
+}
+
+.etiquette {
+    padding-top: 8px;
+}
+
+.groupe {
+    border-radius: 20px;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border: thin solid #90BC0D;
+}
+
+#map_canvas {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-right: 1%;
+    height: 403px;
+    width: auto;
+}
+
+.field {
+    background-color: #000000;
+    cursor: default;
+    z-index:30 !important;
+}
+
+.bouton_droit {
+    border-radius: 20px;
+}
+
+.bouton_horaire {
+    width: 120px;
+    border-radius: 20px;
+    background-color: #95BC0D;
+    box-shadow: 0px 5px #CCCCCC;
+}
+
+.jours {
+    display: inline-block;
+}
+
+.bouton_ehop {
+    border-radius: 20px;
+    background-color: #95BC0D;
+    -webkit-box-shadow: 0px 5px #CCCCCC;
+    box-shadow: 0px 5px #CCCCCC;
+    text-align: center;
+    font-size: 25px;
+    margin-top: 3%;
+}
+
+.form_part {
+    margin-top: 3%;
+}
+
+.etiquette {
+    display: inline-block;
+}
+
+.radio-inline {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 2%;
+}
+
+#img1 {
+    padding-top: 25px;
+    padding-left: 13px;
+}
+
+#img2 {
+    padding-left: 10px;
+}
+
+#choix_utilisateur div {
+    float: left;
+}
+
+#img_demandeur{
+
+    margin-left: 5%;
+}
+
+#img_offreur{
+
+    margin-left: -95%;
+    margin-top: 20%;
+}
+
+select {
+    -moz-appearance:none;
+    width: 60px;
+}
+
+.errorDjango {
+    font-family: 'Francois One', sans-serif;
+    color: #FE0E0E;
+}
+
+#typeWeeks{
+    width: 70px;
+}
+
+body header {
+    background-repeat: no-repeat;
+    padding-top: 60px;
+}
+
+.row {
+    max-width: 960px;
+}
+
+#first_nav {
+    border-right: thin solid #000000;
+    border-left: thin solid #000000;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    padding-right: 15px;
+    padding-left: 15px;
+    text-transform: uppercase;
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.other_nav {
+    border-right: thin solid #000000;
+    text-transform: uppercase;
+    font-family: 'Fjalla One', sans-serif;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+#navigation li {
+    float: left;
+}
+
+ul {
+    list-style-type: none;
+}
+
+#navigation {
+    padding-top: 25px;
+}
+
+a {
+    color: #000000;
+}
+
+.partenaires div {
+    float: left;
+}
+
+#part {
+    padding-top: 9%;
+
+}
+
+#pe {
+    width: 67%;
+}
+
+#meif {
+    width: 53%;
+}
+
+#soutenu {
+    width: 45%;
+}
+
+#ehop {
+    width: 75%;
+}
+
+#foot {
+    padding-left: 4%;
+}
+
+#bloc2 {
+    padding-top: 25px;
+}
+
+.blanc {
+    background-color: #FFFFFF;
+}
+
+section {
+    padding-top: 4%;
+    padding-left: 3%;
+    padding-right: 1.5%;
+    margin-bottom: 3%;
+}
+
+.expliquation {
+    font-family: 'Francois One', sans-serif;
+    color: #96BD0D;
+}
+
+#introduction p {
+    font-family: 'Francois One', sans-serif;
+    color: #96BD0D;
+}
+
+#introduction img {
+    float: right;
+}
+
+#explications p {
+    font-family: 'Fjalla One', sans-serif;
+}
+
+#accroche {
+    font-weight: bold;
+}
+
+ol li {
+    font-family: 'Fjalla One', sans-serif;
+    color: #96BD0D;
+}
+
+#precisions {
+    font-size: small;
+}
+
+#menu2 {
+
+}
+
+#barre_progression div {
+    text-align: center;
+    font-size: 35px;
+    display: inline-block;
+}
+
+#barre_progression {
+    border: thin solid #95BC0D;
+    border-radius: 20px;
+    -webkit-box-shadow: 0px 5px #CCCCCC;
+    box-shadow: 0px 5px #CCCCCC;
+}
+
+#menu3 {
+    border-style: none;
+    width: 30%;
+}
+
+#menu1 {
+    border-radius: 18px;
+}
+
+.part2 {
+    padding-right: 5%;
+}
+
+.active1 {
+    background-color: #95BC0D;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.inactive {
+    background-color: #FFFFFF;
+    color: #95BC0D;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-right: 1px solid #95BC0D;
+}
+
+.inactive a {
+    color: #95BC0D;
+}
+
+.active a {
+    color: #FFFFFF;
+}
+
+.inactiveE a {
+    color: #000 !important;
+    background-color: #C2BDBD !important;
+}
+
+.activeE a {
+    color: #000 !important;
+    background-color: #95BC0D !important;
+}
+
+.etiquette {
+    padding-top: 8px;
+    cursor: default;
+    display: inline-block;
+}
+
+.groupe {
+    border-radius: 20px;
+    padding-top: 20px;
+    border: thin solid #90BC0D;
+    -webkit-box-shadow: 0px 5px #CCCCCC;
+    box-shadow: 0px 5px #CCCCCC;
+}
+
+#map_canvas {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    height: 403px;
+    width: auto;
+}
+
+.bouton_droit {
+    border-radius: 20px;
+}
+
+.bouton_valide {
+    width: 120px;
+    border-radius: 20px;
+    background-color: #007095;
+    box-shadow: 0px 5px #CCCCCC;
+}
+
+.bouton_horaire {
+    width: 120px;
+    border-radius: 20px;
+    background-color: #95BC0D;
+    box-shadow: 0px 5px #CCCCCC;
+}
+
+.jours{
+    display: inline-block;
+}
+
+.bouton_ehop {
+    border-radius: 20px;
+    background-color: #95BC0D;
+    -webkit-box-shadow: 0px 5px #CCCCCC;
+    box-shadow: 0px 5px #CCCCCC;
+    text-align: center;
+    font-size: 25px;
+}
+
+.form_part {
+    margin-top: 3%;
+}
+
+.radio-inline {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 2%;
+}
+
+.tabs dd.active a, .tabs .tab-title.active a {
+background-color: #CECBCB;
+color: #96BD0D;
+}
+
+#delButton{
+    background-color: #EF1616;
+}
+
+#delButton:hover{
+    background-color: #ef0016;
+}

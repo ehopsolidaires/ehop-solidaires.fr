@@ -1,0 +1,139 @@
+/**
+*
+* @copyright (C) 2014-2015
+* Developpeurs " BARDOU AUGUSTIN - REZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+*                MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN "
+* @license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+*
+*/
+
+body {
+	background-repeat: no-repeat;
+	background-attachment: scroll;
+	background-position: center;
+	background-position: 37% 0%;
+	background-image: url(../images/Fond-Body.png);
+	min-width: 480px;
+	background-size: auto auto;
+}
+
+body header {
+	background-repeat: no-repeat;
+	padding-top: 60px;
+}
+.groupe {
+    border-radius: 20px;
+    padding-top: 20px;
+    border: thin solid #90BC0D;
+    -webkit-box-shadow: 0px 5px #CCCCCC;
+    box-shadow: 0px 5px #CCCCCC;
+}
+.row {
+	max-width: 960px;
+}
+#first_nav {
+	border-right: thin solid #000000;
+	border-left: thin solid #000000;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	padding-right: 15px;
+	padding-left: 15px;
+	text-transform: uppercase;
+	font-family: 'Fjalla One', sans-serif;
+}
+.other_nav {
+	border-right: thin solid #000000;
+	text-transform: uppercase;
+	font-family: 'Fjalla One', sans-serif;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+#navigation  li {
+	float: left;
+}
+ul {
+	list-style-type: none;
+}
+#navigation {
+	padding-top: 25px;
+}
+a{
+	color:#000000;
+}
+.partenaires div {
+	float: left;
+}
+#part {
+	padding-top: 9%;
+
+}
+#pe {
+	width: 67%;
+}
+#meif {
+	width: 53%;
+}
+#soutenu {
+	width: 45%;
+}
+#ehop {
+	width: 75%;
+}
+#foot {
+	padding-left: 4%;
+}
+#bloc2 {
+	padding-top: 25px;
+}
+.blanc{
+	background-color: #FFFFFF;
+}
+section {
+	padding-top: 4%;
+	padding-left: 3%;
+	padding-right: 1.5%;
+}
+.presentation{
+	min-height:100%;
+}
+.presentation a{
+	text-decoration: underline;
+	color: #0000FF;
+}
+.presentation article{
+	margin-bottom: 5%;
+}
+.title {
+	font-family: 'Francois One', sans-serif;
+	font-size: 2em;
+	font-weight: bold;
+	text-decoration: underline;
+}
+.introduction {
+	font-family: 'Francois One', sans-serif;
+	color: #96BD0D;
+}
+
+.explanations p{
+	font-family: 'Fjalla One', sans-serif;
+}
+#hook {
+	font-weight: bold;
+}
+ol li {
+	font-family: 'Fjalla One', sans-serif;
+	color: #96BD0D;
+}
+.explanations span {
+	color: #000000;
+}
+#precisions {
+	font-size: small;
+}
+#map-canvas{
+    margin-bottom: 5%;
+    height: 403px;
+    width: auto;
+}

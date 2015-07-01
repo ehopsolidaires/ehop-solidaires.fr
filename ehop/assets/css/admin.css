@@ -1,0 +1,175 @@
+body {
+	background-repeat: no-repeat;
+	background-attachment: scroll;
+	background-position: center;
+	background-position: 37% 0%;
+	background-image: url(../images/Fond-Body.png);
+	min-width: 480px;
+	background-size: auto auto;
+}
+
+body header {
+	background-repeat: no-repeat;
+	padding-top: 60px;
+}
+
+
+#container{
+    background-color: #FFF;
+    max-width: 960px;
+    width: 100%;
+    max-width: 62.5rem;
+    padding-left: 3%;
+    padding-right: 1.5%;
+    margin: 0px auto;
+}
+
+#container table th a:hover{
+    color:red;
+}
+
+#container table td a:hover{
+    color:red;
+}
+
+#header_ehop li a:hover{
+    color: #008CBA;
+}
+
+#header_ehop #first_nav {
+	border-right: thin solid #000000;
+	border-left: thin solid #000000;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	padding-right: 15px;
+	padding-left: 15px;
+	text-transform: uppercase;
+	font-family: 'Fjalla One', sans-serif;
+    font-size: 16px;
+font-weight: 400;
+line-height: 25.6px;
+
+}
+#header_ehop .other_nav {
+	border-right: thin solid #000000;
+	text-transform: uppercase;
+	font-family: 'Fjalla One', sans-serif;
+	padding-right: 15px;
+	padding-left: 15px;
+    font-size: 16px;
+    font-weight: 400;
+line-height: 25.6px;
+
+
+}
+
+#header_ehop #navigation  li {
+    list-style-type: none;
+	float: left;
+}
+#header_ehop ul {
+	list-style-type: none;
+}
+#header_ehop #navigation {
+	padding-top: 25px;
+}
+#header_ehop a{
+	color:#000000;
+}
+#header_ehop .partenaires div {
+	float: left;
+}
+#header_ehop #part {
+	padding-top: 9%;
+
+}
+#header_ehop #pe {
+	width: 67%;
+}
+#header_ehop #meif {
+	width: 53%;
+}
+#header_ehop #soutenu {
+	width: 45%;
+}
+#header_ehop #ehop {
+	width: 75%;
+}
+#header_ehop #foot {
+	padding-left: 4%;
+}
+#header_ehop #bloc2 {
+	padding-top: 25px;
+}
+#header_ehop .blanc{
+	background-color: #FFFFFF;
+}
+#header_ehop section {
+	padding-top: 4%;
+	padding-left: 3%;
+	padding-right: 1.5%;
+}
+#header_ehop .presentation a{
+	text-decoration: underline;
+	color: #0000FF;
+}
+#header_ehop .presentation article{
+	margin-bottom: 5%;
+}
+#header_ehop .title {
+	font-family: 'Francois One', sans-serif;
+	font-size: 2em;
+	font-weight: bold;
+	text-decoration: underline;
+}
+#header_ehop .introduction {
+	font-family: 'Francois One', sans-serif;
+	color: #96BD0D;
+}
+
+#header_ehop .explanations p{
+	font-family: 'Fjalla One', sans-serif;
+}
+#header_ehop #hook {
+	font-weight: bold;
+}
+#header_ehop ol li {
+	font-family: 'Fjalla One', sans-serif;
+	color: #96BD0D;
+}
+#header_ehop .explanations span {
+	color: #000000;
+}
+#header_ehop #precisions {
+	font-size: small;
+}
+
+#login-form{
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.connexion_title{
+    text-align: center;
+}
+
+h2{
+    font-size: 22px !important;
+}
+.form-row label{
+    font-weight: bold !important;
+    color: #333 ;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-bottom: 0px;
+}
+
+.form-row p{
+    color: rgba(0, 0, 0, 0.75);
+display: block;
+font-size: 0.875rem !important;
+margin: 0px 0px 1rem;
+padding: 0.5rem;
+height: 2.3125rem;
+}

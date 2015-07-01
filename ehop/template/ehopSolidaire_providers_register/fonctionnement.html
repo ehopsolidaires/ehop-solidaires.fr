@@ -1,0 +1,80 @@
+<!--
+@copyright (C) 2014-2015
+Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+              MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN '
+@license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Comment ça marche ?</title>
+    <link href="/assets/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/fonctionnement.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <script src="/assets/javascript/vendor/modernizr.js"></script>
+    <script src="/assets/javascript/vendor/jquery.js"></script>
+    <script src="/assets/javascript/foundation/foundation.min.js"></script>
+</head>
+{% include "ehopSolidaire_providers_register/codePiwik.html" %}
+<body>
+{% include "ehopSolidaire_providers_register/header.html" %}
+
+<section class="row blanc presentation">
+
+    <p class="title">Je suis offreur</p>
+
+    <p class="large-12 medium-12 introduction"> Comment offrir un trajet solidaire ? <a
+            href="/offreur">Inscrivez-vous</a> sur Ehop Solidaires via le formulaire d’inscription.
+    </p>
+    <article class="large-12 medium-12 explanations">
+        <p id="hook"> Une fois inscrit, vous vous engagez à : </p>
+        <ol>
+            <li><span>Répondre dans les meilleurs délais à une demande de trajet adressée par l’équipe Ehop Solidaires&nbsp;;</span>
+            </li>
+            <li><span>Covoiturer le demandeur pour la courte période définie au préalable&nbsp;;</span></li>
+            <li>
+                <span>Se mettre d’accord avec le demandeur sur le partage des frais (nous préconisons 0,12€/km)&nbsp;;</span>
+            </li>
+            <li><span>Mettre vos informations personnelles régulièrement à jour sur le site Ehop Solidaires.</span></li>
+        </ol>
+        <p id="precisions">Cette action ne vous engage qu'à covoiturer une personne de façon très ponctuelle et
+            temporaire. A chaque demande vous restez libre d'accepter ou pas. L'équipe Ehop Solidaires se charge du
+            reste (vous contacter, vous mettre en relation, etc.). Alors merci d'avance&nbsp;!</p>
+    </article>
+
+    <p class="title">Je suis demandeur</p>
+
+    <p class="introduction">
+        Comment rechercher un trajet solidaire :
+    </p>
+    <article class="large-12 medium-12 explanations">
+        <ol>
+            <li><span>Contactez-nous au 02.99.35.10.77 ou à l’adresse <a href="#">contact@ehop-covoiturage.fr</a>&nbsp;;</span>
+            </li>
+            <li><span>Expliquez-nous votre besoin de trajet (départ, arrivée, date et horaires)&nbsp;;</span></li>
+            <li><span>L’équipe Ehop Solidaires vous recontacte dans les meilleurs délais pour vous proposer un covoiturage&nbsp;;</span>
+            </li>
+            <li><span>Mettez-vous d’accord avec le conducteur sur le partage des frais (nous préconisons 0,12€/km)&nbsp;;</span>
+            </li>
+            <li><span>Laissez-vous conduire !</span></li>
+        </ol>
+    </article>
+
+</section>
+
+{% include "ehopSolidaire_providers_register/footer.html" %}
+
+<script>
+    $(document).foundation();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!--
+@copyright (C) 2014-2015
+Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+              MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN '
+@license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Liste de recherche</title>
+    <link href="/assets/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/demandeur_recherches.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <script src="/assets/javascript/vendor/modernizr.js"></script>
+    <script src="/assets/javascript/vendor/jquery.js"></script>
+    <script src="/assets/javascript/foundation/foundation.min.js"></script>
+    <script src="/assets/javascript/foundation/foundation.interchange.js"></script>
+    <script src="/assets/javascript/foundation/foundation.topbar.js"></script>
+
+
+</head>
+
+<body>
+{% include "ehopSolidaire_providers_register/header.html" %}
+{% load get_at_index from highligth_tabs %}
+<section class="row blanc presentation">
+
+    <h4>Récapitulatif des recherches concernant le demandeur : <a href="/BO/utilisateurs/d/{{ applicant.idApplicant }}" target="_blank">{{ firstname }} {{ name }}</a></h4>
+    
+    <div class="row groupe trajet">
+
+    <form id="myform" action="" method="post">
+    {% csrf_token %}
+    <div class="large-12">
+    <div class="large-7"><h4 class="tiny">Objectifs de la demande : à partir du {{mydate}}  
+            
+    </h4></div>
+    </div>
+     <div class="large-12 columns">
+
+       <div class="large-offset-6 columns">
+    {% for i in days_list %}
+        <span class="days">{{ i }}</span>
+    {% endfor %}
+    </div>
+     <div class="large-offset-6 columns">
+     {% for i in days_list_name %}
+        <span class="days">{{ i }}</span>
+    {% endfor %}
+     </div>
+    
+    <div class="large-1 columns pad_top"></div>
+ 
+    <div class="large-5 columns pad_top">Aller ({{departure}}/{{back}}) : </div>
+    <div class="large-5 columns pad_top">
+    {% for go in go_list %}
+    
+        {% if go == 'G' %}
+            <img class="empty"/>
+        {%endif%}
+        
+        {% if go == 'R' %}
+            <input type="checkbox" class="red-green" name="go_{{forloop.counter0}}" id="1_{{forloop.counter0}}"/>
+            <label class="noselect" for="1_{{forloop.counter0}}"></label>
+        {%endif%}
+        
+        {% if go == 'V' %}
+            <input type="checkbox" class="red-green" name="go_{{forloop.counter0}}" id="1_{{forloop.counter0}}" checked = "checked"/>
+            <label class="noselect" for="1_{{forloop.counter0}}"></label>
+        {%endif%}
+    
+    {% endfor %}
+    </div>
+          
+    
+    </div>
+   
+    <div class="columns">
+        <div class="large-1 columns pad_top"></div>
+    <div class="large-5 columns pad_top">Retour ({{back}}/{{departure}}) : </div>
+    <div class="large-5 columns pad_top">
+    {% for return in return_list %}
+    
+        {% if return == 'G' %}
+            <img class="empty"/>
+        {%endif%}
+        
+        {% if return == 'R' %}
+            <input type="checkbox" class="red-green" name="return_{{forloop.counter0}}" id="2_{{forloop.counter0}}"/>
+            <label class="noselect" for="2_{{forloop.counter0}}"></label>
+        {%endif%}
+        
+        {% if return == 'V' %}
+            <input type="checkbox" class="red-green" name="return_{{forloop.counter0}}" id="2_{{forloop.counter0}}" checked = "checked"/>
+            <label class="noselect" for="2_{{forloop.counter0}}"></label>
+        {%endif%}
+    
+    {% endfor %}
+    </div>
+
+    </div>
+
+    <div class="columns pad_top">
+    </br>
+        
+    <div class = "large-offset-1 large-6 columns pad_top_huge pad_bot">Validé à : {{success}} %
+    </div>
+        <button class="large-offset-2 button_image align_right pad_top_huge" name="savecalendar" type="submit" style="border: 0; background: transparent" value={{formset.prefix}}-{{ provider|length }}>
+        <img src="/assets/images/admin/saveButton.png" width="45" height="45" alt="Sauvegarder cette ligne" title="Mettre à jour le calendrier">
+        </button>
+        <button class="large-1 button_image align_right pad_top_huge" onclick="openArchiveModal();" type="button" style="border: 0; background: transparent" value={{ success }}>
+            <img src="/assets/images/admin/archiveButton.png" width="45" height="45" alt="Archiver le calendrier" title="Archiver ce calendrier">
+        </button>
+        <input type="hidden" id="archiveCalendar" name="archiveCalendar" value=""/>
+        </div>
+    </div>
+    </br>
+     
+    <script>
+        var counter = 0;
+    </script>
+    {% for provider in list_res %}
+        {%if forloop.first %}
+        <div class="row groupe trajet">
+        <h4 class="tiny">Candidats retenus :</h4>
+        {%endif%}
+            
+        {% for formset in provider %}
+            {{ formset.management_form }}
+            {% for form in formset %}
+                {{ form.idPath }}
+                {{ form.available }}
+                {{ form.detour }}
+                {{ form.detourkm }}
+                {{ form.date }}
+                {{ form.schedule }}
+                {{ form.streetDeparture }}
+                {{ form.streetArrival }}
+                {{ form.isGo }}
+                {{ form.date }}
+                {{ form.idCalendar }}
+
+                {% if forloop.first and forloop.parentloop.first %}
+
+                    <div class="row_recherches blanc groupe2 columns">
+                    <div class = "small-1 medium-1 large-1 columns pad_top">Offreur: </div>
+                    <div class = "small-4 medium-4 large-4 columns"><a href="/BO/utilisateurs/o/{{ form.providerIdUser.value }}" target="_blank">{{form.providerName}}</a></div>
+                    <div class = "small-2 medium-2 large-2 columns pad_top">Détour:</div>
+                    <div class = "small-1 medium-1 large-1 columns"><input value="{{form.detour.value}}"></input></div>
+                    <div class = "small-1 medium-1 large-1 columns pad_top"></div>
+                    <div class = "small-1 medium-1 large-1 columns"><input value="{{form.detourkm.value}}"></input></div>
+                    <div class = "small-1 medium-1 large-1 columns pad_top"></div>
+                    <div class="large-12 columns">
+                        <div id="phoneD-{{ forloop.parentloop.parentloop.counter0 }}" class="large-2 columns">&nbsp</div>
+                        <div class="large-10 columns pad_left">
+                            {% for i in days_list %}
+                                    <span class="days">{{ i }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="large-offset-2 columns pad_left">
+                            {% for i in days_list_name %}
+                                <span class="days">{{ i }}</span>
+                            {% endfor %}
+                         </div>
+                    </div>
+                    <div class="large-12 columns">
+                        {{ form.providerPhone }}
+                        <a id="phoneA-{{ forloop.parentloop.parentloop.counter0 }}" onclick="phoneOrSMS({{ forloop.parentloop.parentloop.counter0 }},{{ form.providerIdUser.value }},{{ form.idCalendar.value }});" class="large-1 button_image left" style="border: 0; background: transparent">
+                            <img id="phone-{{ forloop.parentloop.parentloop.counter0 }}" src="/assets/images/admin/smsButton.png" width="50" height="50">
+                        </a>
+                        <script>
+                            phoneNumber = document.getElementById("id_"+counter+"-0-0-providerPhone").value
+                            a = document.getElementById("phoneA-"+counter)
+                            img = document.getElementById("phone-"+counter)
+                            // mobile phone
+                            if(phoneNumber.charAt(1)=="6" || phoneNumber.charAt(1)=="7"){
+                                img.src = "/assets/images/admin/smsButton.png"
+                                a.title = "Envoyer un SMS"
+                            }
+                            // other type of phone
+                            else{
+                                img.src = "/assets/images/admin/phoneButton.png"
+                                a.title = "Afficher le numéro de téléphone"
+                            }
+                            counter++;
+                        </script>
+                        {%endif%}
+                        {% if forloop.first %}
+                        <div class="large-7 columns">
+                {% endif %}
+                    {%if forloop.first %}
+                    {%if form.isGo.value %}
+                    <div class="large-2 columns">A |</div>
+                    {%endif %}
+                    {% if not form.isGo.value %}
+                    <div class="large-2 columns">R |</div>
+                    {%endif%}
+                    {%endif%}
+                    {% if form.available.value == False %}
+                        <img class="empty"/>
+                    {% endif %}
+                    {% if form.available.value == True %}
+                        {{ form.validated }}
+                        {%if form.isGo.value %}
+                        <label class="noselect" for="id_{{forloop.parentloop.parentloop.counter0}}-0-{{forloop.counter0}}-validated"></label>
+                        {%endif%}
+                        {%if not form.isGo.value %}
+                        <label class="noselect" for="id_{{forloop.parentloop.parentloop.counter0}}-1-{{forloop.counter0}}-validated"></label>
+                        {%endif%}
+                    {% endif %}
+
+                        {% if forloop.last %}
+                        </div>
+                        {% endif %}
+                            {% if forloop.last and forloop.parentloop.last %}
+
+                        <button class="large-1 button_image" name="sauvegarder" type="submit" title="Sauvegarder les modifications" style="border: 0; background: transparent" value={{formset.prefix}}-{{ provider|length }}-{{ list_res|length }}>
+                            <img src="/assets/images/admin/saveButton.png" width="45" height="45" alt="Sauvegarder cette ligne" title="Sauvegarder les modifications">
+                        </button>
+                        <button class="large-1 button_image" name="supprimer" type="submit" style="border: 0; background: transparent" title="Supprimer l'offreur de la liste" value={{formset.prefix}}-{{ provider|length }}>
+                            <img src="/assets/images/admin/deleteButton.png" width="45" height="45" alt="Supprimer cette ligne" title="Supprimer l'offreur de la liste">
+                        </button>
+                        <!-- <button class="large-1 button_image" name="archiver" onclick="return confirm('Êtes vous sûr(e) de vouloir archiver les jours validés de ce trajet ?')" title="Archiver la sélection pour cet offreur" type="submit" style="border: 0; background: transparent" value={{formset.prefix}}-{{ provider|length }}>
+                            <img src="/assets/images/admin/archiveButton.png" width="45" height="45" alt="Archiver cette ligne" title="Archiver la sélection pour cet offreur">
+                        </button> -->
+
+                        </div>
+
+
+                        {% endif %}
+            {% endfor %}
+            {% endfor %}
+            {% if forloop.last %}
+            </div>
+            {%endif%}
+            </div>
+     
+         
+        {% endfor %}
+            <div id="archiveModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                <h2 id="modalTitle">Archivage du calendrier.</h2>
+                <p class="lead">Vous allez archiver ce calendrier et toutes ses informations de façon définitive.</p>
+                <p id="chooseValidation">Veuillez choisir un commentaire de validation :</p>
+                <select style="width: auto" id="comment" name="comment">
+                </select>
+                <button class="bouton_ehop right" name="archive" onclick="submitArchive();">Archiver</button>
+                <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+            </div>
+
+         </form>
+    </section>
+
+<script>
+    var $groups = $("div.blanc", $that);
+    $groups.each(function() {
+        var $group = $(this);
+        var $checkboxes = $(":checkbox", $group);
+        $checkboxes.click(function() {
+            var $activeCheckbox = $(this);
+            var state = $activeCheckbox.attr('checked');
+            $checkboxes.attr('checked', false);
+            $activeCheckbox.attr('checked', state);
+        });
+    });
+
+    function openArchiveModal(){
+        $('#archiveModal').foundation('reveal', 'open');
+        success = "{{ success }}"
+        if(success == "100,0"){
+            document.getElementById("comment").style.display = "none";
+            document.getElementById("chooseValidation").style.display = "none";
+        }else {
+            document.getElementById("chooseValidation").style.display = "block";
+            document.getElementById("comment").style.display = "block";
+            {% autoescape off %}
+            if(success == "0,0"){
+                $('#comment').html('{{ options_0 }}')
+            }else{
+                $('#comment').html('{{ options }}')
+            }
+            {% endautoescape  %}
+        }
+        document.getElementById("archiveCalendar").value = "ok";
+    }
+    function submitArchive(){
+        document.forms['myform'].submit();
+    }
+    function archiveClick(){
+        successVal = {{ success }}
+        if(successVal != "100"){
+            comment = document.getElementById("comment").value
+            if(comment == ""){
+                alert("Veuillez choisir une raison pour laquelle la demande n'a pas été entièrement validée.")
+                return false;
+            }
+        }
+        return confirm("Vous allez archiver ce calendrier et ses informations.\nVoulez-vous vraiment l'archiver ?");
+    }
+
+    function allGreen(){
+        checkboxCalendar = document.getElementsByClassName("red-green");
+        for (i = 0; i < checkboxCalendar.length; i++){
+            box = checkboxCalendar[i];
+            if(!box.checked){
+                return false;
+            }
+        }
+        return true
+    }
+
+
+    function phoneOrSMS(counter, idProvider, idCalendar){
+        phoneNumber = document.getElementById("id_"+counter+"-0-0-providerPhone").value
+        // SMS
+        if(phoneNumber.charAt(1) == "6" || phoneNumber.charAt(1) == "7"){
+            window.open('/BO/sms/'+idProvider+'/'+idCalendar,'popUpWindow','height=600,width=440,left=10,top=10,' +
+                    'resizable=no,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes');
+
+        }
+        // PHONE
+        else{
+            divHTML = document.getElementById("phoneD-"+counter).innerHTML;
+
+            // number not shown
+            if(divHTML.length < 10){
+                $("#phoneD-"+counter).empty()
+                $("#phoneD-"+counter).append(formatPhone(phoneNumber))
+            }//number shown
+            else{
+                $("#phoneD-"+counter).empty()
+                $("#phoneD-"+counter).append(String.fromCharCode(160)) // &nbsp
+            }
+        }
+    }
+    function changeComment(bool){
+        comment = document.getElementById("comment");
+        if(bool){
+            comment.disabled = true;
+            comment.style = "display: none";
+        }else{
+            checkboxCalendar = document.getElementsByClassName("red-green");
+            for (i = 0; i < checkboxCalendar.length; i++){
+                box = checkboxCalendar[i];
+                if(box.checked){
+                    comment.disabled = true;
+                    comment.style = "display: none";
+                    return;
+                }
+            }
+            comment.disabled = false;
+            comment.style = "display: inline-block";
+            comment.style.width = "auto";
+        }
+    }
+    function formatPhone(phoneNumber){
+        return phoneNumber.replace(/(.{2})(?!$)/g,"$1.");
+    }
+    $(document).foundation();
+</script>
+</body>
+</html>
