@@ -1,5 +1,5 @@
 .idea/workspace.xml
-idea/*
+idea/
 ehop/ehop/settings_secret.py
 ehop/ehopSolidaire_providers_register/migrations/
 *.pyc
