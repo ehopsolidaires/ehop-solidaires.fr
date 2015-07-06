@@ -160,7 +160,7 @@ function initialize() {
         center: new google.maps.LatLng(48.117266, -1.6777925999999752),
         zoom: 9,
         mapTypeId: google.maps.MapTypeId.ROADMAP
-    }
+    };
 
     //Creation de la map
     map = new google.maps.Map(mapCanvas, mapOptions)
@@ -173,18 +173,19 @@ function initialize() {
         draggable: true
     };
 
-    directionsDisplay=new google.maps.DirectionsRenderer();	//Passer rendererOptions en aprametre pour rendre le trajet modifiable
+    directionsDisplay=new google.maps.DirectionsRenderer();	//Passer rendererOptions en parametre pour rendre le trajet modifiable
 
     //Creation des champ auto-complete
     var input1 = document.getElementById('id_home-street');
     var input2 = document.getElementById('id_work-street');
+    var input3 = document.getElementById('id_work-street2');
     var options = {
         types: ['geocode'],
         componentRestrictions: {country: 'fr'}
-
     };
     departAuto = new google.maps.places.Autocomplete(input1, options);
     arriveeAuto = new google.maps.places.Autocomplete(input2, options);
+    arriveeAuto2 = new google.maps.places.Autocomplete(input3, options);
 
     google.maps.event.addDomListener(input1, 'keydown', function(e) {
         if (e.keyCode == 13) {
@@ -225,12 +226,12 @@ function initialize() {
         //Si l'adresse 2 est deja rempli, on trace la route
         if(document.getElementById('id_work-street').value!=''){
             calcCoord(1);
-            extract(1)
+            extract(1);
             traceRoute();
         }
         else {
             calcCoord(1);
-            extract(1)
+            extract(1);
         }
     });
 
@@ -269,7 +270,6 @@ function traceRoute(){
 
         }
     });
-
 }
 
 function account_path(){

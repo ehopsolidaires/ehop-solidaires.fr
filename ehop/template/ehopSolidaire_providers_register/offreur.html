@@ -81,25 +81,49 @@ Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBAS
     </div>
 
     <div class="row groupe">
-        {{ address_home_form.latlng }}
-        {{ address_home_form.zipCodeHide }}
-        {{ address_home_form.cityHide }}
-        <div class="small-2 medium-1 large-1 left columns">
-            <label for="searchTextField1" class="etiquette">Domicile: </label>
+        <div id="divWorkHome" style="display: none">
+            {{ address_home_form.latlng }}
+            {{ address_home_form.zipCodeHide }}
+            {{ address_home_form.cityHide }}
+            <div class="small-2 medium-1 large-1 left columns">
+                <label for="searchTextField1" class="etiquette">Domicile: </label>
+            </div>
+            <div class="small-10 medium-11 large-11 columns">
+                {{ address_home_form.street }}
+                <small id="errorHome" class="error">Veuillez entrer votre adresse de domicile</small>
+            </div>
+            {{ address_work_form.zipCodeHide }}
+            {{ address_work_form.cityHide }}
+            {{ address_work_form.latlng }}
+            <div class="small-2 medium-1 large-1 left columns">
+                <label for="searchTextField2" class="etiquette">Travail:</label>
+            </div>
+            <div class="small-10 medium-11 large-11 columns">
+                {{ address_work_form.street }}
+                <small id="errorWork" class="error">Veuillez entrer votre adresse de travail</small>
+            </div>
         </div>
-        <div class="small-10 medium-11 large-11 columns">
-            {{ address_home_form.street }}
-            <small id="errorHome" class="error">Veuillez entrer votre adresse de domicile</small>
-        </div>
-        {{ address_work_form.zipCodeHide }}
-        {{ address_work_form.cityHide }}
-        {{ address_work_form.latlng }}
-        <div class="small-2 medium-1 large-1 left columns">
-            <label for="searchTextField2" class="etiquette">Travail:</label>
-        </div>
-        <div class="small-10 medium-11 large-11 columns">
-            {{ address_work_form.street }}
-            <small id="errorWork" class="error">Veuillez entrer votre adresse de travail</small>
+        <div id="divNonFixe">
+            {{ address_home_form.latlng }}
+            {{ address_home_form.zipCodeHide }}
+            {{ address_home_form.cityHide }}
+            <div class="small-2 medium-1 large-1 left columns">
+                <label for="searchTextField1" class="etiquette">Domicile: </label>
+            </div>
+            <div class="small-10 medium-11 large-11 columns">
+                {{ address_home_form.street }}
+                <small id="errorHome" class="error">Veuillez entrer votre adresse de domicile</small>
+            </div>
+            <input id="id_work-zipCodeHide" name="work-zipCodeHide" type="hidden">
+            <input id="id_work-cityHide" name="work-cityHide" type="hidden">
+            <input id="id_work-latlng" name="work-latlng" type="hidden">
+            <div class="small-2 medium-1 large-1 left columns">
+                <label for="searchTextField2" class="etiquette">Travail:</label>
+            </div>
+            <div class="small-10 medium-11 large-11 columns error">
+                <input data-invalid="" aria-invalid="false" autocomplete="off" class="field" id="id_work-street2" maxlength="255" name="work-street" placeholder="Indiquez un lieu" required="required" type="text">
+                <small id="errorWork" class="error">Veuillez entrer votre adresse de travail</small>
+            </div>
         </div>
     </div>
 

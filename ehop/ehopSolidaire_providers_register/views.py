@@ -175,7 +175,6 @@ def project(request):
 
 def formulaire(request):
     if not request.user.is_anonymous():
-        print request.user
         return HttpResponseRedirect("/profil/")
     path_departure_register_form_set = formset_factory(PathDepartureRegisterForm)
     path_arrival_register_form_set = formset_factory(PathArrivalRegisterForm)
