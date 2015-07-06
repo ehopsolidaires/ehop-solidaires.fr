@@ -29,7 +29,7 @@ class ChartData(object):
             timer_start = time.time()
             providers = User.objects.filter(idUser__in=providers).select_related('idHomeAddress')
             intercoms = get_intercommunities()
-            user_intercom = [u.idUser for u in providers if sameIntercommunity(u.idHomeAddress.street, intercom, intercoms)]
+            user_intercom = [u.idUser for u in providers if sameIntercommunity(u.idHomeAddress.get_cleaned_street(), intercom, intercoms)]
             if start_date == "0" and end_date == "0":
                 user_register = User.objects.filter(idUser__in=user_intercom).order_by('dateRegister').extra({'dateR':extra_query})\
                     .values('dateR').annotate(nb=Count('idUser'))
@@ -98,7 +98,7 @@ class ChartData(object):
         if intercom != "all":
             providers = User.objects.filter(idUser__in=providers).select_related('idHomeAddress')
             intercoms = get_intercommunities()
-            user_intercom = [u.idUser for u in providers if sameIntercommunity(u.idHomeAddress.street, intercom, intercoms)]
+            user_intercom = [u.idUser for u in providers if sameIntercommunity(u.idHomeAddress.get_cleaned_street(), intercom, intercoms)]
             user_register = User.objects.filter(idUser__in=user_intercom).order_by('dateRegister').extra({'dateR':extra_query})\
                     .values('dateR').annotate(nb=Count('idUser'))
 
@@ -139,7 +139,7 @@ class ChartData(object):
             else:
                 users = User.objects.filter(dateRegister__range=[start_date, end_date])
             intercoms = get_intercommunities()
-            user_intercom = [u.idUser for u in users if sameIntercommunity(u.idHomeAddress.street, intercom, intercoms)]
+            user_intercom = [u.idUser for u in users if sameIntercommunity(u.idHomeAddress.get_cleaned_street(), intercom, intercoms)]
             providers = Provider.objects.filter(idUser__idUser__in=user_intercom).count()
             applicants = Applicant.objects.filter(idUser__idUser__in=user_intercom).count()
         else:
@@ -198,7 +198,7 @@ class ChartData(object):
                 providers = Provider.objects.filter(idUser__dateRegister__range=[start_date, end_date]).values('idUser__idHomeAddress__street')
             intercoms = get_intercommunities()
             for provider in providers:
-                comcom = get_intercommunity(intercoms, provider['idUser__idHomeAddress__street'])
+                comcom = get_intercommunity(intercoms, provider['idUser__idHomeAddress__street'].replace(', France',''))
                 if comcom != "":
                     data[comcom] += 1
         return sorted(data.items(), key=operator.itemgetter(1), reverse=True)
