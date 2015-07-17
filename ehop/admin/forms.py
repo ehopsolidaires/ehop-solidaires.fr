@@ -181,7 +181,7 @@ class ResearchFormDisplay(forms.ModelForm):
     providerDeparture = forms.CharField(widget=forms.HiddenInput(attrs={'readonly': 'readonly'}), required=False,)
     providerArrival = forms.CharField(widget=forms.HiddenInput(attrs={'readonly': 'readonly'}), required=False,)
     providerName = forms.CharField(required=False, widget=forms.TextInput(attrs={'readonly':'readonly', 'class':'non-modifiable'}))
-    providerIdUser = forms.CharField(required=False, widget=forms.HiddenInput(attrs={'readonly':'readonly'}))
+    providerId = forms.CharField(required=False, widget=forms.HiddenInput(attrs={'readonly':'readonly'}))
     detourboth = forms.CharField(required=False, widget=forms.TextInput(attrs={'readonly':'readonly'}))
     detour = forms.CharField(required=False, widget=forms.HiddenInput())
     detourkm = forms.CharField(required=False, widget=forms.HiddenInput())
@@ -204,7 +204,7 @@ class ResearchFormDisplay(forms.ModelForm):
 class ResearchForm2(forms.ModelForm):
     providerPhone = forms.CharField(widget=forms.HiddenInput(), required=False)
     providerName = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}), required=False,)
-    providerIdUser = forms.CharField(required=False, widget=forms.HiddenInput(attrs={'readonly':'readonly'}))
+    providerId = forms.CharField(required=False, widget=forms.HiddenInput(attrs={'readonly':'readonly'}))
     date = forms.DateField(widget=forms.HiddenInput(attrs={'readonly':'readonly'}))
     
     class Meta:

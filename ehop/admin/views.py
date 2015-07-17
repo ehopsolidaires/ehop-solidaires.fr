@@ -905,7 +905,7 @@ def research(request, calendar_id):
                         'providerName': path.idProvider.idUser.firstname + " " + path.idProvider.idUser.name,
                         'providerDeparture': path.departure.street,
                         'providerArrival': path.arrival.street,
-                        'providerIdUser': path.idProvider.idUser.idUser,
+                        'providerId': path.idProvider.idProvider,
                         'idCalendar': calendar_id,
                         'idPath': path.idPath,
                         'detour': 0,
@@ -1487,13 +1487,13 @@ def applicant_search(request, calendar_id):
             providerPhone = result.idPath.idProvider.idUser.phone
             provider_firstname = result.idPath.idProvider.idUser.firstname
             provider = provider_firstname + " " + provider_name
-            providerIdUser = result.idPath.idProvider.idUser.idUser
+            providerId = result.idPath.idProvider.idProvider
             firstdate = current_calendar.dateBeginningBack
             date = addDay(firstdate, counter1)
 
             list_form.append({'providerName': provider,
                               'providerPhone': providerPhone,
-                              'providerIdUser': providerIdUser,
+                              'providerId': providerId,
                               'date': date,
                               'idCalendar': result.idCalendar,
                               'idPath': result.idPath,
@@ -1515,12 +1515,13 @@ def applicant_search(request, calendar_id):
             provider_name = result.idPath.idProvider.idUser.name
             provider_firstname = result.idPath.idProvider.idUser.firstname
             provider = provider_name + " " + provider_firstname
-            providerIdUser = result.idPath.idProvider.idUser.idUser
+            providerId = result.idPath.idProvider.idProvider
+            print providerId
             firstdate = current_calendar.dateBeginningBack
             date = addDay(firstdate, counter2)
 
             list_form2.append({'providerName': provider,
-                               'providerIdUser': providerIdUser,
+                               'providerId': providerId,
                                'date': date,
                                'idCalendar': result.idCalendar,
                                'idPath': result.idPath,

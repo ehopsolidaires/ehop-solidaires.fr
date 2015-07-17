@@ -151,7 +151,7 @@ Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBAS
 
                     <div class="row_recherches blanc groupe2 columns">
                     <div class = "small-1 medium-1 large-1 columns pad_top">Offreur: </div>
-                    <div class = "small-4 medium-4 large-4 columns"><a href="/BO/utilisateurs/o/{{ form.providerIdUser.value }}" target="_blank">{{form.providerName}}</a></div>
+                    <div class = "small-4 medium-4 large-4 columns"><a href="/BO/utilisateurs/o/{{ form.providerId.value }}" target="_blank">{{form.providerName}}</a></div>
                     <div class = "small-2 medium-2 large-2 columns pad_top">Détour:</div>
                     <div class = "small-1 medium-1 large-1 columns"><input value="{{form.detour.value}}"></input></div>
                     <div class = "small-1 medium-1 large-1 columns pad_top"></div>
@@ -172,7 +172,7 @@ Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBAS
                     </div>
                     <div class="large-12 columns">
                         {{ form.providerPhone }}
-                        <a id="phoneA-{{ forloop.parentloop.parentloop.counter0 }}" onclick="phoneOrSMS({{ forloop.parentloop.parentloop.counter0 }},{{ form.providerIdUser.value }},{{ form.idCalendar.value }});" class="large-1 button_image left" style="border: 0; background: transparent">
+                        <a id="phoneA-{{ forloop.parentloop.parentloop.counter0 }}" onclick="phoneOrSMS({{ forloop.parentloop.parentloop.counter0 }},{{ form.providerId.value }},{{ form.idCalendar.value }});" class="large-1 button_image left" style="border: 0; background: transparent">
                             <img id="phone-{{ forloop.parentloop.parentloop.counter0 }}" src="/assets/images/admin/smsButton.png" width="50" height="50">
                         </a>
                         <script>

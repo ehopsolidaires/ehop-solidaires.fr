@@ -153,7 +153,7 @@ Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBAS
                 {% for form in formset %}
                     {{ form.idCalendar }}
                     {{ form.idPath }}
-                    {{ form.providerIdUser }}
+                    {{ form.providerId }}
                     {{ form.providerDeparture }}
                     {{ form.providerArrival }}
                     {{ form.available }}
@@ -170,7 +170,7 @@ Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBAS
                         </div>
                     <div class = "large-3 columns">
                         <label class="etiquette">Offreur:</label>
-                            <a href="/BO/utilisateurs/o/{{ form.providerIdUser.value }}" target="_blank">{{ form.providerName }}</a>
+                            <a href="/BO/utilisateurs/o/{{ form.providerId.value }}" target="_blank">{{ form.providerName }}</a>
                     </div>
                     <div class = "large-2 columns">
                         <label class="etiquette">Detour:</label>
