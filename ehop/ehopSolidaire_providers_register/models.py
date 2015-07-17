@@ -121,6 +121,7 @@ class Provider(models.Model):
 class Path(models.Model):
     idPath = models.AutoField(primary_key=True)
     schedule = models.TimeField()
+    schedule2 = models.TimeField(blank=True, null=True)
     type = models.IntegerField(max_length=1)
     weekNumber = models.CharField(max_length=1)
     day = models.CharField(max_length=10)

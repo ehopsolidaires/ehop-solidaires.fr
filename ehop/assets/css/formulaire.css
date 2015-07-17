@@ -13,6 +13,14 @@
 .progress {
 }
 
+.infobox{
+    position: absolute;
+    z-index: 1;
+    background: white none repeat scroll 0% 0%;
+    border: thin solid #90BC0D;
+    width: 40%;
+}
+
 .row .nav.nav-tabs .active a {
     background-color: #93C47D;
     border-style: solid;

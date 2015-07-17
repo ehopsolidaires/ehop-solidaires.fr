@@ -22,33 +22,72 @@ $(function () {
     $("#Button3").click(function (e) {
         //calculate again the coordinate
         calcCoord(1);
-        calcCoord(2);
-
-        var adh = document.getElementById("id_home-street").value;
-        var adw = document.getElementById("id_work-street").value;
-        var coordHomeAddress = document.getElementById("id_home-latlng").value;
-        var coordWorkAddress = document.getElementById("id_work-latlng").value;
-
-        if(!adh.trim() || !adw.trim() || !coordHomeAddress.trim() || !coordWorkAddress.trim() ) {
-            inputs = $('#form_map :input')
-            Foundation.libs.abide.validate(inputs, {type:''});
-            if(!coordHomeAddress.trim()){
-                document.getElementById("errorHome").style.display = "block";
-                document.getElementById("id_home-street").style.marginBottom = "0px";
+        if(checkNonFixe.checked){
+            for (i=1;i<=inputCounter;i++){
+                calcCoord(2,""+i);
             }
-            if(!coordWorkAddress.trim()){
-                document.getElementById("errorWork").style.display = "block";
-                document.getElementById("id_work-street").style.marginBottom = "0px";
-            }
+        }else{
+            calcCoord(2);
         }
-        else {
-            $(".page2").hide();
-            $("#state_menu").attr("src", "/assets/images/Barre_2.png")
-            $(".page1").show();
-        }
+        console.log("timeout");
+        setTimeout(checkAddresses, 100);
+        console.log("timein");
         return false;
     });
 });
+
+function checkAddresses(){
+    OK = true;
+    street = document.getElementById("id_home-street").value.trim();
+    latlng = document.getElementById("id_home-latlng").value.trim();
+    if (street == "" || latlng == ""){
+        OK = false;
+        document.getElementById("errorHome").style.display = "block";
+        document.getElementById("id_home-street").style.marginBottom = "0px";
+    }else{
+        document.getElementById("errorHome").style = "";
+        document.getElementById("id_home-street").style.marginBottom = "1rem";
+    }
+    if(checkNonFixe.checked){
+        for (i=1;i<=inputCounter;i++){
+            street = document.getElementById("id_work"+i+"-street").value.trim();
+            latlng = document.getElementById("id_work"+i+"-latlng").value.trim();
+            if (street == "" || latlng == ""){
+                OK = false;
+                document.getElementById("errorWork"+i).style.display = "block";
+                document.getElementById("id_work"+i+"-street").style.marginBottom = "0px";
+            }else{
+                document.getElementById("errorWork"+i).style.display = "none";
+                document.getElementById("id_work"+i+"-street").style.marginBottom = "1rem";
+            }
+        }
+        if(!OK)
+            return false;
+    }else{
+       calcCoord(2);
+        street = document.getElementById("id_work-street").value.trim();
+        latlng = document.getElementById("id_work-latlng").value.trim();
+        if (street == "" || latlng == ""){
+            document.getElementById("errorWork").style.display = "block";
+            document.getElementById("id_work-street").style.marginBottom = "0px";
+            return false;
+        }else{
+            document.getElementById("errorWork").style.display = "none";
+            document.getElementById("id_work-street").style.marginBottom = "1rem";
+        }
+    }
+    $(".page2").hide();
+    $("#state_menu").attr("src", "/assets/images/Barre_2.png")
+    $(".page1").show();
+    if(checkNonFixe.checked){
+        $('#nonFixePlanning').show();
+        $('#regularPlanning').hide();
+    }else{
+        $('#nonFixePlanning').hide();
+        $('#regularPlanning').show();
+    }
+    return false;
+}
 
 $(function () {
     $("#Button4").click(function () {
@@ -150,7 +189,10 @@ var componentForm = {
     postal_code: 'short_name'
 };
 //Champ autocompletion
-var departAuto,arriveeAuto;
+var departAuto, arriveeAuto, arriveeAuto1, arriveeAuto2, arriveeAuto3, arriveeAuto4, arriveeAuto5;
+var inputH, inputW, inputW1, inputW2, inputW3, inputW4;
+var checkNonFixe, marker, homelatlng;
+var inputCounter = 3;
 
 function initialize() {
     var mapCanvas = document.getElementById('map_canvas');
@@ -174,48 +216,44 @@ function initialize() {
     };
 
     directionsDisplay=new google.maps.DirectionsRenderer();	//Passer rendererOptions en parametre pour rendre le trajet modifiable
+    initWorkInputs();
 
     //Creation des champ auto-complete
-    var input1 = document.getElementById('id_home-street');
-    var input2 = document.getElementById('id_work-street');
-    var input3 = document.getElementById('id_work-street2');
+    inputH = document.getElementById('id_home-street');
+    inputW = document.getElementById('id_work-street');
+    inputW1 = document.getElementById('id_work1-street');
+    inputW2 = document.getElementById('id_work2-street');
+    inputW3 = document.getElementById('id_work3-street');
+    inputW4 = document.getElementById('id_work4-street');
+    inputW5 = document.getElementById('id_work5-street');
+    checkNonFixe = document.getElementById('checkNonFixe')
     var options = {
         types: ['geocode'],
         componentRestrictions: {country: 'fr'}
     };
-    departAuto = new google.maps.places.Autocomplete(input1, options);
-    arriveeAuto = new google.maps.places.Autocomplete(input2, options);
-    arriveeAuto2 = new google.maps.places.Autocomplete(input3, options);
+    departAuto = new google.maps.places.Autocomplete(inputH, options);
+    arriveeAuto = new google.maps.places.Autocomplete(inputW, options);
+    arriveeAuto1 = new google.maps.places.Autocomplete(inputW1, options);
+    arriveeAuto2 = new google.maps.places.Autocomplete(inputW2, options);
+    arriveeAuto3 = new google.maps.places.Autocomplete(inputW3, options);
+    arriveeAuto4 = new google.maps.places.Autocomplete(inputW4, options);
+    arriveeAuto5 = new google.maps.places.Autocomplete(inputW5, options);
 
-    google.maps.event.addDomListener(input1, 'keydown', function(e) {
-        if (e.keyCode == 13) {
-            if (e.preventDefault){
-                e.preventDefault();
-            }
-            else{
-                e.cancelBubble = true;
-                e.returnValue = false;
-            }
-        }
-    });
+    addListener(inputH);
+    addListener(inputW);
+    addListener(inputW1);
+    addListener(inputW2);
+    addListener(inputW3);
+    addListener(inputW4);
+    addListener(inputW5);
 
-    google.maps.event.addDomListener(input2, 'keydown', function(e) {
-        if (e.keyCode == 13) {
-            if (e.preventDefault){
-                e.preventDefault();
-            }
-            else{
-                e.cancelBubble = true;
-                e.returnValue = false;
-            }
-        }
-    });
     directionsDisplay.setMap(map);
+    marker = new google.maps.Marker( {map: map} );
 
     //Draw the path if you refresh the page and old values have been saved
     if(document.getElementById('id_work-street').value!='' && document.getElementById('id_home-street').value!=''){
-        input1.placeholder=input1.value;
-        input2.placeholder=input2.value;
+        inputH.placeholder=inputH.value;
+        inputW.placeholder=inputW.value;
     }
 
     document.getElementById('id_home-street').value='';
@@ -224,12 +262,16 @@ function initialize() {
     //ajout listener sur l'adresse de depart
     google.maps.event.addListener(departAuto, 'place_changed', function() {
         //Si l'adresse 2 est deja rempli, on trace la route
-        if(document.getElementById('id_work-street').value!=''){
+        if(!checkNonFixe.checked && document.getElementById('id_work-street').value!=''){
             calcCoord(1);
             extract(1);
             traceRoute();
         }
-        else {
+        else if(checkNonFixe.checked) {
+            calcCoord(1);
+            extract(1);
+            placeHomeMarker();
+        }else{
             calcCoord(1);
             extract(1);
         }
@@ -248,8 +290,61 @@ function initialize() {
             extract(2)
         }
     });
+    google.maps.event.addListener(arriveeAuto1, 'place_changed', function() {
+        calcCoord(2,"1");
+    });
+    google.maps.event.addListener(arriveeAuto2, 'place_changed', function() {
+        calcCoord(2,"2");
+    });
+    google.maps.event.addListener(arriveeAuto3, 'place_changed', function() {
+        calcCoord(2,"3");
+    });
+    google.maps.event.addListener(arriveeAuto4, 'place_changed', function() {
+        calcCoord(2,"4");
+    });
+    google.maps.event.addListener(arriveeAuto5, 'place_changed', function() {
+        calcCoord(2,"5");
+    });
 }
 google.maps.event.addDomListener(window, 'load', initialize);
+
+function placeHomeMarker(){
+    var depart = document.getElementById("id_home-street").value;
+    geocoder.geocode({'address': depart}, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            homelatlng = results[0].geometry.location;
+            map.setCenter(homelatlng);
+            map.setZoom(10);
+            marker.setMap(map)
+            marker.setPosition(homelatlng);
+            directionsDisplay.setMap(null);
+        }else{
+            homelatlng = null
+        }
+    });
+}
+
+function addListener(input){
+    google.maps.event.addDomListener(input, 'keydown', function(e) {
+        if (e.keyCode == 13) {
+            if (e.preventDefault){
+                e.preventDefault();
+            }
+            else{
+                e.cancelBubble = true;
+                e.returnValue = false;
+            }
+        }
+    });
+}
+
+function initWorkInputs(){
+    $('#inputCounter').val(inputCounter);
+    for(i=5;i>inputCounter;i--){
+        $('#work' + i).hide();
+        $('#work' + i).disabled = true;
+    }
+}
 
 //fonction qui tracera la route
 function traceRoute(){
@@ -261,6 +356,8 @@ function traceRoute(){
         destination: arrivee,
         travelMode: google.maps.TravelMode.DRIVING
     };
+    directionsDisplay.setMap(map);
+    marker.setMap(null)
     //On fait appel au service de google map permettant le calcul des trajets avec sa méthode route
     directionsService.route(request, function(response, status) {
         if(status==google.maps.DirectionsStatus.OK){
@@ -343,7 +440,8 @@ function initCalendarOADate(numberOfDay){
  * @param 1 for home
  *        2 for work
  **/
-function calcCoord(type) {
+function calcCoord(type, id) {
+    id = id || '';
     if (type == 1) {
         var depart = document.getElementById("id_home-street").value;
         geocoder.geocode({ 'address': depart}, function (results, status) {
@@ -356,17 +454,20 @@ function calcCoord(type) {
         });
     }
     else if (type == 2) {
-        var arrivee = document.getElementById("id_work-street").value;
+        input = "id_work"+id;
+        var arrivee = document.getElementById(input+"-street").value;
         geocoder.geocode({ 'address': arrivee}, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
-                document.getElementById("id_work-latlng").setAttribute("value", results[0].geometry.location);
+                document.getElementById(input+"-latlng").setAttribute("value", results[0].geometry.location);
+                console.log(input+" : "+results[0].geometry.location)
             }
             else {
-                document.getElementById("id_work-latlng").setAttribute("value", "");
+                document.getElementById(input+"-latlng").setAttribute("value", "");
             }
         });
     }
 }
+
 /**
  * Extract city and zip code from the complete address
  * @param 1 for home
@@ -437,9 +538,21 @@ $(function() {
 });
 
 function checkSchedule(){
-    var hasSchedule = document.querySelector('[id*="-schedule"]') != null;
-    if(!hasSchedule){
-        document.getElementById('errorSchedule').style.display = 'block';
+    if(!checkNonFixe.checked){
+        var hasSchedule = document.querySelector('[id*="-schedule"]') != null;
+        if(!hasSchedule){
+            document.getElementById('errorSchedule').style.display = 'block';
+            return false;
+        }
+        return true;
+    }else{
+        dayButtons = $("[id^='dayButton']")
+        for(i=0; i<dayButtons.length;i++){
+            if(dayButtons[i].getAttribute("status") == "on"){
+                return true;
+            }
+        }
+        document.getElementById('errorSchedule2').style.display = 'block';
         return false;
     }
 }

@@ -81,7 +81,7 @@ Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBAS
     </div>
 
     <div class="row groupe">
-        <div id="divWorkHome" style="display: none">
+        <div class="row street_rows">
             {{ address_home_form.latlng }}
             {{ address_home_form.zipCodeHide }}
             {{ address_home_form.cityHide }}
@@ -92,6 +92,8 @@ Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBAS
                 {{ address_home_form.street }}
                 <small id="errorHome" class="error">Veuillez entrer votre adresse de domicile</small>
             </div>
+        </div>
+        <div id="divWorkHome" class="row street_rows">
             {{ address_work_form.zipCodeHide }}
             {{ address_work_form.cityHide }}
             {{ address_work_form.latlng }}
@@ -103,30 +105,76 @@ Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBAS
                 <small id="errorWork" class="error">Veuillez entrer votre adresse de travail</small>
             </div>
         </div>
-        <div id="divNonFixe">
-            {{ address_home_form.latlng }}
-            {{ address_home_form.zipCodeHide }}
-            {{ address_home_form.cityHide }}
-            <div class="small-2 medium-1 large-1 left columns">
-                <label for="searchTextField1" class="etiquette">Domicile: </label>
+        <div id="divNonFixe" style="display: none">
+            <input id="inputCounter" name="inputCounter" type="hidden">
+            <div id="work1" class="row street_rows">
+                <input id="id_work1-latlng" name="work1-latlng" type="hidden">
+                <div class="small-2 medium-1 large-1 left columns">
+                    <label for="searchTextField2" class="etiquette">Destination:</label>
+                </div>
+                <div class="small-10 medium-11 large-11 columns">
+                    <input autocomplete="off" class="field" id="id_work1-street" maxlength="255" name="work1-street" placeholder="Indiquez un lieu" required type="text">
+                    <small id="errorWork1" class="error">Veuillez entrer une adresse valide</small>
+                </div>
             </div>
-            <div class="small-10 medium-11 large-11 columns">
-                {{ address_home_form.street }}
-                <small id="errorHome" class="error">Veuillez entrer votre adresse de domicile</small>
+            <div id="work2" class="row street_rows">
+                <input id="id_work2-latlng" name="work2-latlng" type="hidden">
+                <div class="small-2 medium-1 large-1 left columns">
+                    <label for="searchTextField2" class="etiquette">Destination:</label>
+                </div>
+                <div class="small-10 medium-11 large-11 columns">
+                    <input autocomplete="off" class="field" id="id_work2-street" maxlength="255" name="work2-street" placeholder="Indiquez un lieu" required type="text">
+                    <small id="errorWork2" class="error">Veuillez entrer une adresse valide</small>
+                </div>
             </div>
-            <input id="id_work-zipCodeHide" name="work-zipCodeHide" type="hidden">
-            <input id="id_work-cityHide" name="work-cityHide" type="hidden">
-            <input id="id_work-latlng" name="work-latlng" type="hidden">
-            <div class="small-2 medium-1 large-1 left columns">
-                <label for="searchTextField2" class="etiquette">Travail:</label>
+            <div id="work3" class="row street_rows">
+                <input id="id_work3-latlng" name="work3-latlng" type="hidden">
+                <div class="small-2 medium-1 large-1 left columns">
+                    <label for="searchTextField2" class="etiquette">Destination:</label>
+                </div>
+                <div class="small-10 medium-11 large-11 columns">
+                    <input autocomplete="off" class="field" id="id_work3-street" maxlength="255" name="work3-street" placeholder="Indiquez un lieu" required type="text">
+                    <small id="errorWork3" class="error">Veuillez entrer une adresse valide</small>
+                </div>
             </div>
-            <div class="small-10 medium-11 large-11 columns error">
-                <input data-invalid="" aria-invalid="false" autocomplete="off" class="field" id="id_work-street2" maxlength="255" name="work-street" placeholder="Indiquez un lieu" required="required" type="text">
-                <small id="errorWork" class="error">Veuillez entrer votre adresse de travail</small>
+            <div id="work4" class="row street_rows">
+                <input id="id_work4-latlng" name="work4-latlng" type="hidden">
+                <div class="small-2 medium-1 large-1 left columns">
+                    <label for="searchTextField2" class="etiquette">Destination:</label>
+                </div>
+                <div class="small-10 medium-11 large-11 columns">
+                    <input autocomplete="off" class="field" id="id_work4-street" maxlength="255" name="work4-street" placeholder="Indiquez un lieu" required type="text">
+                    <small id="errorWork4" class="error">Veuillez entrer une adresse valide</small>
+                </div>
+            </div>
+            <div id="work5" class="row street_rows">
+                <input id="id_work5-latlng" name="work5-latlng" type="hidden">
+                <div class="small-2 medium-1 large-1 left columns">
+                    <label for="searchTextField2" class="etiquette">Destination:</label>
+                </div>
+                <div class="small-10 medium-11 large-11 columns">
+                    <input autocomplete="off" class="field" id="id_work5-street" maxlength="255" name="work5-street" placeholder="Indiquez un lieu" required type="text">
+                    <small id="errorWork5" class="error">Veuillez entrer une adresse valide</small>
+                </div>
+            </div>
+            <div id="addRemove">
+                <img id="add" height="24" width="24" src="/assets/images/Elements formulaire/add-icon.png" title="Ajouter une destination">
+                <img id="remove" height="24" width="24" src="/assets/images/Elements formulaire/Action-remove-icon.png" title="Supprimer une destination">
             </div>
         </div>
     </div>
-
+    <div class="nonFixeCheck">
+        <input id="checkNonFixe" name="checkNonFixe" type="checkbox"> Vous avez n'avez pas de planning/trajet fixe.
+        <a class="info">
+            <img height="16" width="16" src="/assets/images/Elements formulaire/question-faq-icon.png">
+            <span>Explications ici - Placeholder Placeholder Placeholder
+                                    Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder
+                                    Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder
+                                    Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder
+                                    Placeholder Placeholder
+            </span>
+        </a>
+    </div>
     <div id="map_canvas" class="row groupe"></div>
 
     <div class="nav_button">
@@ -262,40 +310,69 @@ Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBAS
 </section>
 <!-- PAGE3 DU FORMULAIRE-->
 <section class="form_part page3">
-    <p class="large-12 medium-12 expliquation">Veuillez sélectionner les jours/semaines durant lesquels vous travaillez ainsi que vos horaires.
-    </p>
-    <small id="errorSchedule" class="error">Vous n'avez pas sélectionné de jour.
-    </small>
-    <div>
-        <label class="etiquette"> Votre type de planning: </label>
-        <select id="typeWeeks" class="etiquette">
-            <option selected="selected" value="1"> Fixe</option>
-            <option value="2"> 2*8</option>
-            <option value="3"> 3*8</option>
-        </select>
-        <div id="calendar" style="display: none">
-            <div class="small-4 medium-4 large-4 left">
-                <label class="etiquette">Date correspondant à votre Semaine 1 : </label>
+    <div id="nonFixePlanning">
+        <p class="large-12 medium-12 expliquation">Veuillez sélectionner les jours et tranches horaires pour lesquels vous souhaitez proposer du covoiturage.
+        </p>
+        <small id="errorSchedule2" class="error">Vous n'avez pas sélectionné de jour.
+        </small>
+        <div>
+            <button id="repeat" class="button tiny" type="button">Appliquer aux jours ouvrés</button>
+            <input id="listDaysSelected" type="hidden" name="listDaysSelected" value="_">
+            {% with 'Lundi Mardi Mercredi Jeudi Vendredi Samedi Dimanche' as days_list_FR %}
+            {% for x in days_list_FR.split %}
+            <div>
+                <button id="dayButton_{{ forloop.counter0 }}" onclick="manageNonFixeSchedules({{ forloop.counter0 }});" status="off" class="bouton_horaire" type="button">{{ x }}</button>
+                <div id="dayDiv_{{ forloop.counter0 }}" class="jours" style="display: none">
+                    <span class="start">Entre </span>
+                    <input id="{{ forloop.counter0 }}_0_0" class="time" data-format="HH:mm" data-template="HH : mm" name="datetime_{{ forloop.counter0 }}_0_0" type="text" value="08:00">
+                    <span class="hyphen">-</span>
+                    <input id="{{ forloop.counter0 }}_0_1" class="time" data-format="HH:mm" data-template="HH : mm" name="datetime_{{ forloop.counter0 }}_0_1" type="text" value="11:00">
+                    <span class="and"> et </span>
+                    <input id="{{ forloop.counter0 }}_1_0" class="time" data-format="HH:mm" data-template="HH : mm" name="datetime_{{ forloop.counter0 }}_1_0" type="text" value="13:00">
+                    <span class="hyphen">-</span>
+                    <input id="{{ forloop.counter0 }}_1_1" class="time" data-format="HH:mm" data-template="HH : mm" name="datetime_{{ forloop.counter0 }}_1_1" type="text" value="18:00">
+                </div>
             </div>
-            <div class="small-2 medium-2 large-2 left">
-                <input value="" data-date-format="dd/mm/yyyy" id="dp" type="text">
-            </div>
+            {% endfor %}
+            {% endwith %}
         </div>
     </div>
+    <div id="regularPlanning" style="display: none">
+        <p class="large-12 medium-12 expliquation">Veuillez sélectionner les jours/semaines durant lesquels vous travaillez ainsi que vos horaires.
+        </p>
+        <small id="errorSchedule" class="error">Vous n'avez pas sélectionné de jour.
+        </small>
+        <div>
+            <label class="etiquette"> Votre type de planning: </label>
+            <select id="typeWeeks" class="etiquette">
+                <option selected="selected" value="1"> Fixe</option>
+                <option value="2"> 2*8</option>
+                <option value="3"> 3*8</option>
+            </select>
+            <div id="calendar" style="display: none">
+                <div class="small-4 medium-4 large-4 left">
+                    <label class="etiquette">Date correspondant à votre Semaine 1 : </label>
+                </div>
+                <div class="small-2 medium-2 large-2 left">
+                    <input value="" data-date-format="dd/mm/yyyy" id="dp" type="text">
+                </div>
+            </div>
+        </div>
 
-    {{ path_arrival_register_formset.management_form }}
-    {{ path_departure_register_formset.management_form }}
-    <input type="hidden" name="startingWeek" id="week" value="0"/>
-    <div class="small-7 medium-7 large-7">
-        <dl class="tabs" data-tab>
-        </dl>
-    </div>
-    <div class="tabs-content">
-        <script>
-            document.getElementById('calendar').style.display = "none";
-                $(".tabs").append('<dd class="active"></dd>');
-                $(".tabs-content").append('<div class="content active" id="panel1"><button id="repeatButton" class="button tiny" type="button" onclick="repeatSchedule(\'0\',\'0\',\'A\')">Appliquer à tous les jours ouvrés</button><div><button id="mondayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'monday0\',\'0\',\'A\')">Lundi</button><div class="jours" id="monday0Div" status="off"></div></div><div><button id="tuesdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'tuesday0\',\'0\',\'A\')">Mardi</button><div class="jours" id="tuesday0Div" status="off"></div></div><div><button id="wednesdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'wednesday0\',\'0\',\'A\')">Mercredi</button><div class="jours" id="wednesday0Div" status="off"></div></div><div><button id="thursdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'thursday0\',\'0\',\'A\')">Jeudi</button><div class="jours" id="thursday0Div" status="off"></div></div><div><button id="fridayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'friday0\',\'0\',\'A\')">Vendredi</button><div class="jours" id="friday0Div" status="off"></div></div><div><button id="saturdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'saturday0\',\'0\',\'A\')">Samedi</button><div class="jours" id="saturday0Div" status="off"></div></div><div><button id="sundayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'sunday0\',\'0\',\'A\')">Dimanche</button><div class="jours" id="sunday0Div" status="off"></div></div></div>');
-        </script>
+        {{ path_arrival_register_formset.management_form }}
+        {{ path_departure_register_formset.management_form }}
+        <input type="hidden" name="startingWeek" id="week" value="0"/>
+        <div class="small-7 medium-7 large-7">
+            <dl class="tabs" data-tab>
+            </dl>
+        </div>
+        <div class="tabs-content">
+            <script>
+                document.getElementById('calendar').style.display = "none";
+                    $(".tabs").append('<dd class="active"></dd>');
+                    $(".tabs-content").append('<div class="content active" id="panel1"><button id="repeatButton" class="button tiny" type="button" onclick="repeatSchedule(\'0\',\'0\',\'A\')">Appliquer à tous les jours ouvrés</button><div><button id="mondayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'monday0\',\'0\',\'A\')">Lundi</button><div class="jours" id="monday0Div" status="off"></div></div><div><button id="tuesdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'tuesday0\',\'0\',\'A\')">Mardi</button><div class="jours" id="tuesday0Div" status="off"></div></div><div><button id="wednesdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'wednesday0\',\'0\',\'A\')">Mercredi</button><div class="jours" id="wednesday0Div" status="off"></div></div><div><button id="thursdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'thursday0\',\'0\',\'A\')">Jeudi</button><div class="jours" id="thursday0Div" status="off"></div></div><div><button id="fridayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'friday0\',\'0\',\'A\')">Vendredi</button><div class="jours" id="friday0Div" status="off"></div></div><div><button id="saturdayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'saturday0\',\'0\',\'A\')">Samedi</button><div class="jours" id="saturday0Div" status="off"></div></div><div><button id="sundayButton" class="bouton_horaire" type="button" onclick="manageSchedules(\'sunday0\',\'0\',\'A\')">Dimanche</button><div class="jours" id="sunday0Div" status="off"></div></div></div>');
+            </script>
+        </div>
     </div>
     <div class="nav_button">
         <button class="bouton_ehop" type="button" id="Button6">Précédent</button>
@@ -309,6 +386,67 @@ Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBAS
 {% include "ehopSolidaire_providers_register/footer.html" %}
 
 <script>
+    $('.time').combodate({firstItem: 'none', minuteStep: 5});
+
+    function manageNonFixeSchedules(id){
+        button = $('#dayButton_'+id);
+        if(button.attr("status") == "off"){
+            $('#dayDiv_'+id).show();
+            button.attr("status","on");
+            button.removeClass().addClass("bouton_valide");
+            document.getElementById('listDaysSelected').value = document.getElementById('listDaysSelected').value.replace('_','_'+id+'_');
+        }else{
+            $('#dayDiv_'+id).hide();
+            button.attr("status","off");
+            button.blur();
+            button.removeClass().addClass("bouton_horaire");
+            document.getElementById('listDaysSelected').value = document.getElementById('listDaysSelected').value.replace('_'+id+'_','_');
+        }
+        return false;
+    }
+
+    $("#checkNonFixe").click(function(){
+        if(this.checked){
+            $("#divWorkHome").hide();
+            $("#divNonFixe").show();
+            placeHomeMarker();
+        }else{
+            $("#divWorkHome").show();
+            $("#divNonFixe").hide();
+            traceRoute();
+        }
+    });
+
+    $('#add').on('click',function(){
+        if(inputCounter < 5) {
+            if(inputCounter == 1){
+                $('#remove').show();
+            }
+            inputCounter += 1;
+            $('#inputCounter').val(inputCounter);
+            $('#work' + inputCounter).show();
+            $('#work' + inputCounter).disabled = false;
+            if (inputCounter == 5) {
+                $('#add').hide();
+            }
+        }
+    })
+
+    $('#remove').on('click',function(){
+        if(inputCounter > 1) {
+            if(inputCounter == 5){
+                $('#add').show();
+            }
+            $('#work' + inputCounter).hide();
+            $('#work' + inputCounter).disabled = true;
+            inputCounter -= 1;
+            $('#inputCounter').val(inputCounter);
+            if (inputCounter == 1) {
+                $('#remove').hide();
+            }
+        }
+    })
+
     $( "#typeWeeks" ).change(function() {
         var nbweek = $("#typeWeeks").val();
         $(".tabs").empty();
@@ -354,8 +492,6 @@ Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBAS
             var elems = element.getElementsByClassName('time');
             var departure = elems[0].value
             var arrival = elems[1].value
-            console.log(departure)
-            console.log(arrival)
             var days= ["tuesday", "wednesday", "thursday", "friday"];
             //duplicate the schedule for each day
             for (var i = 0, len = days.length; i < len; i++){
@@ -380,7 +516,7 @@ Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBAS
                     $('#'+days[i]+active+'Div').append('{{path_departure_register_formset.empty_form.day}}'.replace(/__prefix__/g, form_idx))
                     $('#'+days[i]+active+'Div').append('{{path_departure_register_formset.empty_form.schedule}}'.replace(/__prefix__/g, form_idx))
                     $('#'+days[i]+active+'Div').append('{{path_departure_register_formset.empty_form.weekNumber}}'.replace(/__prefix__/g, form_idx))
-                    $('.time').combodate({firstItem: 'none', minuteStep: 5})
+                    $('.time').combodate({firstItem: 'none', minuteStep: 5});
                     document.getElementById("id_departure-"+form_idx+"-day").setAttribute("value",days[i])
                     document.getElementById("id_departure-"+form_idx+"-type").setAttribute("value",type)
                     document.getElementById("id_departure-"+form_idx+"-weekNumber").setAttribute("value",weekNumber)

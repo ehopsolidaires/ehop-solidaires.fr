@@ -17,9 +17,54 @@ body {
     background-size: auto auto;
 }
 
+.street_rows{
+    margin: 0 !important;
+}
+
+a.info{
+    position: relative;
+    margin-top: 1%;
+}
+
+a.info span{display: none}
+
+a.info:hover span{ /*the span will display just on :hover state*/
+    display: inherit;
+    z-index: 1;
+    position:absolute;
+    border: thin solid #90BC0D;
+    background-color: white;
+    color: black;
+    text-align: center;
+    width: 450px;
+}
+
+.nonFixeCheck{
+    margin-top: 1%;
+}
+
+#addRemove{
+    padding-left: 10px;
+    margin-bottom: 1rem;
+}
+
+#addRemove img{
+    cursor: pointer;
+}
+
+.start{
+    margin: 0.5%;
+}
+.hyphen{
+    margin: 0;
+}
+.and{
+    margin: 1%;
+}
+
 select {
     -moz-appearance:none; 
-    width: 60px;
+    width: 53px;
 }
 
 .errorDjango {
@@ -258,6 +303,7 @@ ol li {
 
 .jours{
     display: inline-block;
+    width: 700px;
 }
 
 .bouton_ehop {

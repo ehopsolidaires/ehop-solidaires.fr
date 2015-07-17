@@ -188,6 +188,38 @@ def formulaire(request):
         path_departure_register_formset = path_departure_register_form_set(request.POST, prefix="departure")
         path_arrival_register_formset = path_arrival_register_form_set(request.POST, prefix="arrival")
         startingweek = request.POST.get("startingWeek", "")
+        isNonFixe = request.POST.get('checkNonFixe') != None
+        if isNonFixe:
+            list_days_selected = request.POST.get('listDaysSelected').split('_')
+            list_days_selected = [x for x in list_days_selected if x] # remove empty strings
+            print list_days_selected
+            paths = list()
+            for day in list_days_selected:
+                path_go = {}
+                path_back = {}
+                path_go['schedule'] = request.POST.get('datetime_'+day+'_0_0')
+                path_go['schedule2'] = request.POST.get('datetime_'+day+'_0_1')
+                path_go['day'] = getDayName(day)
+                path_go['type'] = 4
+                path_go['startingWeek'] = 0
+                path_go['weekNumber'] = 'A'
+                path_back['schedule'] = request.POST.get('datetime_'+day+'_1_0')
+                path_back['schedule'] = request.POST.get('datetime_'+day+'_1_1')
+                path_back['day'] = getDayName(day)
+                path_back['type'] = 4
+                path_back['startingWeek'] = 0
+                path_back['weekNumber'] = 'A'
+                paths.append(path_go)
+                paths.append(path_back)
+            print paths
+            addresses = list()
+            for i in range(1,6):
+                address = {}
+                if request.POST.get('work'+str(i)+'-street'):
+                    address['street'] = request.POST.get('work'+str(i)+'-street')
+                    address['latlng'] = latlng_to_point(request.POST.get('work'+str(i)+'-latlng'))
+                    addresses.append(address)
+            print addresses
 
         if not user_form.is_valid():
             u = user_form.instance
@@ -197,13 +229,13 @@ def formulaire(request):
                 msg = "Cette adresse mail est déjà utilisée."
             else:
                 msg = "Il existe une erreur dans les informations que vous avez entrées, veuillez recommencer."
-        elif not address_home_form.is_valid():
+        elif not isNonFixe and not address_home_form.is_valid():
             print "home form : "
             adh = address_home_form.instance
             print(address_home_form.cleaned_data)
             # msg = address_home_form.errors
             msg = "Il existe une erreur dans votre adresse de domicile"
-        elif not address_work_form.is_valid():
+        elif not isNonFixe and not address_work_form.is_valid():
             print "work form : "
             adw = address_work_form.instance
             print(address_work_form.cleaned_data)
@@ -236,7 +268,6 @@ def formulaire(request):
                 address_home.zipCode=address_home_form.cleaned_data['zipCode']
                 address_home.city=address_home_form.cleaned_data['city']
                 address_home.save()
-
             address_work = address_work_form.save(commit=False)
             address_work.point = address_work_form.cleaned_data['point']
             #Requete qui recupere les adresses identiques si elles existent
@@ -300,6 +331,31 @@ def formulaire(request):
         'companiesList': getCompaniesList()
         })
 
+
+def latlng_to_point(latlng):
+    coord = latlng.replace('(', '')
+    if coord == "" or coord == "undefined":
+        return -1
+    coord = coord.replace(')', '')
+    coordtab = coord.split(',')
+    return 'POINT(%f %f)' % (float(coordtab[0]), float(coordtab[1]))
+
+
+def getDayName(day):
+    if day == "0":
+        return 'monday'
+    if day == "1":
+        return 'tuesday'
+    if day == "2":
+        return 'wednesday'
+    if day == "3":
+        return 'thursday'
+    if day == "4":
+        return 'friday'
+    if day == "5":
+        return 'saturday'
+    if day == "6":
+        return 'sunday'
 
 def getCompaniesList():
     return Companies.objects.values_list('name',flat=True)
