@@ -217,7 +217,7 @@ def formulaire(request):
                 address = {}
                 if request.POST.get('work'+str(i)+'-street'):
                     address['street'] = request.POST.get('work'+str(i)+'-street')
-                    address['latlng'] = latlng_to_point(request.POST.get('work'+str(i)+'-latlng'))
+                    address['point'] = latlng_to_point(request.POST.get('work'+str(i)+'-latlng'))
                     addresses.append(address)
             print addresses
 
