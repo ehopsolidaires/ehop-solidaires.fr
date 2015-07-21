@@ -29,9 +29,6 @@ class Address(models.Model):
     class Meta:
         verbose_name = 'Adresse'
 
-    def __unicode__(self):
-        return self.street
-
     def get_cleaned_street(self):
         return self.street.replace(", France","")
 

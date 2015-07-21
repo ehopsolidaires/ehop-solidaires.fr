@@ -30,7 +30,7 @@ class ChartData(object):
             timer_start = time.time()
             providers = User.objects.filter(idUser__in=providers).select_related('idHomeAddress')
             intercoms = get_intercommunities()
-            user_intercom = [u.idUser for u in providers if sameIntercommunity(u.idHomeAddress.get_cleaned_street(), intercom, intercoms)]
+            user_intercom = [u.idUser for u in providers if sameIntercommunity(u.idHomeAddress.street, intercom, intercoms)]
             if start_date == "0" and end_date == "0":
                 user_register = User.objects.filter(Q(idUser__in=user_intercom)).order_by('dateRegister').extra({'dateR':extra_query})\
                     .values('dateR').annotate(nb=Count('idUser'))
@@ -99,7 +99,7 @@ class ChartData(object):
         if intercom != "all":
             providers = User.objects.filter(idUser__in=providers).select_related('idHomeAddress')
             intercoms = get_intercommunities()
-            user_intercom = [u.idUser for u in providers if sameIntercommunity(u.idHomeAddress.get_cleaned_street(), intercom, intercoms)]
+            user_intercom = [u.idUser for u in providers if sameIntercommunity(u.idHomeAddress.street, intercom, intercoms)]
             user_register = User.objects.filter(idUser__in=user_intercom).order_by('dateRegister').extra({'dateR':extra_query})\
                     .values('dateR').annotate(nb=Count('idUser'))
 
@@ -140,7 +140,7 @@ class ChartData(object):
             else:
                 users = User.objects.filter(dateRegister__range=[start_date, end_date])
             intercoms = get_intercommunities()
-            user_intercom = [u.idUser for u in users if sameIntercommunity(u.idHomeAddress.get_cleaned_street(), intercom, intercoms)]
+            user_intercom = [u.idUser for u in users if sameIntercommunity(u.idHomeAddress.street, intercom, intercoms)]
             providers = Provider.objects.filter(idUser__idUser__in=user_intercom).count()
             applicants = Applicant.objects.filter(idUser__idUser__in=user_intercom).count()
         else:
@@ -350,7 +350,7 @@ def generate_car_sharings_row(car_share, intercommunities):
     data.append(car_share.streetDeparture.encode("latin-1"))
     data.append(get_intercommunity(intercommunities,car_share.streetDeparture).encode("latin-1"))
     data.append(get_departement(car_share.idHistoricCalendar.idApplicant.idUser.zipCode))
-    data.append(car_share.streetArrival)
+    data.append(car_share.streetArrival.encode("latin-1"))
     data.append(get_intercommunity(intercommunities,car_share.streetArrival).encode("latin-1"))
     data.append(car_share.detour)
     data.append(car_share.detourkm)
@@ -483,14 +483,14 @@ def generate_providers_row(data, i, provider, params, intercommunities):
     if homeAddress:
         data[i].append(provider.idUser.idHomeAddress.get_cleaned_street().encode('latin-1'))
     if homeIntercommunity:
-        address = provider.idUser.idHomeAddress.get_cleaned_street()
+        address = provider.idUser.idHomeAddress.street
         data[i].append(get_intercommunity(intercommunities, address))
     if homeDept:
         data[i].append(get_departement(provider.idUser.zipCode))
     if workAddress:
         data[i].append(provider.idUser.idWorkAddress.get_cleaned_street().encode('latin-1'))
     if workIntercommunity:
-        address = provider.idUser.idWorkAddress.get_cleaned_street()
+        address = provider.idUser.idWorkAddress.street
         data[i].append(get_intercommunity(intercommunities, address))
     if planningType:
         paths = Path.objects.filter(idProvider=provider.idProvider)
@@ -706,14 +706,12 @@ def get_intercommunities():
 
 
 def get_intercommunity(intercommunities, street):
-    street = street.replace(', France','')
+    street = street.replace(', France', '')
+    import unicodedata
+    street = unicodedata.normalize("NFKD", street ).encode("ascii","ignore").strip()
     for intercom in intercommunities:
-        if intercom[0].encode('utf-8') in street.encode('utf-8'):
-            print intercom[0].encode('utf-8')
-            print street.encode('utf-8')
-        if intercom[0].encode('utf-8') in street.encode('utf-8')[-intercom[0].__len__()::] or intercom[0].lower().encode('utf-8') in street.encode('utf-8')[-intercom[0].__len__()::]:
-            print intercom[0].encode('utf-8')
-            print street.encode('utf-8')[-intercom[0].__len__()::]
+        comcom = unicodedata.normalize("NFKD", intercom[0]).encode("ascii","ignore")
+        if comcom.lower().startswith(street.lower()[-(comcom.__len__())::]):
             return intercom[1]
     return ""
 
