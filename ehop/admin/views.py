@@ -44,13 +44,13 @@ def generate_chart(request, id, dates, params):
         end_date = "0"
     data = {}
     if id == "1":
-        data['chart_data'] = ChartData.get_provider_date_register(params[0], params[1], start_date, end_date)
+        data['chart_data'] = ChartData.get_provider_date_register(params[0], params[1], params[2], start_date, end_date)
     elif id == "2":
-        data['chart_data'] = ChartData.get_provider_total_registered(params[0], params[1], start_date, end_date)
+        data['chart_data'] = ChartData.get_provider_total_registered(params[0], params[1], params[2], start_date, end_date)
     elif id == "3":
-        data['chart_data'] = ChartData.get_counters_provider_applicant(params[0], start_date, end_date)
+        data['chart_data'] = ChartData.get_counters_provider_applicant(params[0], params[1], start_date, end_date)
     elif id == "4":
-        data['chart_data'] = ChartData.get_chart_unsubs(params[0], params[1], start_date, end_date)
+        data['chart_data'] = ChartData.get_chart_unsubs(params[0], params[1], params[2], start_date, end_date)
     elif id == "5":
         data['chart_data'] = ChartData.get_chart_provider_origins(params[0], start_date, end_date)
     return HttpResponse(json.dumps(data), content_type='application/json')
@@ -414,6 +414,7 @@ def provider(request, provider_id):
             Deletion.objects.create(dateDelete=datetime.now(),dateRegister=current_user.dateRegister,
                                     type="provider", reason=request.POST.get('supprimer'),
                                     homeIntercommunity=get_intercommunity(intercoms,current_user.idHomeAddress.street),
+                                    homeZipCode=current_user.zipCode,
                                     workIntercommunity=get_intercommunity(intercoms,current_user.idWorkAddress.street))
             current_user.delete()
             return HttpResponseRedirect('/BO/utilisateurs/?u=offreur')
@@ -525,8 +526,6 @@ def provider(request, provider_id):
 '''
     Modify informations about an applicant
 '''
-
-
 @staff_member_required
 def applicant(request, applicant_id):
     msg = ''

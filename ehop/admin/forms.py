@@ -133,8 +133,9 @@ class UserRegisterForm2(forms.ModelForm):
             'sex': forms.RadioSelect(attrs={'required': 'required'}),
             'mail': forms.EmailInput(attrs={'aria-invalid': 'true', 'pattern': 'email'}),
             'phone': forms.TextInput(attrs={'maxlength': '10', 'aria-invalid': 'true', 'pattern': 'phone', 'required': 'required'}),
+            'zipCode': forms.TextInput(attrs={'maxlength': '5', 'aria-invalid': 'true', 'pattern': 'zipCode', 'required': 'required'}),
             }
-        exclude = ['idHomeAddress', 'idWorkAddress', 'zipCode', 'city']
+        exclude = ['idHomeAddress', 'idWorkAddress', 'city']
 
     def clean_mail(self):
         return self.cleaned_data['mail'] or None

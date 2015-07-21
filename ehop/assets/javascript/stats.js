@@ -37,8 +37,15 @@ function drawGraph(id, update) {
     }
     titleCOMCOM = "";
     titleDates = "";
-    if($("#selectCOMCOM-panel-"+id).val() != "all"){
+    zipCode = $("#selectDept-panel-"+id).val();
+    if($("#selectCOMCOM-panel-"+id).val() != "all" && zipCode == "35"){
         titleCOMCOM = "sur "+$("#selectCOMCOM-panel-"+id).val();
+    }
+    if(zipCode != "35"){
+        titleCOMCOM = getDepartementName(zipCode);
+        $('#selectCOMCOM-panel-'+id).hide();
+    }else{
+        $('#selectCOMCOM-panel-'+id).show();
     }
     checkChartDates = document.getElementById("checkChartDates")
     if(checkChartDates != null && !checkChartDates.checked){
@@ -51,8 +58,10 @@ function drawGraph(id, update) {
         }
     }
     if(id == 1){
-        params = [document.getElementById("select-panel-"+id).value,document.getElementById("selectCOMCOM-panel-"+id).value];
-        chartDataUrl = "/BO/generate_chart/"+id+"/"+chartDates[0]+"_"+chartDates[1] +"/"+params[0]+"_"+params[1];
+        params = [document.getElementById("select-panel-"+id).value,
+                document.getElementById("selectCOMCOM-panel-"+id).value,
+                document.getElementById("selectDept-panel-"+id).value];
+        chartDataUrl = "/BO/generate_chart/"+id+"/"+chartDates[0]+"_"+chartDates[1] +"/"+params[0]+"_"+params[1]+"_"+params[2];
         options = {
             chart: {
                 renderTo: 'chart_panel-'+id,
@@ -68,8 +77,10 @@ function drawGraph(id, update) {
             lang: lang
         };
     }else if(id == 2){
-        params = [document.getElementById("select-panel-"+id).value,document.getElementById("selectCOMCOM-panel-"+id).value];
-        chartDataUrl = "/BO/generate_chart/"+id+"/"+chartDates[0]+"_"+chartDates[1] +"/"+ params[0]+"_"+params[1];
+        params = [document.getElementById("select-panel-"+id).value,
+                document.getElementById("selectCOMCOM-panel-"+id).value,
+                document.getElementById("selectDept-panel-"+id).value];
+        chartDataUrl = "/BO/generate_chart/"+id+"/"+chartDates[0]+"_"+chartDates[1] +"/"+ params[0]+"_"+params[1]+"_"+params[2];
         options = {
             chart: {
                 renderTo: 'chart_panel-'+id,
@@ -85,8 +96,9 @@ function drawGraph(id, update) {
             lang: lang
         };
     }else if(id == 3){
-        params = [document.getElementById("selectCOMCOM-panel-" + id).value]
-        chartDataUrl = "/BO/generate_chart/"+id+"/"+chartDates[0]+"_"+chartDates[1]+"/"+params[0];
+        params = [document.getElementById("selectCOMCOM-panel-" + id).value,
+                document.getElementById("selectDept-panel-"+id).value]
+        chartDataUrl = "/BO/generate_chart/"+id+"/"+chartDates[0]+"_"+chartDates[1]+"/"+params[0]+"_"+params[1];
         options = {
             chart: {
                 renderTo: 'chart_panel-'+id,
@@ -115,8 +127,10 @@ function drawGraph(id, update) {
             lang: lang
         };
     }else if(id == 4) {
-        params = [document.getElementById("select-panel-" + id).value, document.getElementById("selectCOMCOM-panel-" + id).value];
-        chartDataUrl = "/BO/generate_chart/" + id + "/" +chartDates[0]+"_"+chartDates[1] + "/" + params[0] + "_" + params[1] ;
+        params = [document.getElementById("select-panel-" + id).value,
+                document.getElementById("selectCOMCOM-panel-" + id).value,
+                document.getElementById("selectDept-panel-"+id).value];
+        chartDataUrl = "/BO/generate_chart/" + id + "/" +chartDates[0]+"_"+chartDates[1] + "/" + params[0] + "_" + params[1]+"_"+params[2] ;
         options = {
             chart: {
                 renderTo: 'chart_panel-' + id,
@@ -190,6 +204,14 @@ function drawGraph(id, update) {
             var chart = new Highcharts.Chart(options);
         });
 };
+
+function getDepartementName(zipCode){
+    console.log(zipCode)
+    if(zipCode == 29)
+        return "dans le Finistère";
+    if(zipCode == 56)
+        return "dans le Morbihan";
+}
 
 function checkDates(id){
     checked = document.getElementById("checkChartDates").checked;

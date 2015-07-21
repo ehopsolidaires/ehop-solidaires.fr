@@ -13,7 +13,7 @@ import operator
 class ChartData(object):
     ''' CHARTS '''
     @classmethod
-    def get_provider_date_register(cls, per, intercom, start_date, end_date):
+    def get_provider_date_register(cls, per, intercom, dept, start_date, end_date):
         if per == 'day' or per == 'week':
             format = 'DD/MM/YYYY'
             py_format = '%d/%m/%Y'
@@ -25,19 +25,20 @@ class ChartData(object):
             py_format = '%Y'
         providers = Provider.objects.all().values_list('idUser', flat=True)
         extra_query = 'to_char(public."ehopSolidaire_providers_register_user"."dateRegister",\''+format+'\')'
+        print dept
         if intercom != "all":
             timer_start = time.time()
             providers = User.objects.filter(idUser__in=providers).select_related('idHomeAddress')
             intercoms = get_intercommunities()
             user_intercom = [u.idUser for u in providers if sameIntercommunity(u.idHomeAddress.get_cleaned_street(), intercom, intercoms)]
             if start_date == "0" and end_date == "0":
-                user_register = User.objects.filter(idUser__in=user_intercom).order_by('dateRegister').extra({'dateR':extra_query})\
+                user_register = User.objects.filter(Q(idUser__in=user_intercom)).order_by('dateRegister').extra({'dateR':extra_query})\
                     .values('dateR').annotate(nb=Count('idUser'))
                 extra_query = 'to_char(public."ehopSolidaire_providers_register_deletion"."dateRegister",\''+format+'\')'
-                user_deleted_register = Deletion.objects.filter(Q(type="provider") & Q(homeIntercommunity=intercom)).order_by('dateRegister')\
+                user_deleted_register = Deletion.objects.filter(Q(type="provider") & Q(homeIntercommunity=intercom) & Q(homeZipCode__startswith=dept)).order_by('dateRegister')\
                     .extra({'dateR':extra_query}).values('dateR').annotate(nb=Count('id'))
             elif start_date == "0":
-                user_register = User.objects.filter(Q(idUser__in=user_intercom) & Q(dateRegister__lte=end_date)).order_by('dateRegister').extra({'dateR':extra_query})\
+                user_register = User.objects.filter(Q(idUser__in=user_intercom) & Q(dateRegister__lte=end_date) & Q(zipCode__startswith=dept)).order_by('dateRegister').extra({'dateR':extra_query})\
                     .values('dateR').annotate(nb=Count('idUser'))
                 extra_query = 'to_char(public."ehopSolidaire_providers_register_deletion"."dateRegister",\''+format+'\')'
                 user_deleted_register = Deletion.objects.filter(Q(type="provider") & Q(homeIntercommunity=intercom) & Q(dateRegister__lte=end_date)).order_by('dateRegister')\
@@ -57,33 +58,33 @@ class ChartData(object):
             print time.time() - timer_start
         else:
             if start_date == "0" and end_date == "0":
-                user_register = User.objects.filter(idUser__in=providers).order_by('dateRegister').extra({'dateR':extra_query})\
+                user_register = User.objects.filter(Q(idUser__in=providers) & Q(zipCode__startswith=dept)).order_by('dateRegister').extra({'dateR':extra_query})\
                     .values('dateR').annotate(nb=Count('idUser'))
                 extra_query = 'to_char(public."ehopSolidaire_providers_register_deletion"."dateRegister",\''+format+'\')'
-                user_deleted_register = Deletion.objects.filter(type="provider").order_by('dateRegister')\
+                user_deleted_register = Deletion.objects.filter(Q(type="provider") & Q(homeZipCode__startswith=dept)).order_by('dateRegister')\
                     .extra({'dateR':extra_query}).values('dateR').annotate(nb=Count('id'))
             elif start_date == "0":
-                user_register = User.objects.filter(Q(idUser__in=providers) & Q(dateRegister__lte=end_date)).order_by('dateRegister').extra({'dateR':extra_query})\
+                user_register = User.objects.filter(Q(idUser__in=providers) & Q(zipCode__startswith=dept) & Q(dateRegister__lte=end_date)).order_by('dateRegister').extra({'dateR':extra_query})\
                     .values('dateR').annotate(nb=Count('idUser'))
                 extra_query = 'to_char(public."ehopSolidaire_providers_register_deletion"."dateRegister",\''+format+'\')'
-                user_deleted_register = Deletion.objects.filter(Q(type="provider") & Q(dateRegister__lte=end_date)).order_by('dateRegister')\
+                user_deleted_register = Deletion.objects.filter(Q(type="provider") & Q(homeZipCode__startswith=dept) & Q(dateRegister__lte=end_date)).order_by('dateRegister')\
                     .extra({'dateR':extra_query}).values('dateR').annotate(nb=Count('id'))
             elif end_date == "0":
-                user_register = User.objects.filter(Q(idUser__in=providers) & Q(dateRegister__gte=start_date)).order_by('dateRegister').extra({'dateR':extra_query})\
+                user_register = User.objects.filter(Q(idUser__in=providers) & Q(zipCode__startswith=dept) & Q(dateRegister__gte=start_date)).order_by('dateRegister').extra({'dateR':extra_query})\
                     .values('dateR').annotate(nb=Count('idUser'))
                 extra_query = 'to_char(public."ehopSolidaire_providers_register_deletion"."dateRegister",\''+format+'\')'
-                user_deleted_register = Deletion.objects.filter(Q(type="provider") & Q(dateRegister__gte=start_date)).order_by('dateRegister')\
+                user_deleted_register = Deletion.objects.filter(Q(type="provider") & Q(homeZipCode__startswith=dept) & Q(dateRegister__gte=start_date)).order_by('dateRegister')\
                     .extra({'dateR':extra_query}).values('dateR').annotate(nb=Count('id'))
             else:
-                user_register = User.objects.filter(Q(idUser__in=providers) & Q(dateRegister__range=[start_date,end_date])).order_by('dateRegister').extra({'dateR':extra_query})\
+                user_register = User.objects.filter(Q(idUser__in=providers) & Q(zipCode__startswith=dept) & Q(dateRegister__range=[start_date,end_date])).order_by('dateRegister').extra({'dateR':extra_query})\
                     .values('dateR').annotate(nb=Count('idUser'))
                 extra_query = 'to_char(public."ehopSolidaire_providers_register_deletion"."dateRegister",\''+format+'\')'
-                user_deleted_register = Deletion.objects.filter(Q(type="provider") & Q(dateRegister__range=[start_date,end_date])).order_by('dateRegister')\
+                user_deleted_register = Deletion.objects.filter(Q(type="provider") & Q(homeZipCode__startswith=dept) & Q(dateRegister__range=[start_date,end_date])).order_by('dateRegister')\
                     .extra({'dateR':extra_query}).values('dateR').annotate(nb=Count('id'))
         return get_data_user_register(list(user_register)+list(user_deleted_register), weeks=per == 'week', start=start_date, end=end_date, format=py_format)
 
     @classmethod
-    def get_provider_total_registered(cls, per, intercom, start_date, end_date):
+    def get_provider_total_registered(cls, per, intercom, dept, start_date, end_date):
         if per == 'day' or per == 'week':
             format = 'DD/MM/YYYY'
             py_format = '%d/%m/%Y'
@@ -103,12 +104,12 @@ class ChartData(object):
                     .values('dateR').annotate(nb=Count('idUser'))
 
         else:
-            user_register = User.objects.filter(idUser__in=providers).order_by('dateRegister').extra({'dateR':extra_query})\
+            user_register = User.objects.filter(Q(idUser__in=providers) & Q(zipCode__startswith=dept)).order_by('dateRegister').extra({'dateR':extra_query})\
                     .values('dateR').annotate(nb=Count('idUser'))
         return get_data_user_register(user_register, total=True, weeks=per == 'week', start=start_date, end=end_date, format=py_format)
 
     @classmethod
-    def get_chart_unsubs(cls, per, intercom, start_date, end_date):
+    def get_chart_unsubs(cls, per, intercom, dept, start_date, end_date):
         if per == 'day' or per == 'week':
             format = 'DD/MM/YYYY'
             py_format = '%d/%m/%Y'
@@ -120,15 +121,15 @@ class ChartData(object):
             py_format = '%Y'
         extra_query = 'to_char(public."ehopSolidaire_providers_register_deletion"."dateDelete",\''+format+'\')'
         if intercom != "all":
-            user_delete = Deletion.objects.filter(homeIntercommunity=intercom).order_by('dateDelete').extra({'dateR':extra_query})\
+            user_delete = Deletion.objects.filter(Q(homeIntercommunity=intercom)).order_by('dateDelete').extra({'dateR':extra_query})\
                 .values('dateR').annotate(nb=Count('id'))
         else:
-            user_delete = Deletion.objects.all().order_by('dateDelete').extra({'dateR':extra_query})\
+            user_delete = Deletion.objects.filter(homeZipCode__startswith=dept).order_by('dateDelete').extra({'dateR':extra_query})\
                 .values('dateR').annotate(nb=Count('id'))
         return get_data_user_register(user_delete, weeks=per == 'week', start=start_date, end=end_date, format=py_format)
 
     @classmethod
-    def get_counters_provider_applicant(cls, intercom, start_date, end_date):
+    def get_counters_provider_applicant(cls, intercom, dept, start_date, end_date):
         if intercom != "all":
             if start_date == "0" and end_date == "0":
                 users = User.objects.all()
@@ -144,17 +145,19 @@ class ChartData(object):
             applicants = Applicant.objects.filter(idUser__idUser__in=user_intercom).count()
         else:
             if start_date == "0" and end_date == "0":
-                providers = Provider.objects.all().count()
-                applicants = Applicant.objects.all().count()
+                providers = Provider.objects.all()
+                applicants = Applicant.objects.all()
             elif start_date == "0":
-                providers = Provider.objects.filter(idUser__dateRegister__lte=end_date).count()
-                applicants = Applicant.objects.filter(idUser__dateRegister__lte=end_date).count()
+                providers = Provider.objects.filter(idUser__dateRegister__lte=end_date)
+                applicants = Applicant.objects.filter(idUser__dateRegister__lte=end_date)
             elif end_date == "0":
-                providers = Provider.objects.filter(idUser__dateRegister__gte=start_date).count()
-                applicants = Applicant.objects.filter(idUser__dateRegister__gte=start_date).count()
+                providers = Provider.objects.filter(idUser__dateRegister__gte=start_date)
+                applicants = Applicant.objects.filter(idUser__dateRegister__gte=start_date)
             else:
-                providers = Provider.objects.filter(idUser__dateRegister__range=[start_date, end_date]).count()
-                applicants = Applicant.objects.filter(idUser__dateRegister__range=[start_date, end_date]).count()
+                providers = Provider.objects.filter(idUser__dateRegister__range=[start_date, end_date])
+                applicants = Applicant.objects.filter(idUser__dateRegister__range=[start_date, end_date])
+            providers = providers.filter(idUser__zipCode__startswith=dept).count()
+            applicants = applicants.filter(idUser__zipCode__startswith=dept).count()
         return {'providers':providers, 'applicants':applicants}
 
     @classmethod
@@ -299,6 +302,7 @@ def generate_unsubs_headers():
     data.append(u'Date d\'inscription')
     data.append(u'Raison')
     data.append(u'Domicile')
+    data.append(u'Département Domicile'.encode('latin-1'))
     data.append(u'Travail')
     return [data]
 
@@ -310,6 +314,7 @@ def generate_unsubs_row(unsub):
     data.append(unsub.dateRegister.strftime('%d/%m/%Y'))
     data.append(unsub.reason.encode("latin-1"))
     data.append(unsub.homeIntercommunity.encode("latin-1"))
+    data.append(get_departement(unsub.homeZipCode))
     data.append(unsub.workIntercommunity.encode("latin-1"))
     return data
 
@@ -324,6 +329,7 @@ def generate_car_sharings_headers():
     data.append(u'Nom (demandeur)')
     data.append(u'Départ'.encode("latin-1"))
     data.append(u'Départ COMCOM'.encode("latin-1"))
+    data.append(u'Départ département'.encode("latin-1"))
     data.append(u'Arrivée'.encode("latin-1"))
     data.append(u'Arrivée COMCOM'.encode("latin-1"))
     data.append(u'Détour (temps)'.encode("latin-1"))
@@ -343,6 +349,7 @@ def generate_car_sharings_row(car_share, intercommunities):
     data.append(car_share.idHistoricCalendar.idApplicant.idUser.name.encode("latin-1"))
     data.append(car_share.streetDeparture.encode("latin-1"))
     data.append(get_intercommunity(intercommunities,car_share.streetDeparture).encode("latin-1"))
+    data.append(get_departement(car_share.idHistoricCalendar.idApplicant.idUser.zipCode))
     data.append(car_share.streetArrival)
     data.append(get_intercommunity(intercommunities,car_share.streetArrival).encode("latin-1"))
     data.append(car_share.detour)
@@ -356,7 +363,7 @@ def create_calendars_list(calendars):
     index_of = {'idApplicant': 0, 'dateRegister': 1, 'firstname': 2, 'name': 3, 'yearOfBirth': 4, 'sex': 5, 'mail': 6,
                 'phone': 7, 'carringAgency': 8, 'goalOfApplication': 9, 'scheduleType': 10, 'transportIssue': 11,
                 'success': 12, 'comment': 13, 'dateBeginning': 14, 'selectedDays': 15, 'intervalDays': 16, 'streetHome': 17,
-                'streetWork': 18, 'firstWeek': 19, 'lastWeek': 20}
+                'homeDept':18, 'streetWork': 19, 'firstWeek': 20, 'lastWeek': 21}
     for calendar in calendars:
         data = list()
         data.append(calendar.idApplicant.idApplicant)
@@ -377,6 +384,7 @@ def create_calendars_list(calendars):
         data.append(calendar.get_numberof_selected_days())
         data.append(calendar.get_interval_days())
         data.append(calendar.idApplicant.idUser.idHomeAddress.get_cleaned_street())
+        data.append(get_departement(calendar.idApplicant.idUser.zipCode))
         data.append(calendar.idApplicant.idUser.idWorkAddress.get_cleaned_street())
         data.append(calendar.get_first_week_number())
         data.append(calendar.get_last_week_number())
@@ -397,6 +405,7 @@ def generate_providers_headers(params):
     howKnowledge = 'howKnowledge' not in params
     homeAddress = 'homeAddress' not in params
     homeIntercommunity = 'homeIntercommunity' not in params
+    homeDept = 'homeDept' not in params
     workAddress = 'workAddress' not in params
     workIntercommunity = 'workIntercommunity' not in params
     planningType = 'planningType' not in params
@@ -423,6 +432,8 @@ def generate_providers_headers(params):
         data.append('Adresse du Domicile')
     if homeIntercommunity:
         data.append(u'Communauté de commune (Domicile)'.encode('latin-1'))
+    if homeDept:
+        data.append(u'Départ département'.encode("latin-1"))
     if workAddress:
         data.append('Adresse du travail')
     if workIntercommunity:
@@ -444,6 +455,7 @@ def generate_providers_row(data, i, provider, params, intercommunities):
     howKnowledge = 'howKnowledge' not in params
     homeAddress = 'homeAddress' not in params
     homeIntercommunity = 'homeIntercommunity' not in params
+    homeDept = 'homeDept' not in params
     workAddress = 'workAddress' not in params
     workIntercommunity = 'workIntercommunity' not in params
     planningType = 'planningType' not in params
@@ -473,6 +485,8 @@ def generate_providers_row(data, i, provider, params, intercommunities):
     if homeIntercommunity:
         address = provider.idUser.idHomeAddress.get_cleaned_street()
         data[i].append(get_intercommunity(intercommunities, address))
+    if homeDept:
+        data[i].append(get_departement(provider.idUser.zipCode))
     if workAddress:
         data[i].append(provider.idUser.idWorkAddress.get_cleaned_street().encode('latin-1'))
     if workIntercommunity:
@@ -508,6 +522,7 @@ def generate_applicants_headers(params):
     comment = 'comment' not in params
     streetHome =  'streetHome' not in params
     homeIntercommunity = 'homeIntercommunity' not in params
+    homeDept = 'homeDept' not in params
     streetWork = 'streetWork' not in params
     workIntercommunity = 'workIntercommunity' not in params
     data = []
@@ -548,11 +563,13 @@ def generate_applicants_headers(params):
     if streetHome:
         data.append('Adresse du Domicile')
     if homeIntercommunity:
-        data.append(u'Communauté de commune (Domicile)'.encode('latin-1'))
+        data.append(u'COMCOM (Domicile)'.encode('latin-1'))
+    if homeDept:
+        data.append(u'Département (Domicile)'.encode('latin-1'))
     if streetWork:
         data.append('Adresse du travail')
     if workIntercommunity:
-        data.append(u'Communauté de commune (Travail)'.encode('latin-1'))
+        data.append(u'COMCOM (Travail)'.encode('latin-1'))
     return [data]
 
 
@@ -576,6 +593,7 @@ def generate_applicants_row(data, i, calendar, params, intercommunities, previou
     comment = 'comment' not in params
     streetHome = 'streetHome' not in params
     homeIntercommunity = 'homeIntercommunity' not in params
+    homeDept = 'homeDept' not in params
     streetWork = 'streetWork' not in params
     workIntercommunity = 'workIntercommunity' not in params
     if previous_calendar and previous_calendar[index_of['idApplicant']] == calendar[index_of['idApplicant']]:
@@ -597,7 +615,7 @@ def generate_applicants_row(data, i, calendar, params, intercommunities, previou
     '''index_of = {'idApplicant': 0, 'dateRegister': 1, 'firstname': 2, 'name': 3, 'yearOfBirth': 4, 'sex': 5, 'mail': 6,
                 'phone': 7, 'carringAgency': 8, 'goalOfApplication': 9, 'scheduleType': 10, 'transportIssue': 11,
                 'success': 12, 'comment': 13, 'dateBeginning': 14, 'selectedDays': 15, 'intervalDays': 16, 'streetHome': 17,
-                'streetWork': 18, 'firstWeek': 19, 'lastWeek': 20}'''
+                'homeDept':18, 'streetWork': 19, 'firstWeek': 20, 'lastWeek': 21}'''
     if idCalendar:
         data[i].append(calendar[index_of['idApplicant']])
     if dateRegister:
@@ -637,6 +655,8 @@ def generate_applicants_row(data, i, calendar, params, intercommunities, previou
     if homeIntercommunity:
         address = calendar[index_of['streetHome']]
         data[i].append(get_intercommunity(intercommunities, address))
+    if homeDept:
+        data[i].append(calendar[index_of['homeDept']])
     if streetWork:
         data[i].append(calendar[index_of['streetWork']].encode('latin-1'))
     if workIntercommunity:
@@ -666,6 +686,17 @@ def get_full_intervals(n):
     return i*14
 
 
+def get_departement(zipCode):
+    if zipCode[:2] == "35":
+        return u'Ille-et-Vilaine'.encode('latin-1')
+    elif zipCode[:2] == "29":
+        return u'Finistère'.encode('latin-1')
+    elif zipCode[:2] == "56":
+        return u'Morbihan'.encode('latin-1')
+    else:
+        return ""
+
+
 def get_intercommunities():
     query_intercommunities = Intercommunity.objects.select_related('town','intercommunity').values('town','intercommunity')
     intercommunities = []
@@ -675,12 +706,13 @@ def get_intercommunities():
 
 
 def get_intercommunity(intercommunities, street):
+    street = street.replace(', France','')
     for intercom in intercommunities:
-        if intercom[0].encode('utf8') in street.encode('utf-8'):
-            print intercom[0].encode('utf8')
-            print street.encode('utf-8')[-intercom[0].__len__()::]
-        if intercom[0].encode('utf8') in street.encode('utf-8')[-intercom[0].__len__()::] or intercom[0].lower().encode('utf8') in street.encode('utf-8')[-intercom[0].__len__()::]:
-            print intercom[0].encode('utf8')
+        if intercom[0].encode('utf-8') in street.encode('utf-8'):
+            print intercom[0].encode('utf-8')
+            print street.encode('utf-8')
+        if intercom[0].encode('utf-8') in street.encode('utf-8')[-intercom[0].__len__()::] or intercom[0].lower().encode('utf-8') in street.encode('utf-8')[-intercom[0].__len__()::]:
+            print intercom[0].encode('utf-8')
             print street.encode('utf-8')[-intercom[0].__len__()::]
             return intercom[1]
     return ""
@@ -727,6 +759,7 @@ def get_data_user_register(user_register, start, end, format, total=False, weeks
             data['counter'].append(nb_total)
     else:
         for d in dates:
+            print d
             nb = 0
             for u in user_register:
                 if u['dateR'] == d:

@@ -380,6 +380,7 @@ def profil(request):
             Deletion.objects.create(dateDelete=datetime.now(),dateRegister=current_user.dateRegister,
                                     type="provider", reason=request.POST.get('supprimer'),
                                     homeIntercommunity=get_intercommunity(intercoms,current_user.idHomeAddress.street),
+                                    homeZipCode=current_user.zipCode,
                                     workIntercommunity=get_intercommunity(intercoms,current_user.idWorkAddress.street))
             current_user.delete()
             django_logout(request)

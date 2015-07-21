@@ -389,6 +389,7 @@ class Deletion(models.Model):
     type = models.CharField(max_length=255)
     reason = models.CharField(max_length=255)
     homeIntercommunity = models.CharField(max_length=255)
+    homeZipCode = models.CharField(max_length=255)
     workIntercommunity = models.CharField(max_length=255)
 
     def get_type_FR(self):
