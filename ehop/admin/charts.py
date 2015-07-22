@@ -706,7 +706,7 @@ def get_intercommunities():
 
 
 def get_intercommunity(intercommunities, street):
-    street = street.replace(', France', '')
+    street = street.replace(', France', '').replace(', Bretagne','')
     import unicodedata
     street = unicodedata.normalize("NFKD", street ).encode("ascii","ignore").strip()
     for intercom in intercommunities:
