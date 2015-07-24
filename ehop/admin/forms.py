@@ -55,7 +55,7 @@ class ApplicantRegisterForm(forms.ModelForm):
         super(ApplicantRegisterForm, self).__init__(*args, **kwargs)
         self.fields['carringAgency'].choices = get_menus_settings('carringAgency')
         self.fields['goalOfApplication'].choices = get_menus_settings('goalOfApplication')
-        self.fields['applicantScheduleType'].choices = get_menus_settings('applicantScheduleType')
+        self.fields['scheduleType'].choices = get_menus_settings('applicantScheduleType')
 
 
     def clean_identNum(self):
