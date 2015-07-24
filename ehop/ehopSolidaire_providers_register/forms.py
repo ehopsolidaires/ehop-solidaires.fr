@@ -73,6 +73,17 @@ class ContactForm(forms.Form):
     yearOfBirth = forms.ChoiceField(widget=forms.Select(attrs={'required':'required'}), choices=yearOfBirthCHOICES, required=False)
     message = forms.CharField(widget=forms.Textarea(attrs={'required': 'required'}))
 
+    def __init__(self, *args, **kwargs):
+        super(ContactForm, self).__init__(*args, **kwargs)
+        self.fields['goalOfApplication'].choices = get_menus_settings('goalOfApplication')
+
+
+def get_menus_settings(type, required=True):
+    if required:
+        return [('', '')] + list(MenusSettings.objects.filter(type=type).values_list('string', 'string'))
+    else:
+        return list(MenusSettings.objects.filter(type=type).values_list('string', 'string'))
+
 
 class UserRegisterForm(forms.ModelForm):
     class Meta:
@@ -94,13 +105,17 @@ class UserRegisterForm(forms.ModelForm):
 class ProviderRegisterForm(forms.ModelForm):
     class Meta:
         model = Provider
-        howKnowledgeCHOICES = [('','')] + list(MenusSettings.objects.filter(type="howKnowledge").values_list('string', 'string'))
+        howKnowledgeCHOICES = get_menus_settings('howKnowledge')
         widgets = {
             'password': forms.PasswordInput(attrs={'id': 'password', 'required': 'required'}),
             'company': forms.TextInput(attrs={'list':'datalistCompany', 'autocomplete':'off'}),
             'howKnowledge': forms.Select(attrs={'required':'required'}, choices=howKnowledgeCHOICES)
         }
         exclude = ['idUser', 'is_active', 'last_login']
+
+    def __init__(self, *args, **kwargs):
+        super(ProviderRegisterForm, self).__init__(*args, **kwargs)
+        self.fields['howKnowledge'].choices = get_menus_settings('howKnowledge')
 
 
 class ProviderForm2(forms.ModelForm):
@@ -112,6 +127,10 @@ class ProviderForm2(forms.ModelForm):
             'howKnowledge': forms.Select(attrs={'required': 'required'}, choices=howKnowledgeCHOICES)
         }
         exclude = ['idUser', 'is_active', 'last_login', 'password']
+
+    def __init__(self, *args, **kwargs):
+        super(ProviderRegisterForm, self).__init__(*args, **kwargs)
+        self.fields['howKnowledge'].choices = get_menus_settings('howKnowledge')
 
 
 class AddressRegisterForm(forms.ModelForm):

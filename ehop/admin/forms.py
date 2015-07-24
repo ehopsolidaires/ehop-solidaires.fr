@@ -51,10 +51,21 @@ class ApplicantRegisterForm(forms.ModelForm):
             }
         exclude = ['idApplicant', 'idUser']
 
+    def __init__(self, *args, **kwargs):
+        super(ApplicantRegisterForm, self).__init__(*args, **kwargs)
+        self.fields['carringAgency'].choices = get_menus_settings('carringAgency')
+        self.fields['goalOfApplication'].choices = get_menus_settings('goalOfApplication')
+        self.fields['applicantScheduleType'].choices = get_menus_settings('applicantScheduleType')
+
 
     def clean_identNum(self):
         return self.cleaned_data['identNum'] or None
 
+def get_menus_settings(type, required=True):
+    if required:
+        return [('', '')] + list(MenusSettings.objects.filter(type=type).values_list('string', 'string'))
+    else:
+        return list(MenusSettings.objects.filter(type=type).values_list('string', 'string'))
 
 class CalendarForm(forms.ModelForm):
     class Meta:
@@ -94,6 +105,7 @@ class CalendarModifyForm(forms.ModelForm):
         }
         exclude = ['idApplicant', 'dateBeginningBack', 'go', 'back']
 
+
 class CalendarFormDisplay(forms.ModelForm):
     listGo = forms.CharField(required=False)
     listBack = forms.CharField(required=False)
@@ -116,6 +128,7 @@ class CalendarFormDisplay(forms.ModelForm):
             'possibleMeetingSpot': forms.TextInput(attrs={'readonly':'readonly'})
         }
         exclude = ['idApplicant', 'dateBeginningBack', 'go', 'back']
+
 
 class UserRegisterForm2(forms.ModelForm):
     class Meta:
