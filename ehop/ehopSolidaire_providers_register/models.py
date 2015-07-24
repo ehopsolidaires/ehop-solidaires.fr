@@ -352,9 +352,7 @@ class Research(models.Model):
         verbose_name = 'Recherche'
 
     def archive(self, date, idHistoricCalendar):
-        print date
         if self.validated:
-            print "archive"
             Historic.objects.create(idHistoricCalendar=idHistoricCalendar, idPath=self.idPath, detour=self.detour,
                                                detourkm=self.detourkm, streetDeparture=self.streetDeparture,
                                                streetArrival=self.streetArrival, validated=True, date=date)
@@ -362,6 +360,11 @@ class Research(models.Model):
 
 class Companies(models.Model):
     name = models.CharField(max_length=255)
+
+
+class MenusSettings(models.Model):
+    type = models.CharField(max_length=255)
+    string = models.CharField(max_length=255)
 
 
 class SMS(models.Model):

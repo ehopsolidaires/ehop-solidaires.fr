@@ -35,5 +35,6 @@ urlpatterns = patterns('admin.views',
                        url(r'^BO/generate_csv/(?P<id>\d+)/$','generate_csv'),
                        url(r'^BO/generate_csv/(?P<id>\d+)/(?P<dates>\w+)/$','generate_csv'),
                        url(r'^BO/generate_csv/(?P<id>\d+)/(?P<dates>\w+)/(?P<params>\w+)/$','generate_csv'),
-                       url(r'^BO/stats','stats', name='stats')
+                       url(r'^BO/stats','stats', name='stats'),
+                       url(r'^BO/parametrages','settings', name='settings')
 )

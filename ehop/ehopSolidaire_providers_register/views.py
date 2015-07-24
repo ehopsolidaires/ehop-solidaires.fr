@@ -289,7 +289,10 @@ def formulaire(request):
 
         path_departure_register_formset = path_departure_register_form_set(prefix="departure")
         path_arrival_register_formset = path_arrival_register_form_set(prefix="arrival")
-
+    options = ''
+    options_CHOICES = [''] + list(MenusSettings.objects.filter(type="providerDeleteOptions").values_list('string', flat=True))
+    for option in options_CHOICES:
+        options += '<option value="'+option+'">'+option+'</option>'
     messages.error(request, msg)
     return render(request, 'ehopSolidaire_providers_register/offreur.html', {
         'address_home_form': address_home_form,
@@ -298,7 +301,8 @@ def formulaire(request):
         'provider_form': provider_form,
         'path_departure_register_formset': path_departure_register_formset,
         'path_arrival_register_formset': path_arrival_register_formset,
-        'companiesList': getCompaniesList()
+        'companiesList': getCompaniesList(),
+        'options': options
         })
 
 

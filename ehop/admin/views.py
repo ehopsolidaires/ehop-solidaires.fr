@@ -30,6 +30,45 @@ import json
 import csv
 
 @staff_member_required
+def settings(request):
+    div_dict = get_menus_dict()
+    if request.method == "POST":
+        for key, values in div_dict.iteritems():
+            if request.POST.get(key):
+                nb = request.POST.get(key)
+                inputs = list()
+                for i in range(0, int(nb)):
+                    input = request.POST.get(key+"-"+str(i))
+                    inputs.append(input)
+                    if input not in values:
+                        if key == "companies":
+                            Companies.objects.create(name=input)
+                        else:
+                            MenusSettings.objects.create(type=key, string=input)
+                for value in values:
+                    if value not in inputs:
+                        if key == "companies":
+                            Companies.objects.get(name=value).delete()
+                        else:
+                            MenusSettings.objects.get(type=key, string=value).delete()
+
+        div_dict = get_menus_dict()
+    return render(request, 'admin/setting.html', {'div_dict': div_dict})
+
+
+def get_menus_dict():
+    menus = MenusSettings.objects.values('type', 'string').order_by("string")
+    div_dict = dict()
+    for menu in menus:
+        if menu['type'] not in div_dict.keys():
+            div_dict[menu['type']] = [menu['string']]
+        else:
+            div_dict[menu['type']].append(menu['string'])
+    companies = Companies.objects.values_list("name", flat=True).order_by("name")
+    div_dict['companies'] = companies
+    return div_dict
+
+@staff_member_required
 def generate_chart(request, id, dates, params):
     if params:
         params = params.split('_')
@@ -511,6 +550,11 @@ def provider(request, provider_id):
     paths = Path.objects.filter(idProvider=current_provider).order_by('idPath')
     path_departure_register_formset = path_departure_register_form_set(prefix="departure")
     path_arrival_register_formset = path_arrival_register_form_set(prefix="arrival")
+    options = ''
+    options_CHOICES = [''] + list(MenusSettings.objects.filter(type="providerDeleteOptions").values_list('string', flat=True))
+    for option in options_CHOICES:
+        options += '<option value="'+option+'">'+option+'</option>'
+
     return render(request, 'admin/provider_update.html', {
         'user_form': user_form,
         'address_home_form': address_home_form,
@@ -520,6 +564,7 @@ def provider(request, provider_id):
         'path_arrival_register_formset': path_arrival_register_formset,
         'companiesList': getCompaniesList(),
         'paths': paths,
+        'options': options
     })
 
 
@@ -597,7 +642,6 @@ def applicant(request, applicant_id):
                 streetHome = current_calendar.streetHome
                 streetWork = current_calendar.streetWork
                 transportIssue = current_calendar.transportIssue
-                print request.POST.get('comment')
                 comment = request.POST.get('comment')
                 comments = current_calendar.comments
                 histocal = HistoricCalendar.objects.create(pourcentage=pourcentage, idApplicant=idApplicant,
@@ -660,8 +704,15 @@ def applicant(request, applicant_id):
                                                     'identNum': current_applicant.identNum,
                                                     'scheduleType': current_applicant.scheduleType,
                                                     'yearOfBirth': current_applicant.yearOfBirth})
-    options_0 = u'<option selected hidden value=""></option><option value="Abandon du demandeur">Abandon du demandeur</option><option value="Abandon de la structure accompagnante">Abandon de la structure accompagnante</option><option value="Pas de solution trouvée">Pas de solution trouvée</option><option value="Le demandeur a trouvé une autre solution">Le demandeur a trouvé une autre solution</option><option value="Hors cadre EHOP-solidaires">Hors cadre EHOP-solidaires</option>'.encode("utf-8")
-    options = u'<option selected hidden value=""></option><option value="Deuxième solution trouvée par ses propres moyens">Deuxième solution trouvée par ses propres moyens</option><option value="Trajet complété par transports en commun">Trajet complété par transports en commun</option><option value="Pas de retour du demandeur">Pas de retour du demandeur</option>'
+    options_0 = ''
+    options = ''
+    options_0_CHOICES = [''] + list(MenusSettings.objects.filter(type="applicantOptions0").values_list('string', flat=True))
+    options_CHOICES = [''] + list(MenusSettings.objects.filter(type="applicantOptions").values_list('string', flat=True))
+    for option in options_0_CHOICES:
+        options_0 += '<option value="'+option+'">'+option+'</option>'
+    for option in options_CHOICES:
+        options += '<option value="'+option+'">'+option+'</option>'
+    print options_0
     messages.error(request, msg)
     return render(request, 'admin/applicant_update.html',
                   {'user_form': user_form, 'applicant_form': applicant_form,
@@ -1544,8 +1595,14 @@ def applicant_search(request, calendar_id):
         list_res.append(provider_for_list)
 
         counter_provider += 1
-    options_0 = u'<option selected hidden value=""></option><option value="Abandon du demandeur">Abandon du demandeur</option><option value="Abandon de la structure accompagnante">Abandon de la structure accompagnante</option><option value="Pas de solution trouvée">Pas de solution trouvée</option><option value="Le demandeur a trouvé une autre solution">Le demandeur a trouvé une autre solution</option><option value="Hors cadre EHOP-solidaires">Hors cadre EHOP-solidaires</option>'.encode("utf-8")
-    options = u'<option selected hidden value=""></option><option value="Deuxième solution trouvée par ses propres moyens">Deuxième solution trouvée par ses propres moyens</option><option value="Trajet complété par transports en commun">Trajet complété par transports en commun</option><option value="Pas de retour du demandeur">Pas de retour du demandeur</option>'
+    options_0 = ''
+    options = ''
+    options_0_CHOICES = [''] + list(MenusSettings.objects.filter(type="applicantOptions0").values_list('string', flat=True))
+    options_CHOICES = [''] + list(MenusSettings.objects.filter(type="applicantOptions").values_list('string', flat=True))
+    for option in options_0_CHOICES:
+        options_0 += '<option value="'+option+'">'+option+'</option>'
+    for option in options_CHOICES:
+        options += '<option value="'+option+'">'+option+'</option>'
     variables = {'list_res': list_res,
                  'firstname': firstname,
                  'name': name,

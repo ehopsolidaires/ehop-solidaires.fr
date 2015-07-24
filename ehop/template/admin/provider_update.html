@@ -243,11 +243,7 @@ Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBAS
             <p class="lead">Vous allez supprimer ce compte et toutes ses informations de façon définitive.</p>
             <p id="chooseReason">Veulliez choisir la raison pour laquelle vous voulez supprimer ce compte :</p>
             <select class="medium-6 large-6" id="deleteSelect" name="deleteSelect">
-                <option value=""></option>
-                <option value="Je ne suis plus intéressé(e)">Je ne suis plus intéressé(e)</option>
-                <option value="Mes horaires ont changé">Mes horaires ont changé</option>
-                <option value="Mon trajet a changé">Mon trajet a changé</option>
-                <option value="Je n'ai plus d'activité (retraire, chomage, ...)">Je n'ai plus d'activité (retraire, chomage, ...)</option>
+                {{ options|safe }}
             </select>
             <button class="bouton_ehop right" name="delete" onclick="submitDelete();" value="1">Supprimer</button>
             <a class="close-reveal-modal" aria-label="Close">&#215;</a>

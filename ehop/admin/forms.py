@@ -38,22 +38,15 @@ class ProviderRegisterForm(forms.ModelForm):
 class ApplicantRegisterForm(forms.ModelForm):
     class Meta:
         model = Applicant
-        carringAgencyCHOICES = (('', ''), ('Pôle Emploi', 'Pôle Emploi'), ('MEIF', 'MEIF'), ('Mission Locale', 'Mission Locale'),
-                                ('PAE', 'PAE'), ('ALI', 'ALI'), ('Demande personnelle', 'Demande personnelle'),
-                                ('Association d\'insertion','Association d\'insertion'))
-        goalOfApplicationCHOICES = (('', ''), ('Entretien d\'embauche','Entretien d\'embauche'), ('Formation', 'Formation'),
-                                    ('Apprentissage', 'Apprentissage'), ('Intérim', 'Intérim'),
-                                    ('CDI', 'CDI'), ('CDD', 'CDD'),
-                                    ('Stage', 'Stage'), ('Autre', 'Autre'))
-        scheduleTypeCHOICES = (('', ''), ('Horaires fixes en journée', 'Horaires fixes en journée'),
-                               ('Horaires de nuit', 'Horaires de nuit'), ('3X8', '3X8'),
-                               ('2X8', '2X8'), ('Autre', 'Autre'))
-        yearOfBirthCHOICES = (tuple((str(n), str(n)) for n in range(1900, datetime.datetime.now().year - 15))+(('',''),))[::-1]
+        carringAgencyCHOICES = [('', '')] + list(MenusSettings.objects.filter(type="carringAgency").values_list('string', 'string'))
+        goalOfApplicationCHOICES = [('', '')] + list(MenusSettings.objects.filter(type="goalOfApplication").values_list('string', 'string'))
+        scheduleTypeCHOICES = [('', '')] + list(MenusSettings.objects.filter(type="applicantScheduleType").values_list('string', 'string'))
+        yearOfBirthCHOICES = (tuple((str(n), str(n)) for n in range(1900, datetime.datetime.now().year - 15))+(('', ''),))[::-1]
         widgets = {
             'carringAgency': forms.Select(choices=carringAgencyCHOICES),
             'accompMail': forms.EmailInput(),
             'goalOfApplication': forms.Select(choices=goalOfApplicationCHOICES),
-            'yearOfBirth': forms.Select(choices=yearOfBirthCHOICES, attrs={'required':'required'}),
+            'yearOfBirth': forms.Select(choices=yearOfBirthCHOICES, attrs={'required': 'required'}),
             'scheduleType': forms.Select(choices=scheduleTypeCHOICES),
             }
         exclude = ['idApplicant', 'idUser']

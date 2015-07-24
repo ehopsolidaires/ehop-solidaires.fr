@@ -67,11 +67,7 @@ class ContactForm(forms.Form):
     subjectCHOICES = (('Demandeur','Je cherche un trajet'),('Offreur','Je souhaite proposer un trajet'),
                       ('Infos','Informations diverses'),('Autre','Autre'))
     subject = forms.ChoiceField(choices=subjectCHOICES)
-    goalOfApplicationCHOICES = (('',''),
-                                ('Entretien d\'embauche','Entretien d\'embauche'), ('Formation', 'Formation'),
-                                ('Apprentissage', 'Apprentissage'), ('Intérim', 'Intérim'),
-                                ('CDI', 'CDI'), ('CDD', 'CDD'),
-                                ('Stage', 'Stage'), ('Autre', 'Autre'))
+    goalOfApplicationCHOICES = [('', '')] + list(MenusSettings.objects.filter(type="goalOfApplication").values_list('string', 'string'))
     goalOfApplication = forms.ChoiceField(widget=forms.Select(attrs={'required':'required'}), choices=goalOfApplicationCHOICES, required=False)
     yearOfBirthCHOICES = (tuple((str(n), str(n)) for n in range(1900, datetime.now().year - 15))+(('',''),))[::-1]
     yearOfBirth = forms.ChoiceField(widget=forms.Select(attrs={'required':'required'}), choices=yearOfBirthCHOICES, required=False)
@@ -98,9 +94,7 @@ class UserRegisterForm(forms.ModelForm):
 class ProviderRegisterForm(forms.ModelForm):
     class Meta:
         model = Provider
-        howKnowledgeCHOICES = (('',) * 2, ('Dans la presse',) * 2, ('Par un proche',) * 2, ('Par ma commune de résidence',) * 2,
-                               ('Dans mon entreprise',) * 2, ('Par les réseaux sociaux',) * 2,
-                               ('Par un autre conducteur solidaire',) * 2,('Utilisateur Ehop Covoiturage',) * 2, ('Autre',) * 2,)
+        howKnowledgeCHOICES = [('','')] + list(MenusSettings.objects.filter(type="howKnowledge").values_list('string', 'string'))
         widgets = {
             'password': forms.PasswordInput(attrs={'id': 'password', 'required': 'required'}),
             'company': forms.TextInput(attrs={'list':'datalistCompany', 'autocomplete':'off'}),
@@ -112,14 +106,13 @@ class ProviderRegisterForm(forms.ModelForm):
 class ProviderForm2(forms.ModelForm):
     class Meta:
         model = Provider
-        howKnowledgeCHOICES = (('',) * 2, ('Dans la presse',) * 2, ('Par un proche',) * 2, ('Par ma commune de résidence',) * 2,
-                               ('Dans mon entreprise',) * 2, ('Par les réseaux sociaux',) * 2,
-                               ('Par un autre conducteur solidaire',) * 2,('Utilisateur Ehop Covoiturage',) * 2, ('Autre',) * 2,)
+        howKnowledgeCHOICES = [('','')] + list(MenusSettings.objects.filter(type="howKnowledge").values_list('string', 'string'))
         widgets = {
-            'company': forms.TextInput(attrs={'list':'datalistCompany', 'autocomplete':'off'}),
-            'howKnowledge': forms.Select(attrs={'required':'required'}, choices=howKnowledgeCHOICES)
+            'company': forms.TextInput(attrs={'list': 'datalistCompany', 'autocomplete': 'off'}),
+            'howKnowledge': forms.Select(attrs={'required': 'required'}, choices=howKnowledgeCHOICES)
         }
         exclude = ['idUser', 'is_active', 'last_login', 'password']
+
 
 class AddressRegisterForm(forms.ModelForm):
     latlng = forms.CharField(widget=forms.HiddenInput(), required=False,)

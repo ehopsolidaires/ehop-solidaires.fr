@@ -1,0 +1,110 @@
+<!--
+@copyright (C) 2014-2015
+Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBASTIEN - JOUNEAU NICOLAS - KIBEYA AISHA - LE CONG SEBASTIEN -
+              MAGREZ VALENTIN - NGASSAM NOUMI PAOLA JOVANY - OUHAMMOUCH SALMA - RIAND MORGAN - TREIMOLEIRO ALEX - TRULLA AURELIEN '
+@license https://www.gnu.org/licenses/gpl-3.0.html GPL version 3
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Modif</title>
+    <link href="/assets/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/foundation.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/settings.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <script src="/assets/javascript/vendor/modernizr.js"></script>
+    <script src="/assets/javascript/vendor/jquery.js"></script>
+    <script src="/assets/javascript/foundation/foundation.min.js"></script>
+    <script src="/assets/javascript/foundation/foundation.interchange.js"></script>
+    <script src="/assets/javascript/foundation/foundation.topbar.js"></script>
+</head>
+
+<body>
+{% include "ehopSolidaire_providers_register/header.html" %}
+
+<section id="choix_utilisateur" class="row blanc hide-for-small-only">
+    {% if messages %}
+        {% for message in messages %}
+            <p class="errorDjango center">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        {% load menu_to_FR from to_FR %}
+        {% for div_name, div_inputs in div_dict.items %}
+            <fieldset id="fieldset-{{ div_name }}">
+                <legend onclick="showHide('{{ div_name }}');">{{ div_name|menu_to_FR }}</legend>
+                <div id="{{ div_name }}">
+                    <input id="inputs_num-{{ div_name }}" name="{{ div_name }}" type="hidden" value="{{ div_inputs|length }}">
+                    {% for input in div_inputs %}
+                        <div id="div-{{ div_name }}-{{ forloop.counter0 }}" class="row input_row">
+                            <img id="img-{{ div_name }}-{{ forloop.counter0 }}" class="clickable" onclick="to_remove('{{ div_name }}','{{ forloop.counter0 }}');" width="16" height="16" src="/assets/images/admin/delete-icon.png"/>
+                            <input id="input-{{ div_name }}-{{ forloop.counter0 }}" name="{{ div_name }}-{{ forloop.counter0 }}" value="{{ input }}">
+                        </div>
+                        {% if forloop.last %}
+                            </div>
+                            <img id="img-{{ div_name }}" class="clickable" onclick="add('{{ div_name }}');" width="16" height="16" src="/assets/images/admin/plus-icon.png">
+                        {% endif %}
+                    {% endfor %}
+            </fieldset>
+        {% endfor %}
+        <div class="row">
+            <button class="bouton_ehop left" type="submit">Valider les changements</button>
+        </div>
+    </form>
+</section>
+<script>
+    $(document).foundation();
+    function showHide(id){
+        $('#'+id).toggle();
+        $('#img-'+id).toggle();
+        if($('#'+id).is(":visible")){
+            $('#fieldset-'+id).css({"padding":"1.25rem"});
+        }else{
+            $('#fieldset-'+id).css({"padding":"3px 1.25rem"});
+        }
+    }
+
+    $('legend').each(function(){
+        this.click();
+    })
+
+    function add(id){
+        nb = $('#inputs_num-'+id).val();
+        generateInputRow(id,nb);
+        $('#inputs_num-'+id).val(parseInt(nb)+1);
+    }
+
+    function to_remove(id,nb){
+        inputs_num = $('#inputs_num-'+id).val();
+        nb = parseInt(nb);
+        console.log(inputs_num);
+        if(inputs_num == "1"){
+            alert('Un choix obligatoire au minimum');
+            return;
+        }
+        $('#div-'+id+'-'+nb).remove();
+        if(nb!=inputs_num-1){
+            for(i=nb+1; i<inputs_num;i++){
+                j=i-1;
+                $('#div-'+id+'-'+i).attr("id","div-"+id+"-"+j);
+                $('#input-'+id+'-'+i).attr("id","input-"+id+"-"+j).attr("name",id+"-"+j);
+                $('#img-'+id+'-'+i).attr("id","img-"+id+"-"+j).attr('onclick','to_remove(\''+id+'\',\''+j+'\');');
+            }
+        }
+        $('#inputs_num-'+id).val(+$('#inputs_num-'+id).val() - 1);
+    }
+
+    function generateInputRow(id,nb){
+        $('#'+id).append('\n<div id="div-'+id+'-'+nb+'" class="row input_row">')
+        $('#div-'+id+'-'+nb).append('\n<img id="img-'+id+'-'+nb+'" class="clickable" onclick="to_remove(\''+id+'\',\''+nb+'\')" width="16" height="16" src="/assets/images/admin/delete-icon.png"/>');
+        $('#div-'+id+'-'+nb).append('\n<input id="input-'+id+'-'+nb+'" name="'+id+'-'+nb+'">');
+    }
+</script>
+
+</body>
+</html>
