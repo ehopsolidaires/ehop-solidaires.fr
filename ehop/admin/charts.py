@@ -25,7 +25,6 @@ class ChartData(object):
             py_format = '%Y'
         providers = Provider.objects.all().values_list('idUser', flat=True)
         extra_query = 'to_char(public."ehopSolidaire_providers_register_user"."dateRegister",\''+format+'\')'
-        print dept
         if intercom != "all":
             timer_start = time.time()
             providers = User.objects.filter(idUser__in=providers).select_related('idHomeAddress')
@@ -693,6 +692,8 @@ def get_departement(zipCode):
         return u'Finistère'.encode('latin-1')
     elif zipCode[:2] == "56":
         return u'Morbihan'.encode('latin-1')
+    elif zipCode[:2] == "22":
+        return u'Côtes d\'Armor'.encode('latin-1')
     else:
         return ""
 

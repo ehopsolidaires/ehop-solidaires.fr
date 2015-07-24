@@ -295,7 +295,7 @@
         select = "";
         optionsCOMCOM = '{% for comcom in optionsCOMCOM %}<option value="{{ comcom }}">{{ comcom }}</option>{% endfor %}';
         selectCOMCOM = '<select onchange="drawGraph('+id+',true);" id="selectCOMCOM-panel-'+id+'"><option value="all">Toutes COMCOM</option>'+optionsCOMCOM+'</select>';
-        selectDept = '<select onchange="drawGraph('+id+',true);" id="selectDept-panel-'+id+'"><option value="35">Ille-et-vilaine</option><option value="29">Finistère</option><option value="56">Morbihan</option></select>';
+        selectDept = '<select onchange="drawGraph('+id+',true);" id="selectDept-panel-'+id+'"><option value="35">Ille-et-vilaine</option><option value="29">Finistère</option><option value="56">Morbihan</option><option value="22">Côtes d\'Armor</option></select>';
         inputsDate = ' Intervalle : (<input type="checkbox" id="checkChartDates" onclick="checkDates('+id+')" checked>maximum) <div id="chartDates" style="display:none"><input type="text" id="startDateChart-'+id+'" class="dateChart"> - <input type="text" id="endDateChart-'+id+'" class="dateChart"></div>'
         param = '';
         if(id == 1 || id == 2 || id == 4){
@@ -305,6 +305,7 @@
         if(id == 5){
             optionsCOMCOM = "";
             selectCOMCOM = "";
+            selectDept = "";
             select = '<select onchange="drawGraph('+id+',true);" id="select-panel-'+id+'"><option selected value="COMCOM">COMCOM</option><option value="adfirm">Entreprises adhérentes</option><option value="firm">Entreprises</option></select>'
         }
     return select+selectDept+selectCOMCOM+inputsDate+'<div id="panel-'+id+'" class="panel panel-default"><div id="chart_panel-'+id+'" class="panel-body"></div></div>'

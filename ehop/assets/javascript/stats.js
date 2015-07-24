@@ -28,10 +28,10 @@ function drawGraph(id, update) {
             chartDates = ["0","0"];
             panel_container++;
         }else if(panel.style.display == "block"){
-            panel.style.display = "none"
+            panel.style.display = "none";
             panel_counter--;
         }else{
-            panel.style.display = "block"
+            panel.style.display = "block";
             panel_counter++;
         }
     }
@@ -206,11 +206,12 @@ function drawGraph(id, update) {
 };
 
 function getDepartementName(zipCode){
-    console.log(zipCode)
     if(zipCode == 29)
         return "dans le Finistère";
     if(zipCode == 56)
         return "dans le Morbihan";
+    if(zipCode == 22)
+        return "dans les Côtes d'Armor"
 }
 
 function checkDates(id){
