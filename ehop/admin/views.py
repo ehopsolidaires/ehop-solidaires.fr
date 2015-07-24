@@ -210,7 +210,6 @@ def sms_new(request):
                 list_calendars_id.append(calendar)
         new['idCalendars'] = list_calendars_id
         list_new.append(new)
-    print time.time() - timer
     return render(request, 'admin/sms_new.html', {'list_new': list_new})
 
 
@@ -624,7 +623,6 @@ def applicant(request, applicant_id):
                 comments = request.POST.get(comments_name)
                 Calendar.objects.filter(idCalendar=int(idCalendar)).update(comments=comments)
             msg = "Le demandeur a été modifié."
-            print request.POST
             if request.POST.get('archiveCalendar'):
                 try:
                     current_calendar = Calendar.objects.get(idCalendar=request.POST.get('archiveCalendar'))
@@ -712,7 +710,6 @@ def applicant(request, applicant_id):
         options_0 += '<option value="'+option+'">'+option+'</option>'
     for option in options_CHOICES:
         options += '<option value="'+option+'">'+option+'</option>'
-    print options_0
     messages.error(request, msg)
     return render(request, 'admin/applicant_update.html',
                   {'user_form': user_form, 'applicant_form': applicant_form,
@@ -1566,7 +1563,6 @@ def applicant_search(request, calendar_id):
             provider_firstname = result.idPath.idProvider.idUser.firstname
             provider = provider_name + " " + provider_firstname
             providerId = result.idPath.idProvider.idProvider
-            print providerId
             firstdate = current_calendar.dateBeginningBack
             date = addDay(firstdate, counter2)
 
