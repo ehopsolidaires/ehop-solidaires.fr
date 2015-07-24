@@ -129,7 +129,7 @@ class ProviderForm2(forms.ModelForm):
         exclude = ['idUser', 'is_active', 'last_login', 'password']
 
     def __init__(self, *args, **kwargs):
-        super(ProviderRegisterForm, self).__init__(*args, **kwargs)
+        super(ProviderForm2, self).__init__(*args, **kwargs)
         self.fields['howKnowledge'].choices = get_menus_settings('howKnowledge')
 
 
