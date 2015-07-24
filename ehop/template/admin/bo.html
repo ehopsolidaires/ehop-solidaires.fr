@@ -35,15 +35,10 @@ Developpeurs 'BARDOU AUGUSTIN - BREZILLON ANTOINE - EUZEN DAVID - FRANCOIS SEBAS
             <p class="errorDjango center">{{ message }}</p>
         {% endfor %}
     {% endif %}
-
-    <div class="large-6 medium-6">
-        <a href="/BO/utilisateurs?u=demandeur"><img id="img_demandeur" alt="Liste des demandeurs" src="/assets/images/admin/Demandeurs.png"></a>
-    </div>
-    <div class="large-6 medium-6">
-        <a href="/BO/utilisateurs?u=offreur"><img id="img_offreur" alt="Liste des offreurs" src="/assets/images/admin/Offreurs.png"></a>
-    </div>
-    <div class="large-6 medium-6">
-        <a href="/BO/parametrages">Paramétrage des menus</a>
+    <div class="rows buttons">
+        <a class="btn orange" href="/BO/utilisateurs?u=demandeur">Liste des demandeurs</a>
+        <a class="btn green" href="/BO/utilisateurs?u=offreur">Liste des offreurs</a>
+        <a class="btn blue" href="/BO/parametrages">Paramétrage des menus</a>
     </div>
 
 </section>

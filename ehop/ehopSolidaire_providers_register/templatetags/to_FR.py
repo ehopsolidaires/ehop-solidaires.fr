@@ -15,7 +15,7 @@ def menu_to_FR(value):
                   'companies': 'Entreprises adhérentes',
                   'howKnowledge': 'Connaissance d\'Ehop',
                   'providerDeleteOptions': 'Offreur - Suppression de compte',
-                  'applicantOptions0': 'Demandeur - Validation à 0',
-                  'applicantOptions': 'Demandeur - Validation 1-99',
+                  'applicantOptions0': 'Demandeur - Validation à 0%',
+                  'applicantOptions': 'Demandeur - Validation 1-99%',
                   'applicantScheduleType': 'Demandeur - Type de planning'}
     return dict_to_FR.get(value, value)

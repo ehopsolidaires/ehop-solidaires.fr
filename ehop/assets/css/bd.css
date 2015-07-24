@@ -16,6 +16,56 @@ body {
     background-size: auto auto;
 }
 
+.buttons{
+    margin-bottom: 3%;
+    text-align: center;
+}
+
+.btn {
+    display: block;
+    margin-bottom: 2.5%;
+    min-width: 430px;
+    height: 70px;
+    line-height: 50px;
+    -webkit-border-radius: 14;
+    -moz-border-radius: 14;
+    border-radius: 14px;
+    -webkit-box-shadow: 0px 2px 7px #363636;
+    -moz-box-shadow: 0px 2px 7px #363636;
+    box-shadow: 0px 2px 7px #363636;
+    font-family: 'Francois One', sans-serif;
+    color: #ffffff;
+    font-size: 35px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+}
+
+.btn:hover {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.blue{
+    background: #0D88BC;
+}
+.blue:hover{
+    background: #0da4db;
+}
+
+.orange{
+    background: #e68900;
+}
+.orange:hover{
+    background: #ff9f00;
+}
+
+.green{
+    background: #96BD0D;
+}
+.green:hover{
+    background: #b6de0d;
+}
+
 select {
     -moz-appearance: none;
     width: 60px;
