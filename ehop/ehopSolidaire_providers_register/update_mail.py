@@ -12,12 +12,15 @@ def update():
     date_min = monthdelta(now,-6)
     providers = Provider.objects.all().values_list('idUser', flat=True)
     us = User.objects.filter(Q(dateRegister__lt=date_min) & (Q(dateLastMailUpdate__lt=date_min) | Q(dateLastMailUpdate=None))).filter(idUser__in=providers).select_related('mail')
+    html_content = render_to_string('ehopSolidaire_providers_register/mail_update_inscription.html')
+    text_content = strip_tags(html_content)
     for u in us:
-        html_content = render_to_string('ehopSolidaire_providers_register/mail_update_inscription.html')
-        text_content = strip_tags(html_content)
         msg = EmailMultiAlternatives("Ehop-Solidaires - Confirmation d'inscription", text_content, EMAIL_HOST_USER, [u.mail])
         msg.attach_alternative(html_content, "text/html")
-        msg.send()
+        try:
+            msg.send()
+        except Exception:
+            pass
     us.update(dateLastMailUpdate=now)
 
 

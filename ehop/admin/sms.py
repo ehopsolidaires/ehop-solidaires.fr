@@ -48,7 +48,10 @@ def update(delete = True):
         sender = format_phone_inter_to_FR(r['sender'])
         tag = r['tag']
         message = r['message']
-        date = datetime.datetime.strptime((r['creationDatetime']).replace("T"," "),"%Y-%m-%d %H:%M:%S+02:00")
+        if "+02:00" in r['creationDatetime']:
+            date = datetime.datetime.strptime((r['creationDatetime']).replace("T"," "),"%Y-%m-%d %H:%M:%S+02:00")
+        elif "+01:00" in r['creationDatetime']:
+            date = datetime.datetime.strptime((r['creationDatetime']).replace("T"," "),"%Y-%m-%d %H:%M:%S+01:00")
         SMS.objects.create(sender=sender, receiver="EHOP", tag=tag, message=message, date=date, read=False)
         if delete:
             api.delete("/sms/"+SERVICE_NAME+"/incoming/"+str(id))
